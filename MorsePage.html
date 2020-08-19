@@ -8,9 +8,45 @@
 	</head>
 	<body>
 		<div class="main_page">
-			<div class="content_section">
 		<h1>Morse Code! Yea~!</h1>
 		<hr/><!-- A horiz ruler ats as a simple seperator between page sections -->
 		<p>This will be the Morse Code learning page. A tribute to Morsecode.io. I used that page once upon a time to learn Morse, but it no longer exists...</p>
+		<table>
+				<tr>
+				  <td>
+						<input type="checkbox" id="toggle-audio" name="audio">
+						<label for="toggle-audio">Audio</label>
+					</td>
+					<td><p>insert audio symbol or sth... idk</p></td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" id="toggle-blink" name="blink">
+						<label for="toggle-blink">Blink</label>
+					</td>
+					<td><p>add a thing to blink</p></td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" id="toggle-length" name="dd_length">
+						<label for="toggle-length">Length?</label>
+					</td>
+					<td><meter id="dida-meter" min="3" max="10" value="5"></meter></td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" id="toggle-text" name="morse-text">
+						<label for="toggle-text">Text</label>
+					</td>
+					<td><p>This <.p> will be used to display the morse message</p></td>
+				</tr>	
+		</table>
+		<div id="Rx-methods">
+
+		<div>
+		<form action="~">
+			<label for="text-in">What morse was sent?</label>
+			<textarea id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
+		</form>
 	</body>
 </html>

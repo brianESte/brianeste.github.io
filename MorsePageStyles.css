@@ -1,3 +1,16 @@
 body{
-	background: #ddd;
+		background: #ddd;
 }
+
+ul{
+		list-style: none;
+}
+
+#rx-Morse{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 4mm 20mm;
+}
+
+
+
