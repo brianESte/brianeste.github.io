@@ -5,12 +5,20 @@ body{
 ul{
 		list-style: none;
 }
+table{
+	border-collapse: collapse;
 
-#rx-Morse{
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-gap: 4mm 20mm;
 }
 
 
+#blinker{
+	height: 40px;
+	width: 40px;
+	border-radius: 20px;
+	background: #666699;
+}
+
+#msg-hint{
+	font-size: 25px;
+}
 

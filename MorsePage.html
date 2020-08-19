@@ -24,7 +24,7 @@
 						<input type="checkbox" id="toggle-blink" name="blink">
 						<label for="toggle-blink">Blink</label>
 					</td>
-					<td><p>add a thing to blink</p></td>
+					<td><p id="blinker"></p></td>
 				</tr>
 				<tr>
 					<td>
@@ -35,10 +35,10 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="checkbox" id="toggle-text" name="morse-text">
+						<input type="checkbox" id="toggle-text" name="morse-text" checked>
 						<label for="toggle-text">Text</label>
 					</td>
-					<td><p>This <.p> will be used to display the morse message</p></td>
+					<td><p id="msg-hint"></p></td>
 				</tr>	
 		</table>
 		<div id="Rx-methods">
@@ -48,5 +48,7 @@
 			<label for="text-in">What morse was sent?</label>
 			<textarea id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
 		</form>
+		<button onclick='setWord()'>New Word</button>
+		<script src="MorseJS.js"></script>
 	</body>
 </html>
