@@ -9,7 +9,36 @@ table{
 	border-collapse: collapse;
 
 }
-
+input{
+	margin: 6px;
+}
+meter{
+	height: 25px;
+	width: 500px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	background: none;
+	background-color: whitesmoke;
+	box-shadow 0 5px 5px -5px #333 inset;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+meter:-moz-meter-bar{
+	#box-shadow: 0 5px 5px -5px #999 inset;
+	border-radius: 5px;
+	#background-image: linear-gradient(
+		90deg,
+		#8bcf69 5%,
+		#719fd1 95%,
+		#719fd1 100%);
+	background-size: 50% 50%;
+}
+meter:-moz-meter-optimum{
+	background-color: blue;
+}
+meter:-moz-sub-optimum{
+	background: cyan;
+}
 
 #blinker{
 	height: 40px;

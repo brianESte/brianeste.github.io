@@ -12,6 +12,14 @@
 		<hr/><!-- A horiz ruler ats as a simple seperator between page sections -->
 		<p>This will be the Morse Code learning page. A tribute to Morsecode.io. I used that page once upon a time to learn Morse, but it no longer exists...</p>
 		<table>
+			<tbody>
+				<tr>
+				  <td>
+						<input type="checkbox" id="toggle-timing">
+						<label for="toggle-timing">Timing</label>
+					</td>
+					<td><p>switch between proportional and Farnsworth timing</p></td>
+				</tr>
 				<tr>
 				  <td>
 						<input type="checkbox" id="toggle-audio" name="audio">
@@ -31,20 +39,18 @@
 						<input type="checkbox" id="toggle-length" name="dd_length">
 						<label for="toggle-length">Length?</label>
 					</td>
-					<td><meter id="dida-meter" min="3" max="10" value="5"></meter></td>
+					<td><meter id="dida-meter" low="1" max="10" value="5"></meter></td>
 				</tr>
 				<tr>
 					<td>
-						<input type="checkbox" id="toggle-text" name="morse-text" checked>
+						<input type="checkbox" id="toggle-text" name="morse-text" onclick="toggleHint()" checked>
 						<label for="toggle-text">Text</label>
 					</td>
-					<td><p id="msg-hint"></p></td>
-				</tr>	
+					<td><span id="msg-hint"></span></td>
+				</tr>
+			</tbody>
 		</table>
-		<div id="Rx-methods">
-
-		<div>
-		<form action="~">
+		<form action="setText">
 			<label for="text-in">What morse was sent?</label>
 			<textarea id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
 		</form>

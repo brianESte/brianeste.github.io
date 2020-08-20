@@ -1,8 +1,16 @@
 // this will be the JS file for the morse code page
 //
-//
+// basic unit: dot
+// dash-length: 3xdot
+// char-space: 3xdot
+// word-space: 7xdot
 
-var level = 0;
+var level = 4;
+var word;
+var morseWord;
+
+var hintDisplay = document.getElementById('msg-hint');
+var inBox = document.getElementById('text-in');
 
 var morseDict = {
 	a: ".-", b: "-...", c: "-.-.", d: "-..", e: ".", f: "..-.",
@@ -34,10 +42,28 @@ function setWord(){
 		default:
 			word = wordList0[Math.floor(Math.random()*wordList0.length)];
 	}
-
-	var morseWord = textToMorse(word);
-	var hintDisplay = document.getElementById('msg-hint');
+	morseWord = textToMorse(word);
 	hintDisplay.innerText = morseWord;
+	inBox.value = '';
 }
+
+function toggleHint(){
+	var hintTog = document.getElementById('toggle-text');
+	hintDisplay.style.display = (hintTog.checked) ? "inline" : "none";
+	console.log('toggle Hint display');
+}
+
+function checkAnswer(){
+	inBox.value = inBox.value.slice(0,-1);
+	inBox.value = (inBox.value === word) ? 'Correct!! :)' : 'No... Try again.';
+}
+
+
+inBox.addEventListener('keyup', function(event){
+	if(event.keyCode === 13){
+		event.preventDefault();
+		checkAnswer();
+	}
+});
 
 setWord();
