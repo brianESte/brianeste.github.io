@@ -14,7 +14,7 @@ input{
 }
 meter{
 	height: 25px;
-	width: 500px;
+	width: 200px;
 	border: 1px solid #ccc;
 	border-radius: 10px;
 	background: none;
@@ -39,6 +39,15 @@ meter:-moz-meter-optimum{
 meter:-moz-sub-optimum{
 	background: cyan;
 }
+
+#lvl-disp:before{
+	content: 'Level: ';
+}
+#wpm-disp:before{	content: 'Speed ';	}
+#wpm-disp:after{	content: ' [wpm]';	}
+
+#fwth-disp:before{	content: 'Farnsworth ';	}
+#fwth-disp:after{		content: ' [-]';	}
 
 #blinker{
 	height: 40px;

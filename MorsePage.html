@@ -14,11 +14,19 @@
 		<table>
 			<tbody>
 				<tr>
-				  <td>
-						<input type="checkbox" id="toggle-timing">
-						<label for="toggle-timing">Timing</label>
+					<td><span id='lvl-disp'>0</span>
+					<td>
+						<input type='range' id='lvl-slider' min='0' max='10' value='0' onchange='updateLvl()'>
 					</td>
-					<td><p>switch between proportional and Farnsworth timing</p></td>
+				</tr>
+				<tr>
+					<td><span id='wpm-disp'>1</span></td>
+					<td><input type='range' id='wpm-slider' min='1' max='40' value='1' onchange='updateWPM()'>
+					</td>
+				</tr>
+				<tr>
+				  <td><span id='fwth-disp'>1</span></td>
+					<td><input type='range' id='Farnsworth-slider' min='1' max='4' value='1' onchange='updateFwth()'></td>
 				</tr>
 				<tr>
 				  <td>
@@ -29,7 +37,7 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="checkbox" id="toggle-blink" name="blink">
+						<input type="checkbox" id="toggle-blink" name="blink" checked>
 						<label for="toggle-blink">Blink</label>
 					</td>
 					<td><p id="blinker"></p></td>
