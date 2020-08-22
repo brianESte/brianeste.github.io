@@ -53,6 +53,7 @@ function setWord(){
 	}
 	morseWord = textToMorse(word);
 	hintDisplay.innerText = morseWord;
+	document.getElementById('answer').innerHTML = '';	
 	inBox.value = '';
 }
 
@@ -85,6 +86,10 @@ function updateFwth(){
 	farnsworth = document.getElementById('Farnsworth-slider').value;
 	document.getElementById('fwth-disp').innerHTML = farnsworth;
 	console.log('Farnsworth now: '+farnsworth);
+}
+
+function showAnswer(){
+	document.getElementById('answer').innerHTML = word;	
 }
 
 function rxMorse(){

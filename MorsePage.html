@@ -62,7 +62,13 @@
 			<label for="text-in">What morse was sent?</label>
 			<textarea id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
 		</form>
+		
 		<button onclick='setWord()'>New Word</button>
+		<span id='answer' onclick='showAnswer()'></span>
+		<figure>
+			<img id='infographic' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/International_Morse_Code.svg/1200px-International_Morse_Code.svg.png' width='400'>
+			<figcaption>Creidt to Wikipedia</figcaption>
+		</figure>
 		<script src="MorseJS.js"></script>
 	</body>
 </html>

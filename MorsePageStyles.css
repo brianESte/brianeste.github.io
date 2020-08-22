@@ -59,4 +59,7 @@ meter:-moz-sub-optimum{
 #msg-hint{
 	font-size: 25px;
 }
-
+#answer{	font-size: 20px;	}
+#answer:before{
+	content: 'click for answer: ';
+}
