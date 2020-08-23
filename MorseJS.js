@@ -7,6 +7,8 @@
 
 var word;
 var morseWord;
+var bArry;
+var pos = 0;
 
 var lvlSlider = document.getElementById('lvl-slider');
 var hintDisplay = document.getElementById('msg-hint');
@@ -16,6 +18,8 @@ var blinker = document.getElementById('blinker');
 var level = 0;
 var wpm = 1;
 var farnsworth = 1;
+var baseT = 1200;	// [milliseconds]
+var rxIntID = 0;
 
 var morseDict = {
 	a: ".-", b: "-...", c: "-.-.", d: "-..", e: ".", f: "..-.",
@@ -40,6 +44,17 @@ function textToMorse(text){
 	return morseText;
 }
 
+let morseToOnOff = mWord => {
+	onOff = [];
+	for(let i = 0; i < mWord.length; i++){
+		if(mWord[i] == '.'){ onOff.push(1,0) }	// if a .: 10
+		else if(mWord[i] == '-'){ onOff.push(1,1,1,0) } // if a -: 1110
+		else if(mWord[i] == ' '){ onOff.push(0,0)}	// if a ' ': 00
+	}
+	onOff.push(0,0,0,0,0,0);
+	return onOff
+}
+
 function setWord(){
 	switch(Number(level)){
 		case 5:
@@ -55,6 +70,8 @@ function setWord(){
 	hintDisplay.innerText = morseWord;
 	document.getElementById('answer').innerHTML = '';	
 	inBox.value = '';
+	bArry = morseToOnOff(morseWord);
+	console.log(bArry);
 }
 
 function toggleHint(){
@@ -78,6 +95,9 @@ function updateWPM(){
 	console.log('update WPM');
 	wpm = document.getElementById('wpm-slider').value;
 	document.getElementById('wpm-disp').innerHTML = wpm;
+	baseT = 1200/Number(wpm);
+	clearInterval(rxIntID);
+	rxIntID = setInterval(rxMorse, baseT);
 	console.log('speed now: '+wpm);
 }
 
@@ -93,8 +113,9 @@ function showAnswer(){
 }
 
 function rxMorse(){
-	console.log('RX Morse function stub');
-
+	if(bArry[pos]){	blinker.style.background = 'red'}
+	else{						blinker.style.background = 'black';	}
+	pos = (pos >= bArry.length) ? 0 : pos + 1;
 }
 
 inBox.addEventListener('keyup', function(event){
@@ -109,4 +130,3 @@ updateWPM();
 updateFwth();
 setWord();
 
-setInterval(rxMorse, 10000);
