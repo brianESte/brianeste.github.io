@@ -5,13 +5,12 @@ body{
 ul{
 		list-style: none;
 }
-table{
-	border-collapse: collapse;
+table{	border-collapse: collapse;	}
+input{	margin: 6px;	}
+h1{	margin: 10px 0 10px 0;	}
 
-}
-input{
-	margin: 6px;
-}
+td{position: relative;	}
+
 meter{
 	height: 25px;
 	width: 200px;
@@ -49,6 +48,32 @@ meter:-moz-sub-optimum{
 #fwth-disp:before{	content: 'Farnsworth ';	}
 #fwth-disp:after{		content: ' [-]';	}
 
+#audio-sym:before, #audio-sym:after,
+#audio-sym a:before, #audio-sym a:after{
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 0;
+}
+#audio-sym a:before, #audio-sym a:after{
+	margin: -8px 0 0;
+	background: #c55500;
+}
+
+#audio-sym a:before{
+	left: -2px;
+	border: 7px solid transparent;
+	border-right-color: #c55500;
+	margin-top: -7px;
+	background: transparent;
+}
+#audio-sym a:after{
+	left: 4px;
+	width: 4px;
+	height: 6px;
+	margin-top: -3px;
+}
+
 #blinker{
 	height: 40px;
 	width: 40px;
@@ -62,4 +87,12 @@ meter:-moz-sub-optimum{
 #answer{	font-size: 20px;	}
 #answer:before{
 	content: 'click for answer: ';
+}
+#infographic{
+	margin: auto;
+	max-width: 400px;
+}
+
+#uagent-info:before{
+	content: 'navigator info: ';
 }

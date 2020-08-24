@@ -130,3 +130,8 @@ updateWPM();
 updateFwth();
 setWord();
 
+var uagent = navigator.userAgent;
+document.getElementById('uagent-info').innerHTML = uagent;
+
+
+

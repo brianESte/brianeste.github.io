@@ -10,7 +10,7 @@
 		<div class="main_page">
 		<h1>Morse Code! Yea~!</h1>
 		<hr/><!-- A horiz ruler ats as a simple seperator between page sections -->
-		<p>This will be the Morse Code learning page. A tribute to Morsecode.io. I used that page once upon a time to learn Morse, but it no longer exists...</p>
+		<p>A tribute to Morsecode.io. I used that page once upon a time to learn Morse, but it no longer exists...</p>
 		<table>
 			<tbody>
 				<tr>
@@ -21,7 +21,7 @@
 				</tr>
 				<tr>
 					<td><span id='wpm-disp'>1</span></td>
-					<td><input type='range' id='wpm-slider' min='1' max='25' value='1' onchange='updateWPM()'>
+					<td><input type='range' id='wpm-slider' min='1' max='25' value='10' onchange='updateWPM()'>
 					</td>
 				</tr>
 				<tr>
@@ -33,7 +33,7 @@
 						<input type="checkbox" id="toggle-audio" name="audio">
 						<label for="toggle-audio">Audio</label>
 					</td>
-					<td><p>insert audio symbol or sth... idk</p></td>
+					<td><div id='audio-sym'><a></a></div></td>
 				</tr>
 				<tr>
 					<td>
@@ -66,9 +66,10 @@
 		<button onclick='setWord()'>New Word</button>
 		<span id='answer' onclick='showAnswer()'></span>
 		<figure>
-			<img id='infographic' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/International_Morse_Code.svg/1200px-International_Morse_Code.svg.png' width='400'>
-			<figcaption>Creidt to Wikipedia</figcaption>
+			<img id='infographic' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/International_Morse_Code.svg/1200px-International_Morse_Code.svg.png'>
+			<figcaption>Image credit to Wikipedia</figcaption>
 		</figure>
+		<p id='uagent-info'></p>
 		<script src="MorseJS.js"></script>
 	</body>
 </html>
