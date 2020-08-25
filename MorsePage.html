@@ -30,10 +30,10 @@
 				</tr>
 				<tr>
 				  <td>
-						<input type="checkbox" id="toggle-audio" name="audio">
+						<input type="checkbox" id="toggle-audio" name="audio" onclick='toggleAudio()'>
 						<label for="toggle-audio">Audio</label>
 					</td>
-					<td><div id='audio-sym'><a></a></div></td>
+					<td><div class='audio' id='audio-sym'><span></span></div></td>
 				</tr>
 				<tr>
 					<td>
@@ -70,6 +70,7 @@
 			<figcaption>Image credit to Wikipedia</figcaption>
 		</figure>
 		<p id='uagent-info'></p>
+		<p id='touch-info'></p>
 		<script src="MorseJS.js"></script>
 	</body>
 </html>

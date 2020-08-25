@@ -73,6 +73,13 @@ function setWord(){
 	bArry = morseToOnOff(morseWord);
 	console.log(bArry);
 }
+function toggleAudio(){
+	if(document.getElementById('toggle-audio').checked){
+		document.getElementById('audio-sym').classList.add('audio-on');
+	}else{
+		document.getElementById('audio-sym').classList.remove('audio-on');
+	}		
+}
 
 function toggleHint(){
 	var hintTog = document.getElementById('toggle-text');
@@ -132,6 +139,7 @@ setWord();
 
 var uagent = navigator.userAgent;
 document.getElementById('uagent-info').innerHTML = uagent;
-
-
+let hasTouch = () => 'ontouchstart' in window
+						 || 'onmsgesturechange' in window;
+document.getElementById('touch-info').innerHTML = hasTouch();
 

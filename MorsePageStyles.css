@@ -48,30 +48,41 @@ meter:-moz-sub-optimum{
 #fwth-disp:before{	content: 'Farnsworth ';	}
 #fwth-disp:after{		content: ' [-]';	}
 
-#audio-sym:before, #audio-sym:after,
-#audio-sym a:before, #audio-sym a:after{
+.audio:before, .audio:after,
+.audio span:before, .audio span:after{
 	content: '';
 	position: absolute;
 	top: 50%;
 	left: 0;
 }
-#audio-sym a:before, #audio-sym a:after{
+.audio span:before, .audio span:after{
 	margin: -8px 0 0;
 	background: #c55500;
 }
 
-#audio-sym a:before{
+.audio span:before{
 	left: -2px;
 	border: 7px solid transparent;
 	border-right-color: #c55500;
 	margin-top: -7px;
 	background: transparent;
 }
-#audio-sym a:after{
+.audio span:after{
 	left: 4px;
 	width: 4px;
 	height: 6px;
 	margin-top: -3px;
+}
+
+.audio-on:before{
+	left: 12px;
+	width: 6px;
+	height: 6px;
+	margin-top: -5px;
+	border: 4px double #c55500;
+	border-width: 4px 4px 0 0;
+	border-radius: 0 15px 0 0;
+	transform: rotate(45deg);
 }
 
 #blinker{
@@ -93,6 +104,5 @@ meter:-moz-sub-optimum{
 	max-width: 400px;
 }
 
-#uagent-info:before{
-	content: 'navigator info: ';
-}
+#uagent-info:before{	content: 'navigator info: ';	}
+#touch-info:before{		content: 'touchscreen?: ';	}
