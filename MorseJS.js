@@ -18,11 +18,23 @@ var hintDisplay = document.getElementById('msg-hint');
 var inBox = document.getElementById('text-in');
 var blinker = document.getElementById('blinker');
 
+// Settings variables
 var level = 0;
 var wpm = 1;
 var farnsworth = 1;
 var baseT = 1200;	// [milliseconds]
 var rxIntID = 0;
+
+// Tone settings/vars
+var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
+// different browsers use different methods.. all named similarly, though.
+var oscOn = false;	// so that the oscillator is only started once.	
+var oscillator = audioCtx.createOscillator();
+var gainNode = audioCtx.createGain();
+
+oscillator.connect(gainNode);	// connect Osc to the gain
+gainNode.connect(audioCtx.destination);	// connect Gain to the 'destination'
+// default freq is 440, vol: 1
 
 // a text to morse dictionary object.
 var morseDict = {
@@ -103,6 +115,10 @@ function setOptions(){
 }
 
 function toggleAudio(){
+	if(!oscOn){	
+		oscillator.start();
+		oscOn = true;
+	}
 	if(document.getElementById('toggle-audio').checked){
 		document.getElementById('audio-sym').classList.add('audio-on');
 	}else{
@@ -148,11 +164,20 @@ function showAnswer(){
 	document.getElementById('answer').innerHTML = word;	
 }
 
+function beepOn(){
+	if(!gainNode.gain.value){	gainNode.gain.value = 1	}
+}
+function beepOff(){
+	if(gainNode.gain.value){	gainNode.gain.value = 0	}
+}
 function rxMorse(){
 	if(bArry[pos]){	
-		//beep();
+		if(document.getElementById('toggle-audio').checked){	beepOn()	}
 		blinker.style.background = 'red'
-	}	else {			blinker.style.background = 'black';	}
+	}	else {
+		blinker.style.background = 'black';	
+		beepOff();
+	}
 	pos = (pos >= bArry.length) ? 0 : pos + 1;
 }
 
