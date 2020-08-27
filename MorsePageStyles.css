@@ -2,14 +2,17 @@ body{
 		background: #ddd;
 }
 
-ul{
-		list-style: none;
+.main-page{
+	margin: auto;
 }
 table{	border-collapse: collapse;	}
 input{	margin: 6px;	}
 h1{	margin: 10px 0 10px 0;	}
 
 td{position: relative;	}
+input[type='range']{
+	background: lightgreen;
+}
 
 meter{
 	height: 25px;
@@ -31,9 +34,6 @@ meter:-moz-meter-bar{
 		#719fd1 95%,
 		#719fd1 100%);
 	background-size: 50% 50%;
-}
-meter:-moz-meter-optimum{
-	background-color: blue;
 }
 meter:-moz-sub-optimum{
 	background: cyan;
@@ -91,7 +91,26 @@ meter:-moz-sub-optimum{
 	border-radius: 20px;
 	background: #666699;
 }
+#prompt:before{	content: 'What is the morse message? ';}
 
+.touch{	display: none;	}
+.button-array button{
+	float: left;
+	width: 25%;
+	#height: 10px;
+	color: white;
+	background: lightgreen;
+	padding: 10px 24px;
+	border: 1px solid green;
+}
+.button-array button:not(:last-child){
+	border-right: none;
+}
+.button-array:after{
+	content: '';
+	clear: both;
+	display: table;
+}
 #msg-hint{
 	font-size: 25px;
 }
@@ -99,9 +118,12 @@ meter:-moz-sub-optimum{
 #answer:before{
 	content: 'click for answer: ';
 }
+figure{
+	margin: 10px 0;
+}
 #infographic{
-	margin: auto;
-	max-width: 400px;
+	max-width: 100%;
+	width: 400px; 
 }
 
 #uagent-info:before{	content: 'navigator info: ';	}

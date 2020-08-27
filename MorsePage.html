@@ -7,9 +7,9 @@
 		<link rel="stylesheet" type="text/css" href="MorsePageStyles.css">
 	</head>
 	<body>
-		<div class="main_page">
+		<div class="main-page">
 		<h1>Morse Code! Yea~!</h1>
-		<hr/><!-- A horiz ruler ats as a simple seperator between page sections -->
+		<hr/><!--horizontal ruler-->
 		<p>A tribute to Morsecode.io. I used that page once upon a time to learn Morse, but it no longer exists...</p>
 		<table>
 			<tbody>
@@ -58,10 +58,14 @@
 				</tr>
 			</tbody>
 		</table>
-		<form action="setText">
-			<label for="text-in">What morse was sent?</label>
-			<textarea id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
-		</form>
+		<label id='prompt' for="text-in"></label>
+		<textarea class='ntouch' id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
+		<div class='button-array'>
+			<button class='touch button' onclick='checkWord(this)'></button>
+			<button class='touch button' onclick='checkWord(this)'></button>
+			<button class='touch button' onclick='checkWord(this)'></button>
+			<button class='touch button' onclick='checkWord(this)'></button>
+		</div>
 		
 		<button onclick='setWord()'>New Word</button>
 		<span id='answer' onclick='showAnswer()'></span>
@@ -69,7 +73,7 @@
 			<img id='infographic' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/International_Morse_Code.svg/1200px-International_Morse_Code.svg.png'>
 			<figcaption>Image credit to Wikipedia</figcaption>
 		</figure>
-		<p id='uagent-info'></p>
+		<p id='uagent-info' style='display: none;'></p>
 		<p id='touch-info'></p>
 		<script src="MorseJS.js"></script>
 	</body>

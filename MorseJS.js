@@ -5,6 +5,9 @@
 // char-space: 3xdot
 // word-space: 7xdot
 
+// check if the device has touch capability
+var hasTouch = 'ontouchstart' in window || 'onmsgesturechange' in window;
+
 var word;
 var morseWord;
 var bArry;
@@ -21,6 +24,7 @@ var farnsworth = 1;
 var baseT = 1200;	// [milliseconds]
 var rxIntID = 0;
 
+// a text to morse dictionary object.
 var morseDict = {
 	a: ".-", b: "-...", c: "-.-.", d: "-..", e: ".", f: "..-.",
 	g: "--.", h: "....", i: "..", j: ".---", k: "-.-", l: ".-..",
@@ -66,13 +70,38 @@ function setWord(){
 		default:
 			word = wordList0[Math.floor(Math.random()*wordList0.length)];
 	}
+	if(hasTouch){
+		setOptions();
+		var buttons = document.getElementsByClassName('button');
+		buttons[Math.floor(Math.random()*buttons.length)].innerHTML = word;
+	}
 	morseWord = textToMorse(word);
 	hintDisplay.innerText = morseWord;
 	document.getElementById('answer').innerHTML = '';	
 	inBox.value = '';
+	document.getElementById('prompt').innerHTML = '';
 	bArry = morseToOnOff(morseWord);
-	console.log(bArry);
 }
+
+function setOptions(){
+	var wordDict = [];
+	switch(Number(level)){
+		case 5:
+			wordDict = bWords;
+			break;
+		case 4:
+			wordDict = wordList4;
+			break;
+		default:
+			wordDict = wordList0;
+	}
+	var buttons = document.getElementsByClassName('button');
+	for (var i=0; i < buttons.length; i++){
+		buttons[i].innerHTML = wordDict[Math.floor(Math.random()*wordDict.length)];
+		// need to remove the used 'word' so that it doesnt appear twice.
+	}
+}
+
 function toggleAudio(){
 	if(document.getElementById('toggle-audio').checked){
 		document.getElementById('audio-sym').classList.add('audio-on');
@@ -89,9 +118,11 @@ function toggleHint(){
 
 function checkAnswer(){
 	inBox.value = inBox.value.slice(0,-1).toLowerCase();
-	inBox.value = (inBox.value === word) ? 'Correct!! :)' : 'No... Try again.';
+	document.getElementById('prompt').innerHTML = (inBox.value === word) ? 'Correct!! :)' : 'No... Try again.';
 }
-
+function checkWord(it){
+	document.getElementById('prompt').innerHTML = (it.innerHTML === word) ? 'Correct!! :)' : 'No... Try again.';
+}
 function updateLvl(){
 	level = lvlSlider.value;
 	document.getElementById('lvl-disp').innerHTML = level;
@@ -99,7 +130,6 @@ function updateLvl(){
 }
 
 function updateWPM(){
-	console.log('update WPM');
 	wpm = document.getElementById('wpm-slider').value;
 	document.getElementById('wpm-disp').innerHTML = wpm;
 	baseT = 1200/Number(wpm);
@@ -109,7 +139,6 @@ function updateWPM(){
 }
 
 function updateFwth(){
-	console.log('update Farnsworth');
 	farnsworth = document.getElementById('Farnsworth-slider').value;
 	document.getElementById('fwth-disp').innerHTML = farnsworth;
 	console.log('Farnsworth now: '+farnsworth);
@@ -120,8 +149,10 @@ function showAnswer(){
 }
 
 function rxMorse(){
-	if(bArry[pos]){	blinker.style.background = 'red'}
-	else{						blinker.style.background = 'black';	}
+	if(bArry[pos]){	
+		//beep();
+		blinker.style.background = 'red'
+	}	else {			blinker.style.background = 'black';	}
 	pos = (pos >= bArry.length) ? 0 : pos + 1;
 }
 
@@ -132,6 +163,18 @@ inBox.addEventListener('keyup', function(event){
 	}
 });
 
+if(hasTouch){ // if the device has touch, swap keyboard/textarea for buttons
+	var elsNoTouch = document.getElementsByClassName('ntouch');
+	for(var i=0; i<elsNoTouch.length; i++){
+		elsNoTouch[i].style.display = 'none';
+	}
+	var elsTouch = document.getElementsByClassName('touch');
+	for(var i=0; i< elsTouch.length; i++){
+		elsTouch[i].style.display = 'block';
+	}
+	setOptions();
+}
+
 updateLvl();
 updateWPM();
 updateFwth();
@@ -139,7 +182,5 @@ setWord();
 
 var uagent = navigator.userAgent;
 document.getElementById('uagent-info').innerHTML = uagent;
-let hasTouch = () => 'ontouchstart' in window
-						 || 'onmsgesturechange' in window;
-document.getElementById('touch-info').innerHTML = hasTouch();
+document.getElementById('touch-info').innerHTML = hasTouch;
 
