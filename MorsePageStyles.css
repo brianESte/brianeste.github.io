@@ -100,7 +100,7 @@ meter:-moz-sub-optimum{
 	#height: 10px;
 	color: white;
 	background: lightgreen;
-	padding: 10px 24px;
+	padding: 10px 16px;	/* the horizontal padding is probably unnecessary... */
 	border: 1px solid green;
 }
 .button-array button:not(:last-child){

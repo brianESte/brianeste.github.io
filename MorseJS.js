@@ -38,30 +38,30 @@ gainNode.connect(audioCtx.destination);	// connect Gain to the 'destination'
 
 // a text to morse dictionary object.
 var morseDict = {
-	a: ".-", b: "-...", c: "-.-.", d: "-..", e: ".", f: "..-.",
-	g: "--.", h: "....", i: "..", j: ".---", k: "-.-", l: ".-..",
-	m: "--", n: "-.", o: "---", p: ".--.", q: "--.-", r: ".-.",
-	s: '...', t: '-', u: '..-', v: '...-', w: '.--', x: '-..-',
-	y: '-.--', z: '--..',
+	A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.",
+	G: "--.", H: "....", I: "..", J: ".---", K: "-.-", L: ".-..",
+	M: "--", N: "-.", O: "---", P: ".--.", Q: "--.-", R: ".-.",
+	S: '...', T: '-', U: '..-', V: '...-', W: '.--', X: '-..-',
+	Y: '-.--', Z: '--..',
 	1: '.----', 2: '..---', 3: '...--', 4: '....-', 5: '.....',
 	6: '-....', 7: '--...', 8: '---..', 9: '----.', 0: '-----'
 };
 
-var wordList0 = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+var wordList0 = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 var wordList4 = ['apple', 'banana', 'closet', 'example', 'mango', 'python', 'river'];
 var bWords = ['beats', 'bistro', "bombs", "boxes", "break", "brick", "flick", "halls", "leaks", "shell", "slick", "strobe", "steak", "sting", "trick", "vector"]; 
 
 
 function textToMorse(text){
-	var morseText = morseDict[text[0]];
+	var morseText = morseDict[text[0].toUpperCase()];
 	for(i = 1; i < text.length; i++){
-		morseText += ' ' + morseDict[text[i]];
+		morseText += ' ' + morseDict[text[i].toUpperCase()];
 	}
 	return morseText;
 }
 
 let morseToOnOff = mWord => {
-	onOff = [];
+	var onOff = [];
 	for(let i = 0; i < mWord.length; i++){
 		if(mWord[i] == '.'){ onOff.push(1,0) }	// if a .: 10
 		else if(mWord[i] == '-'){ onOff.push(1,1,1,0) } // if a -: 1110
@@ -82,15 +82,12 @@ function setWord(){
 		default:
 			word = wordList0[Math.floor(Math.random()*wordList0.length)];
 	}
-	if(hasTouch){
-		setOptions();
-		var buttons = document.getElementsByClassName('button');
-		buttons[Math.floor(Math.random()*buttons.length)].innerHTML = word;
-	}
+	if(hasTouch){	setOptions()	}
+	else{	inBox.value = ''}
+
 	morseWord = textToMorse(word);
 	hintDisplay.innerText = morseWord;
 	document.getElementById('answer').innerHTML = '';	
-	inBox.value = '';
 	document.getElementById('prompt').innerHTML = '';
 	bArry = morseToOnOff(morseWord);
 }
@@ -99,19 +96,26 @@ function setOptions(){
 	var wordDict = [];
 	switch(Number(level)){
 		case 5:
-			wordDict = bWords;
+			wordDict = bWords.slice();
 			break;
 		case 4:
-			wordDict = wordList4;
+			wordDict = wordList4.slice();
 			break;
 		default:
-			wordDict = wordList0;
+			wordDict = wordList0.slice();
 	}
 	var buttons = document.getElementsByClassName('button');
 	for (var i=0; i < buttons.length; i++){
-		buttons[i].innerHTML = wordDict[Math.floor(Math.random()*wordDict.length)];
-		// need to remove the used 'word' so that it doesnt appear twice.
+		buttons[i].innerHTML = wordDict.splice(Math.floor(Math.random()*wordDict.length),1)[0].toUpperCase();
 	}
+	var needAns = true;
+	for (var i=0; i < buttons.length; i++){
+		if(buttons[i].innerHTML === word.toUpperCase()){
+			needAns = false;
+			break;
+		}
+	}
+	if(needAns){buttons[Math.floor(Math.random()*buttons.length)].innerHTML = word.toUpperCase()}
 }
 
 function toggleAudio(){
@@ -197,7 +201,6 @@ if(hasTouch){ // if the device has touch, swap keyboard/textarea for buttons
 	for(var i=0; i< elsTouch.length; i++){
 		elsTouch[i].style.display = 'block';
 	}
-	setOptions();
 }
 
 updateLvl();
