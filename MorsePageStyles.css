@@ -92,6 +92,9 @@ meter:-moz-sub-optimum{
 	background: #666699;
 }
 #prompt:before{	content: 'What is the morse message? ';}
+#prompt{
+	display: block;
+}
 
 .touch{	display: none;	}
 .button-array button{

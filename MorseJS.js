@@ -10,7 +10,7 @@ var hasTouch = 'ontouchstart' in window || 'onmsgesturechange' in window;
 
 var word;
 var morseWord;
-var bArry;
+var bitArry;
 var pos = 0;
 
 var lvlSlider = document.getElementById('lvl-slider');
@@ -47,9 +47,13 @@ var morseDict = {
 	6: '-....', 7: '--...', 8: '---..', 9: '----.', 0: '-----'
 };
 
-var wordList0 = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-var wordList4 = ['apple', 'banana', 'closet', 'example', 'mango', 'python', 'river'];
-var bWords = ['beats', 'bistro', "bombs", "boxes", "break", "brick", "flick", "halls", "leaks", "shell", "slick", "strobe", "steak", "sting", "trick", "vector"]; 
+var wordLists =[['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
+				['needs', 'more', 'words'],
+				['needs', 'more', 'words'],
+				['needs', 'more', 'words'],
+				['APPLE', 'BANANA', 'CLOSET', 'EXAMPLE', 'MANGO', 'PYTHON', 'RIVER'],
+				['BEATS', 'BISTRO', "BOMBS", "BOXES", "BREAK", "BRICK", "FLICK", "HALLS", "LEAKS", "SHELL", "SLICK", "STROBE", "STEAK", "STING", "TRICK", "VECTOR"],
+				['Pokemon', 'Halloween']]; 
 
 
 function textToMorse(text){
@@ -71,17 +75,24 @@ let morseToOnOff = mWord => {
 	return onOff
 }
 
+// this function needs to be cleaned up and improved once the wordLists are complete,
+// or a suitable word gen system/function is created
 function setWord(){
+	var wordList;
 	switch(Number(level)){
 		case 5:
-			word = bWords[Math.floor(Math.random()*bWords.length)];
+			wordList = wordLists[5];
 			break;
 		case 4:
-			word = wordList4[Math.floor(Math.random()*wordList4.length)];
+			wordList = wordLists[4];
+			break;
+		case 1:
+			wordList = wordLists[1];
 			break;
 		default:
-			word = wordList0[Math.floor(Math.random()*wordList0.length)];
+			wordList = wordLists[0];
 	}
+	word = wordList[Math.floor(Math.random()*wordList.length)];
 	if(hasTouch){	setOptions()	}
 	else{	inBox.value = ''}
 
@@ -89,7 +100,7 @@ function setWord(){
 	hintDisplay.innerText = morseWord;
 	document.getElementById('answer').innerHTML = '';	
 	document.getElementById('prompt').innerHTML = '';
-	bArry = morseToOnOff(morseWord);
+	bitArry = morseToOnOff(morseWord);
 }
 
 function setOptions(){
@@ -136,10 +147,14 @@ function toggleHint(){
 	console.log('toggle Hint display');
 }
 
+// this function is only used once so far..
 function checkAnswer(){
-	inBox.value = inBox.value.slice(0,-1).toLowerCase();
-	document.getElementById('prompt').innerHTML = (inBox.value === word) ? 'Correct!! :)' : 'No... Try again.';
+	var guess = inBox.value.slice(0,-1).toUpperCase();
+	var ans = word.toUpperCase();
+	document.getElementById('prompt').innerHTML = (guess === ans) ? 'Correct!! :)' : 'No... Try again.';
 }
+
+// this function is not yet used apparently..
 function checkWord(it){
 	document.getElementById('prompt').innerHTML = (it.innerHTML === word) ? 'Correct!! :)' : 'No... Try again.';
 }
@@ -175,19 +190,19 @@ function beepOff(){
 	if(gainNode.gain.value){	gainNode.gain.value = 0	}
 }
 function rxMorse(){
-	if(bArry[pos]){	
+	if(bitArry[pos]){	
 		if(document.getElementById('toggle-audio').checked){	beepOn()	}
 		blinker.style.background = 'red'
 	}	else {
 		blinker.style.background = 'black';	
 		beepOff();
 	}
-	pos = (pos >= bArry.length) ? 0 : pos + 1;
+	pos = (pos >= bitArry.length) ? 0 : pos + 1;
 }
 
 inBox.addEventListener('keyup', function(event){
 	if(event.keyCode === 13){
-		event.preventDefault();
+		event.preventDefault();	// what does this do...?
 		checkAnswer();
 	}
 });
