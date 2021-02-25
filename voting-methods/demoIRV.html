@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>	<!-- head definition goes here -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Haha yes</title>
+		<link rel="stylesheet" type="text/css" href="demoIRVstyles.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<header class="header">
+			<h1>Hello There</h1>
+			<h2>Welcome to the Instant Runoff Voting Demo</h2>
+		</header>
+		<!--h2>This is the boring index page</h2-->
+		<hr/>
+		<div id="main"><!-- main content -->
+			<table id="pref-table">
+				<tr><th>Preference</th><th># Voters</th></tr>
+				<tr><td>A > B > C</td><td>
+					<input type="number" min=0 id="pABC" value=100 onchange="update(this)"></td></tr>
+				<tr><td>A > C > B</td><td>
+					<input type="number" min=0 id="pACB" value=99 onchange="update(this)"></td></tr>
+				<tr><td>A</td><td>
+					<input type="number" min=0 id="pA" value=98 onchange="update(this)"></td></tr>
+				<tr><td>B > A > C</td><td>
+					<input type="number" min=0 id="pBAC" value=97 onchange="update(this)"></td></tr>
+				<tr><td>B > C > A</td><td>
+					<input type="number" min=0 id="pBCA" value=96 onchange="update(this)"></td></tr>
+				<tr><td>B</td><td>
+					<input type="number" min=0 id="pB" value=95 onchange="update(this)">
+					</td></tr>
+				<tr><td>C > A > B</td><td>
+					<input type="number" min=0 id="pCAB" value=94 onchange="update(this)"></td></tr>
+				<tr><td>C > B > A</td><td>
+					<input type="number" min=0 id="pCBA" value=93 onchange="update(this)"></td></tr>
+				<tr><td>C</td><td>
+					<input type="number" min=0 id="pC" value=92 onchange="update(this)">
+					</td></tr>
+				<tr><td>Total:</td><td id="nVoter"></td></tr>
+			</table>
+			<button onclick="simElection()">VOTE!</button>
+			<p>As should be obvious, this page is missing background information, and detailed instructions. It should, however, be fully functional. Change the vote counts for each vote permutation and then click VOTE to see the results.</p>
+			<table id="tally-rounds" class="clearfix">
+				<tr><th>Candidate</th><th>1st Round</th><th>2nd Round</th></tr>
+				<tr><td>Cand A</td>
+					<td class="cA Rd1">0</td><td class="cA Rd2">0</td></tr>
+				<tr><td>Cand B</td><td class="cB Rd1">0</td><td class="cB Rd2">0</td></tr>
+				<tr><td>Cand C</td><td class="cC Rd1">0</td><td class="cC Rd2">0</td></tr>
+			</table>
+		</div>
+		<script src="demoIRVscript.js"></script>
+	</body>
+</html>

@@ -1,0 +1,31 @@
+body{
+	background: #ddd;
+}
+table{
+	margin: 0 10px;
+}
+th, td{
+	padding: 5px;
+	background: #00cc99;
+}
+table, th, td{
+	border:	1px solid black;
+	border-collapse: collapse;
+}
+td > input{
+	width: 70px;
+}
+#pref-table{
+	float: left;
+}
+#tally-rounds{
+	float: right;
+}
+#main{
+	margin: 0 30vw 0 30vw;
+}
+.clearfix::after{
+	content:	"";
+	clear:		both;
+	display:	block
+}
