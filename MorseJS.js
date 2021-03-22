@@ -48,12 +48,17 @@ var morseDict = {
 };
 
 var wordLists =[['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
-				['needs', 'more', 'words'],
-				['needs', 'more', 'words'],
-				['needs', 'more', 'words'],
+				['this', 'level', 'needs', 'more', 'words'],
+				['this', 'level', 'needs', 'more', 'words'],
+				['this', 'level', 'needs', 'more', 'words'],
 				['APPLE', 'BANANA', 'CLOSET', 'EXAMPLE', 'MANGO', 'PYTHON', 'RIVER'],
-				['BEATS', 'BISTRO', "BOMBS", "BOXES", "BREAK", "BRICK", "FLICK", "HALLS", "LEAKS", "SHELL", "SLICK", "STROBE", "STEAK", "STING", "TRICK", "VECTOR"],
-				['Pokemon', 'Halloween']]; 
+				['BEATS', 'BISTRO', "BOMBS", "BOXES", "BREAK", "BRICK", "FLICK", "HALLS", 
+				 "LEAKS", "SHELL", "SLICK", "STROBE", "STEAK", "STING", "TRICK", "VECTOR"],	// lvl 5
+				['Pokemon', 'Halloween', 'this', 'level', 'needs', 'more', 'words'],
+				['this', 'level', 'needs', 'more', 'words'],
+				['this', 'level', 'needs', 'more', 'words'],
+				['this', 'level', 'needs', 'more', 'words'],
+				['this', 'level', 'needs', 'more', 'words']]; 
 
 
 function textToMorse(text){
@@ -78,22 +83,12 @@ let morseToOnOff = mWord => {
 // this function needs to be cleaned up and improved once the wordLists are complete,
 // or a suitable word gen system/function is created
 function setWord(){
-	var wordList;
-	switch(Number(level)){
-		case 5:
-			wordList = wordLists[5];
-			break;
-		case 4:
-			wordList = wordLists[4];
-			break;
-		case 1:
-			wordList = wordLists[1];
-			break;
-		default:
-			wordList = wordLists[0];
-	}
+	// grab the level approprate wordList
+	var wordList = wordLists[Number(level)];
+	// pick a random word from the chosen wordList
 	word = wordList[Math.floor(Math.random()*wordList.length)];
-	if(hasTouch){	setOptions()	}
+	
+	if(hasTouch){	setOptions()	}	// if the device has a touchscreen, set the options
 	else{	inBox.value = ''}
 
 	morseWord = textToMorse(word);
@@ -104,29 +99,27 @@ function setWord(){
 }
 
 function setOptions(){
-	var wordDict = [];
-	switch(Number(level)){
-		case 5:
-			wordDict = bWords.slice();
-			break;
-		case 4:
-			wordDict = wordList4.slice();
-			break;
-		default:
-			wordDict = wordList0.slice();
-	}
+	// grab the level appropriate wordList
+	var wordDict = wordLists[Number(level)].slice();
+	
 	var buttons = document.getElementsByClassName('button');
 	for (var i=0; i < buttons.length; i++){
+		// splice out an array of len = 1 containing a random word
+		// convert it to uppercase then store it in the current button
 		buttons[i].innerHTML = wordDict.splice(Math.floor(Math.random()*wordDict.length),1)[0].toUpperCase();
 	}
-	var needAns = true;
+	var needAns = true;	
+	// check if correct answer was not randomly added to the option set...
 	for (var i=0; i < buttons.length; i++){
 		if(buttons[i].innerHTML === word.toUpperCase()){
 			needAns = false;
 			break;
 		}
 	}
-	if(needAns){buttons[Math.floor(Math.random()*buttons.length)].innerHTML = word.toUpperCase()}
+	// if it was not, then add it
+	if(needAns){
+		buttons[Math.floor(Math.random()*buttons.length)].innerHTML = word.toUpperCase()
+	}
 }
 
 function toggleAudio(){
@@ -147,16 +140,10 @@ function toggleHint(){
 	console.log('toggle Hint display');
 }
 
-// this function is only used once so far..
-function checkAnswer(){
-	var guess = inBox.value.slice(0,-1).toUpperCase();
-	var ans = word.toUpperCase();
-	document.getElementById('prompt').innerHTML = (guess === ans) ? 'Correct!! :)' : 'No... Try again.';
-}
-
 // this function is not yet used apparently..
 function checkWord(it){
-	document.getElementById('prompt').innerHTML = (it.innerHTML === word) ? 'Correct!! :)' : 'No... Try again.';
+	var ans = word.toUpperCase();
+	document.getElementById('prompt').innerHTML = (it.innerHTML === ans) ? 'Correct!! :)' : 'No... Try again.';
 }
 function updateLvl(){
 	level = lvlSlider.value;
@@ -203,7 +190,10 @@ function rxMorse(){
 inBox.addEventListener('keyup', function(event){
 	if(event.keyCode === 13){
 		event.preventDefault();	// what does this do...?
-		checkAnswer();
+		// check the answer provided...
+		var guess = inBox.value.slice(0,-1).toUpperCase();
+		var ans = word.toUpperCase();
+		document.getElementById('prompt').innerHTML = (guess === ans) ? 'Correct!! :)' : 'No... Try again.';
 	}
 });
 
