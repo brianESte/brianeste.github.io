@@ -20,13 +20,10 @@ var blinker = document.getElementById('blinker');
 
 // Settings variables
 var level = 0;
-var wpm = 10;
+var wpm = 1;
 var farnsworth = 1;
 var baseT = 1200;	// [milliseconds]
 var rxIntID = 0;
-var audioOn = false;
-var blinkOn = false;
-var textHintOn = false;
 
 // Tone settings/vars
 var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
@@ -83,8 +80,8 @@ let morseToOnOff = mWord => {
 	return onOff
 }
 
-// this function needs to be cleaned up and improved, once the
-// wordLists are complete, or a suitable word gen system/function is created
+// this function needs to be cleaned up and improved once the wordLists are complete,
+// or a suitable word gen system/function is created
 function setWord(){
 	// grab the level approprate wordList
 	var wordList = wordLists[Number(level)];
@@ -125,19 +122,6 @@ function setOptions(){
 	}
 }
 
-function tuneLvl(it){
-	level = it.innerHTML;
-	var ptr = it.parentNode.getElementsByClassName("radio-pointer")[0];
-	ptr.style.transform = "rotate("+ level*26 +"deg)";
-	console.log('level now: '+level);
-}
-function tuneWPM(it){
-	wpm = it.innerHTML;
-	var ptr = it.parentNode.getElementsByClassName("radio-pointer")[0];
-	ptr.style.transform = "rotate("+ (wpm-1)*12 +"deg)";
-	updateWPM();
-}
-
 function toggleAudio(){
 	if(!oscOn){	
 		oscillator.start();
@@ -150,43 +134,9 @@ function toggleAudio(){
 	}		
 }
 
-//var position = false;
-function toggle(it,select){
-	var position;
-	switch(select){
-		case 1:
-			audioOn = !audioOn;
-			position = audioOn;
-			console.log("audioOn: "+audioOn);
-			break;
-		case 2:
-			blinkOn = !blinkOn;
-			position = blinkOn;
-			console.log("blinkOn: "+blinkOn);
-			break;
-		case 3:
-			textHintOn = !textHintOn;
-			position = textHintOn;
-			toggleHint(textHintOn);
-			break;
-		default:
-			console.log("invalid switch selector");
-	}
-	var switchShaft = it.parentNode.getElementsByClassName("switch-shaft")[0];
-	var angle = (position) ? 180 : 0;
-	switchShaft.style.transform = "rotateY("+ angle +"deg)";
-	var switchBall = it.parentNode.getElementsByClassName("switch-ball")[0];
-	var pos = (position) ? 64 : 0;
-	switchBall.style.transform = "translateX("+ pos +"px)";
-}
-
-function toggleHint(setting){
-	if(setting != null){
-		hintDisplay.style.display = (setting) ? "inline" : "none";
-	} else {
-		var hintTog = document.getElementById('toggle-text');
-		hintDisplay.style.display = (hintTog.checked) ? "inline" : "none";
-	}
+function toggleHint(){
+	var hintTog = document.getElementById('toggle-text');
+	hintDisplay.style.display = (hintTog.checked) ? "inline" : "none";
 	console.log('toggle Hint display');
 }
 
@@ -202,8 +152,8 @@ function updateLvl(){
 }
 
 function updateWPM(){
-	//wpm = document.getElementById('wpm-slider').value;
-	//document.getElementById('wpm-disp').innerHTML = wpm;
+	wpm = document.getElementById('wpm-slider').value;
+	document.getElementById('wpm-disp').innerHTML = wpm;
 	baseT = 1200/Number(wpm);
 	clearInterval(rxIntID);
 	rxIntID = setInterval(rxMorse, baseT);
@@ -227,10 +177,9 @@ function beepOff(){
 	if(gainNode.gain.value){	gainNode.gain.value = 0	}
 }
 function rxMorse(){
-	if(bitArry[pos]){
-		// document.getElementById('toggle-audio').checked
-		if(audioOn){	beepOn()	}
-		if(blinkOn){	blinker.style.background = 'red';	}
+	if(bitArry[pos]){	
+		if(document.getElementById('toggle-audio').checked){	beepOn()	}
+		blinker.style.background = 'red'
 	}	else {
 		blinker.style.background = 'black';	
 		beepOff();
@@ -259,9 +208,9 @@ if(hasTouch){ // if the device has touch, swap keyboard/textarea for buttons
 	}
 }
 
-//updateLvl();
+updateLvl();
 updateWPM();
-//updateFwth();
+updateFwth();
 setWord();
 
 var uagent = navigator.userAgent;

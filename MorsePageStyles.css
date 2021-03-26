@@ -1,98 +1,19 @@
 body{
-		background: #966F33;
+		background: #ddd;
 }
 
 .main-page{
 	margin: auto;
 }
-.tuner-grid{
-	display: grid;
-	grid-template-columns: 45% 45%;
-	grid-template-rows: auto auto;
-	grid-column-gap: 10px;
-	grid-row-gap: 5px;
-	justify-content: center;
-	#spaced-evenly;
-}
-.sw-grid{
-	display: grid;
-	grid-template-columns: 40% 15% 40%;
-	grid-column-gap: 10px;
-	grid-row-gap: 5px;
-	justify-content: space-evenly;
-}
-.sw-grid div{	text-align: center;	}
-.row1{	grid-row: 1 / 2;	}
-.row2{	grid-row: 2 / 3;	}
-.row3{	grid-row: 3 / 4;	}
-.col1{	grid-column: 1 / 2;	}
-.col2{	grid-column: 2 / 3;	}
-.col3{	grid-column: 3 / 4;	}
-.row3.col2{	grid-column: 2 / 4;	}
-
-.tuner-grid div{	text-align: center;	}
-.row1.col2{	position: relative;	}
-
-#blinker{
-	position: absolute;
-	top: calc(50% - 25px);
-	left: calc(50% - 25px);
-	min-height: 50px;
-	min-width: 50px;
-	border-radius: 25px;
-	background: #666699;
-}
-
+table{	border-collapse: collapse;	}
 input{	margin: 6px;	}
 h1{	margin: 10px 0 10px 0;	}
 
-/* shared SVG styles */
-svg text{
-	font-family: monospace;
-	font-weight: bold;
+td{position: relative;	}
+input[type='range']{
+	background: lightgreen;
 }
 
-/* radio-tuner class styling */
-.radio-tuner foreignObject{	clip-path: url(#number-ring);	}
-.radio-knob{	stroke-dasharray: 1.5 1.5;	}
-
-svg line{
-	transition: all 2s;
-	transform-origin: 50% 50%;
-	transform: rotate(0deg);
-}
-
-.ag-conic-fill{
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	background: conic-gradient(from 65deg,
-		#fff 0deg 50deg, #ccc 70deg 160deg,
-		#fff 180deg 230deg, #ccc 250deg 340deg, #fff);
-}
-#wpm-tuner .radio-pointer{	transform: rotate(144deg);	}
-#lvl-tuner text{
-	cursor: pointer;
-	font-size: 16px;
-}
-
-/* toggle switch styling */
-.clickable{	cursor: pointer;	}
-.svg-toggle-sw{	clip-pat: url(#switch-plate);	}
-
-svg path{
-	transform-origin: 50% 50%;
-	transition: all 0.3s cubic-bezier(0.25, 0.0, 0.25, 1);	
-}
-svg circle{	transition: all 0.3s cubic-bezier(0.25,0.0,0.25,1);	}
-
-.svg-toggle-sw text{
-	fill: #ddd;
-	font-size: 16px;
-}
-/* end SVG styles */
-
-/* can probably delete these meter styles... */
 meter{
 	height: 25px;
 	width: 200px;
@@ -114,9 +35,13 @@ meter:-moz-meter-bar{
 		#719fd1 100%);
 	background-size: 50% 50%;
 }
-meter:-moz-sub-optimum{	background: cyan;	}
+meter:-moz-sub-optimum{
+	background: cyan;
+}
 
-#lvl-disp:before{	content: 'Level: ';	}
+#lvl-disp:before{
+	content: 'Level: ';
+}
 #wpm-disp:before{	content: 'Speed ';	}
 #wpm-disp:after{	content: ' [wpm]';	}
 
@@ -160,8 +85,16 @@ meter:-moz-sub-optimum{	background: cyan;	}
 	transform: rotate(45deg);
 }
 
+#blinker{
+	height: 40px;
+	width: 40px;
+	border-radius: 20px;
+	background: #666699;
+}
 #prompt:before{	content: 'What is the morse message? ';}
-#prompt{	display: block;	}
+#prompt{
+	display: block;
+}
 
 .touch{	display: none;	}
 .button-array button{
@@ -173,7 +106,9 @@ meter:-moz-sub-optimum{	background: cyan;	}
 	padding: 10px 16px;	/* the horizontal padding is probably unnecessary... */
 	border: 1px solid green;
 }
-.button-array button:not(:last-child){	border-right: none;	}
+.button-array button:not(:last-child){
+	border-right: none;
+}
 .button-array:after{
 	content: '';
 	clear: both;
@@ -181,13 +116,14 @@ meter:-moz-sub-optimum{	background: cyan;	}
 }
 #msg-hint{
 	font-size: 25px;
-	width: 90%;
 }
-
 #answer{	font-size: 20px;	}
-#answer:before{	content: 'click for answer: ';	}
-
-figure{	margin: 10px 0;	}
+#answer:before{
+	content: 'click for answer: ';
+}
+figure{
+	margin: 10px 0;
+}
 #infographic{
 	max-width: 100%;
 	width: 400px; 
