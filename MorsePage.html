@@ -11,54 +11,207 @@
 		<h1>Morse Code! Yea~!</h1>
 		<hr/><!--horizontal ruler-->
 		<p>A tribute to Morsecode.io. I used that page once upon a time to learn Morse, but it no longer exists...</p>
-		<table>
-			<tbody>
-				<tr>
-					<td><span id='lvl-disp'>0</span>
-					<td>
-						<input type='range' id='lvl-slider' min='0' max='10' value='0' onchange='updateLvl()'>
-					</td>
-				</tr>
-				<tr>
-					<td><span id='wpm-disp'>1</span></td>
-					<td><input type='range' id='wpm-slider' min='1' max='25' value='10' onchange='updateWPM()'>
-					</td>
-				</tr>
-				<tr>
-				  <td><span id='fwth-disp'>1</span></td>
-					<td><input type='range' id='Farnsworth-slider' min='1' max='4' value='1' onchange='updateFwth()'></td>
-				</tr>
-				<tr>
-				  <td>
-						<input type="checkbox" id="toggle-audio" name="audio" onclick='toggleAudio()'>
-						<label for="toggle-audio">Audio</label>
-					</td>
-					<td><div class='audio' id='audio-sym'><span></span></div></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="checkbox" id="toggle-blink" name="blink" checked>
-						<label for="toggle-blink">Blink</label>
-					</td>
-					<td><p id="blinker"></p></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="checkbox" id="toggle-length" name="dd_length">
-						<label for="toggle-length">Length?</label>
-					</td>
-					<td><meter id="dida-meter" low="1" max="10" value="5"></meter></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="checkbox" id="toggle-text" name="morse-text" onclick="toggleHint()" checked>
-						<label for="toggle-text">Text</label>
-					</td>
-					<td><span id="msg-hint"></span></td>
-				</tr>
-			</tbody>
-		</table>
-		
+		<div class="tuner-grid">
+			<div class="row1 col1">
+				<svg class="radio-tuner" id="lvl-tuner" viewBox="0 0 200 200">
+					<defs>
+						<clipPath id="number-ring" clipPathUnits="objectBoundingBox">
+							<circle cx="0.5" cy="0.5" r="0.45"/>
+						</clipPath>
+					</defs>
+					<foreignObject width="200" height="200">
+						<div class="ag-conic-fill"></div>
+					</foreignObject>
+					<circle cx=100 cy=100 r=90 fill="transparent" stroke="#aaa" stroke-width="1"/>
+					<text text-anchor="middle" x="42.6" y="155.2" onclick="tuneLvl(this)">0</text>
+					<text text-anchor="middle" x="27.2" y="125.1" onclick="tuneLvl(this)">1</text>
+					<text text-anchor="middle" x="26.6" y="91.4" onclick="tuneLvl(this)">2</text>
+					<text text-anchor="middle" x="40.9" y="60.8" onclick="tuneLvl(this)">3</text>
+					<text text-anchor="middle" x="67.1" y="39.6" onclick="tuneLvl(this)">4</text>
+					<text text-anchor="middle" x="100"  y="32.0" onclick="tuneLvl(this)">5</text>
+					<text text-anchor="middle" x="132.9" y="39.6" onclick="tuneLvl(this)">6</text>
+					<text text-anchor="middle" x="159.1" y="60.8" onclick="tuneLvl(this)">7</text>
+					<text text-anchor="middle" x="173.4" y="91.4" onclick="tuneLvl(this)">8</text>
+					<text text-anchor="middle" x="172.8" y="125.1" onclick="tuneLvl(this)">9</text>
+					<text text-anchor="middle" x="157.5" y="155.2" onclick="tuneLvl(this)">10</text>
+					<circle cx=100 cy=100 r=60 fill="transparent" stroke="#000" stroke-width="2" class="radio-knob"/> 
+					<circle cx=100 cy=100 r=58 fill="transparent" stroke="#000" stroke-width="4"/> 
+					<line x1="100" y1="100" x2="54" y2="138.6" stroke="#f00" stroke-width="3" class="radio-pointer"/>
+				</svg>
+			</div>
+			<div class="row1 col2">
+				<svg class="radio-tuner" id="wpm-tuner" viewBox="0 0 200 200">
+					<defs>
+						<clipPath id="number-ring" clipPathUnits="objectBoundingBox">
+							<circle cx="0.5" cy="0.5" r="0.45"/>
+						</clipPath>
+					</defs>
+					<foreignObject width="200" height="200">
+						<div class="ag-conic-fill"></div>
+					</foreignObject>
+					<circle cx=100 cy=100 r=90 fill="transparent" stroke="#aaa" stroke-width="1"/>
+					<text text-anchor="middle" x="55.3" y="166.5" onclick="tuneWPM(this)">1</text>
+					<text text-anchor="middle" x="43.5" y="155.9" onclick="tuneWPM(this)">2</text>
+					<text text-anchor="middle" x="34.2" y="143" onclick="tuneWPM(this)">3</text>
+					<text text-anchor="middle" x="27.7" y="128.5" onclick="tuneWPM(this)">4</text>
+					<text text-anchor="middle" x="24.4" y="112.9" onclick="tuneWPM(this)">5</text>
+					<text text-anchor="middle" x="24.4" y="97.1" onclick="tuneWPM(this)">6</text>
+					<text text-anchor="middle" x="27.7" y="81.5" onclick="tuneWPM(this)">7</text>
+					<text text-anchor="middle" x="34.2" y="67" onclick="tuneWPM(this)">8</text>
+					<text text-anchor="middle" x="43.5" y="54.1" onclick="tuneWPM(this)">9</text>
+					<text text-anchor="middle" x="55.3" y="43.5" onclick="tuneWPM(this)">10</text>
+					<text text-anchor="middle" x="69.1" y="35.6" onclick="tuneWPM(this)">11</text>
+					<text text-anchor="middle" x="84.2" y="30.7" onclick="tuneWPM(this)">12</text>
+					<text text-anchor="middle" x="100" y="29" onclick="tuneWPM(this)">13</text>
+					<text text-anchor="middle" x="115.8" y="30.7" onclick="tuneWPM(this)">14</text>
+					<text text-anchor="middle" x="130.9" y="35.6" onclick="tuneWPM(this)">15</text>
+					<text text-anchor="middle" x="144.7" y="43.5" onclick="tuneWPM(this)">16</text>
+					<text text-anchor="middle" x="156.5" y="54.1" onclick="tuneWPM(this)">17</text>
+					<text text-anchor="middle" x="165.8" y="67" onclick="tuneWPM(this)">18</text>
+					<text text-anchor="middle" x="172.3" y="81.5" onclick="tuneWPM(this)">19</text>
+					<text text-anchor="middle" x="175.6" y="97.1" onclick="tuneWPM(this)">20</text>
+					<text text-anchor="middle" x="175.6" y="112.9" onclick="tuneWPM(this)">21</text>
+					<text text-anchor="middle" x="172.3" y="128.5" onclick="tuneWPM(this)">22</text>
+					<text text-anchor="middle" x="165.8" y="143" onclick="tuneWPM(this)">23</text>
+					<text text-anchor="middle" x="156.5" y="155.9" onclick="tuneWPM(this)">24</text>
+					<text text-anchor="middle" x="144.7" y="166.5" onclick="tuneWPM(this)">25</text>
+					<circle cx=100 cy=100 r=60 fill="transparent" stroke="#000" stroke-width="2" class="radio-knob"/> 
+					<circle cx=100 cy=100 r=58 fill="transparent" stroke="#000" stroke-width="4"/> 
+					<line x1="100" y1="100" x2="64.7" y2="148.5" stroke="#f00" stroke-width="3" class="radio-pointer"/>
+				</svg>
+			</div>
+			<div class="row2 col1">
+				<span>Level</span>
+			</div>
+			<div class="row2 col2">
+				<span>WPM</span>
+			</div>
+		</div>
+		<div class="sw-grid">
+			<div class="row1 col1">
+				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
+					<defs>
+						<linearGradient id="ag-lin-v" gradientTransform="rotate(90)">
+							<stop offset="10%" stop-color="#999"/>
+							<stop offset="50%" stop-color="#fff"/>
+							<stop offset="90%" stop-color="#999"/>
+						</linearGradient>
+						<radialGradient id="switch-core">
+							<stop offset="10%" stop-color="#000"/>
+							<stop offset="90%" stop-color="#ccc"/>
+						</radialGradient>
+						<radialGradient id="ag-ball">
+							<stop offset="10%" stop-color="#fff"/>
+							<stop offset="90%" stop-color="#999"/>
+						</radialGradient>
+						<clipPath id="switch-plate" clipPathUnits="objectBoundingBox">
+							<path d="M0 0.325 a0.0625 0.125 0 0 1 0.0625 -0.125 H0.3 a0.25 0.5 0 0 1 0.4 0 h0.2375 a0.0625 0.125 0 0 1 0.0625 0.125 v.35 a0.0625 0.125 0 0 1 -0.0625 0.125 h-0.2375 a0.25 0.5 0 0 1 -0.4 0 h-0.2375 a0.0625 0.125 0 0 1 -0.0625 -0.125 Z"></path>
+						</clipPath>
+					</defs>
+					<!--symbol id="svg-toggle"-->
+					<!-- switch plate shape and fill -->
+					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"></path>
+					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"></circle>
+					<!-- black and red plate faces, and OFF/ON text -->
+					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"></path> 
+					<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
+					<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)">OFF</text>
+					<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)">ON</text>
+					<!-- switch shaft and knob -->
+					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"></path>
+					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"></circle>
+					<!-- clickable overlay -->
+					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,1)"></path>
+					<!--/symbol-->
+				</svg>
+			</div>
+			<div class="row1 col2">
+				<div id="blinker"></div>
+			</div>
+			<div class="row1 col3">
+				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
+					<defs>
+						<linearGradient id="ag-lin-v" gradientTransform="rotate(90)">
+							<stop offset="10%" stop-color="#999"/>
+							<stop offset="50%" stop-color="#fff"/>
+							<stop offset="90%" stop-color="#999"/>
+						</linearGradient>
+						<radialGradient id="switch-core">
+							<stop offset="10%" stop-color="#000"/>
+							<stop offset="90%" stop-color="#ccc"/>
+						</radialGradient>
+						<radialGradient id="ag-ball">
+							<stop offset="10%" stop-color="#fff"/>
+							<stop offset="90%" stop-color="#999"/>
+						</radialGradient>
+						<clipPath id="switch-plate" clipPathUnits="objectBoundingBox">
+							<path d="M0 0.325 a0.0625 0.125 0 0 1 0.0625 -0.125 H0.3 a0.25 0.5 0 0 1 0.4 0 h0.2375 a0.0625 0.125 0 0 1 0.0625 0.125 v.35 a0.0625 0.125 0 0 1 -0.0625 0.125 h-0.2375 a0.25 0.5 0 0 1 -0.4 0 h-0.2375 a0.0625 0.125 0 0 1 -0.0625 -0.125 Z"></path>
+						</clipPath>
+					</defs>
+					<!--symbol id="svg-toggle"-->
+					<!-- switch plate shape and fill -->
+					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"></path>
+					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"></circle>
+					<!-- black and red plate faces, and OFF/ON text -->
+					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"></path> 
+					<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
+					<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)">OFF</text>
+					<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)">ON</text>
+					<!-- switch shaft and knob -->
+					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"></path>
+					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"></circle>
+					<!-- clickable overlay -->
+					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,2)"></path>
+					<!--/symbol-->
+				</svg>
+			</div>
+			<div class="row2 col1">
+				<span>Audio<div class='audio' id='audio-sym'></div><span>
+			</div>
+			<div class="row2 col3">
+				<span>Blinker</span>
+			</div>
+			<div class="row3 col1">
+				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
+					<defs>
+						<linearGradient id="ag-lin-v" gradientTransform="rotate(90)">
+							<stop offset="10%" stop-color="#999"/>
+							<stop offset="50%" stop-color="#fff"/>
+							<stop offset="90%" stop-color="#999"/>
+						</linearGradient>
+						<radialGradient id="switch-core">
+							<stop offset="10%" stop-color="#000"/>
+							<stop offset="90%" stop-color="#ccc"/>
+						</radialGradient>
+						<radialGradient id="ag-ball">
+							<stop offset="10%" stop-color="#fff"/>
+							<stop offset="90%" stop-color="#999"/>
+						</radialGradient>
+						<clipPath id="switch-plate" clipPathUnits="objectBoundingBox">
+							<path d="M0 0.325 a0.0625 0.125 0 0 1 0.0625 -0.125 H0.3 a0.25 0.5 0 0 1 0.4 0 h0.2375 a0.0625 0.125 0 0 1 0.0625 0.125 v.35 a0.0625 0.125 0 0 1 -0.0625 0.125 h-0.2375 a0.25 0.5 0 0 1 -0.4 0 h-0.2375 a0.0625 0.125 0 0 1 -0.0625 -0.125 Z"></path>
+						</clipPath>
+					</defs>
+					<!--symbol id="svg-toggle"-->
+					<!-- switch plate shape and fill -->
+					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"></path>
+					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"></circle>
+					<!-- black and red plate faces, and OFF/ON text -->
+					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"></path> 
+					<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
+					<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)">OFF</text>
+					<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)">ON</text>
+					<!-- switch shaft and knob -->
+					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"></path>
+					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"></circle>
+					<!-- clickable overlay -->
+					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,3)"></path>
+					<!--/symbol-->
+				</svg>
+			</div>
+			<div class="row3 col2">
+				<textarea id="msg-hint" cols="20"></textarea>
+			</div>
+		</div>
 		<label id='prompt' for="text-in"></label>
 		<textarea class='ntouch' id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
 		<div class='button-array'>
