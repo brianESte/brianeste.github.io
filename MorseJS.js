@@ -20,10 +20,13 @@ var blinker = document.getElementById('blinker');
 
 // Settings variables
 var level = 0;
-var wpm = 1;
+var wpm = 10;
 var farnsworth = 1;
 var baseT = 1200;	// [milliseconds]
 var rxIntID = 0;
+var audioOn = false;
+var blinkOn = false;
+var textHintOn = false;
 
 // Tone settings/vars
 var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
@@ -92,7 +95,7 @@ function setWord(){
 	else{	inBox.value = ''}
 
 	morseWord = textToMorse(word);
-	hintDisplay.innerText = morseWord;
+	if(textHintOn){	hintDisplay.innerText = morseWord;	}
 	document.getElementById('answer').innerHTML = '';	
 	document.getElementById('prompt').innerHTML = '';
 	bitArry = morseToOnOff(morseWord);
@@ -122,6 +125,19 @@ function setOptions(){
 	}
 }
 
+function tuneLvl(it){
+	level = it.innerHTML;
+	var ptr = it.parentNode.getElementsByClassName("radio-pointer")[0];
+	ptr.style.transform = "rotate("+ level*26 +"deg)";
+	console.log('level now: '+level);
+}
+function tuneWPM(it){
+	wpm = it.innerHTML;
+	var ptr = it.parentNode.getElementsByClassName("radio-pointer")[0];
+	ptr.style.transform = "rotate("+ (wpm-1)*12 +"deg)";
+	updateWPM();
+}
+
 function toggleAudio(){
 	if(!oscOn){	
 		oscillator.start();
@@ -134,9 +150,40 @@ function toggleAudio(){
 	}		
 }
 
-function toggleHint(){
-	var hintTog = document.getElementById('toggle-text');
-	hintDisplay.style.display = (hintTog.checked) ? "inline" : "none";
+function toggle(it,select){
+	var position;
+	switch(select){
+		case 1:
+			audioOn = !audioOn;
+			position = audioOn;
+			toggleAudio();
+			break;
+		case 2:
+			blinkOn = !blinkOn;
+			position = blinkOn;
+			break;
+		case 3:
+			textHintOn = !textHintOn;
+			position = textHintOn;
+			toggleHint(textHintOn);
+			break;
+		default:
+			console.log("invalid switch selector");
+	}
+	var switchShaft = it.parentNode.getElementsByClassName("switch-shaft")[0];
+	var angle = (position) ? 180 : 0;
+	switchShaft.style.transform = "rotateY("+ angle +"deg)";
+	var switchBall = it.parentNode.getElementsByClassName("switch-ball")[0];
+	var pos = (position) ? 64 : 0;
+	switchBall.style.transform = "translateX("+ pos +"px)";
+}
+
+function toggleHint(hintOn){
+	if(hintOn == null){
+		hintOn = document.getElementById('toggle-text')
+	}
+	hintDisplay.innerText = (hintOn) ? morseWord : "";
+	//hintDisplay.style.display = (hintTog.checked) ? "inline" : "none";
 	console.log('toggle Hint display');
 }
 
@@ -152,8 +199,8 @@ function updateLvl(){
 }
 
 function updateWPM(){
-	wpm = document.getElementById('wpm-slider').value;
-	document.getElementById('wpm-disp').innerHTML = wpm;
+	//wpm = document.getElementById('wpm-slider').value;
+	//document.getElementById('wpm-disp').innerHTML = wpm;
 	baseT = 1200/Number(wpm);
 	clearInterval(rxIntID);
 	rxIntID = setInterval(rxMorse, baseT);
@@ -177,9 +224,10 @@ function beepOff(){
 	if(gainNode.gain.value){	gainNode.gain.value = 0	}
 }
 function rxMorse(){
-	if(bitArry[pos]){	
-		if(document.getElementById('toggle-audio').checked){	beepOn()	}
-		blinker.style.background = 'red'
+	if(bitArry[pos]){
+		// document.getElementById('toggle-audio').checked
+		if(audioOn){	beepOn()	}
+		if(blinkOn){	blinker.style.background = 'red'	}
 	}	else {
 		blinker.style.background = 'black';	
 		beepOff();
@@ -208,12 +256,12 @@ if(hasTouch){ // if the device has touch, swap keyboard/textarea for buttons
 	}
 }
 
-updateLvl();
+//updateLvl();
 updateWPM();
-updateFwth();
+//updateFwth();
 setWord();
 
 var uagent = navigator.userAgent;
-document.getElementById('uagent-info').innerHTML = uagent;
-document.getElementById('touch-info').innerHTML = hasTouch;
+//document.getElementById('uagent-info').innerHTML = uagent;
+//document.getElementById('touch-info').innerHTML = hasTouch;
 
