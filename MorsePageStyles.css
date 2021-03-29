@@ -6,6 +6,17 @@ body{
 	margin: auto;
 }
 
+#thirds-holder{
+	display: flex;
+	justify-content: center;
+}
+@media screen and (max-width: 480px){
+	#thirds-holder{	flex-direction: column;	}
+}
+.third{
+	flex: 1 1 0px;
+}
+
 .tuner-grid{
 	display: grid;
 	grid-template-columns: 45% 45%;
@@ -77,10 +88,7 @@ svg line{
 
 /* toggle switch styling */
 .clickable{	cursor: pointer;	}
-.svg-toggle-sw{
-	clip-pat: url(#switch-plate);
-	max-width: 250px;
-}
+.svg-toggle-sw{	max-width: 250px;	}
 
 svg path{
 	transform-origin: 50% 50%;
@@ -96,6 +104,7 @@ svg circle{	transition: all 0.3s cubic-bezier(0.25,0.0,0.25,1);	}
 
 textarea{
 	resize: none;
+	width: 95%;
 }
 
 table{	border-collapse: collapse;	}
