@@ -8,47 +8,65 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	</head>
 	<body>
-		<header class="header">
-			<h1>Hello There</h1>
+		<header>
+			<div id="nav-banner">
+				<h3>Single Winner Voting Methods</h3>
+				<a href="#">Simple Plurality</a>
+				<a href="#">Approval</a>
+				<a href="#">Instant Runoff / Ranked Choice</a>
+				<a href="#">Score / Range</a>
+				<a href="#">STAR</a>
+			</div>
 			<h2>Welcome to the Instant Runoff Voting Demo</h2>
 		</header>
 		<!--h2>This is the boring index page</h2-->
 		<hr/>
 		<div id="main"><!-- main content -->
-			<table id="pref-table">
-				<tr><th>Preference</th><th># Voters</th></tr>
-				<tr><td>A > B > C</td><td>
-					<input type="number" min=0 id="pABC" value=100 onchange="update(this)"></td></tr>
-				<tr><td>A > C > B</td><td>
-					<input type="number" min=0 id="pACB" value=99 onchange="update(this)"></td></tr>
-				<tr><td>A</td><td>
-					<input type="number" min=0 id="pA" value=98 onchange="update(this)"></td></tr>
-				<tr><td>B > A > C</td><td>
-					<input type="number" min=0 id="pBAC" value=97 onchange="update(this)"></td></tr>
-				<tr><td>B > C > A</td><td>
-					<input type="number" min=0 id="pBCA" value=96 onchange="update(this)"></td></tr>
-				<tr><td>B</td><td>
-					<input type="number" min=0 id="pB" value=95 onchange="update(this)">
-					</td></tr>
-				<tr><td>C > A > B</td><td>
-					<input type="number" min=0 id="pCAB" value=94 onchange="update(this)"></td></tr>
-				<tr><td>C > B > A</td><td>
-					<input type="number" min=0 id="pCBA" value=93 onchange="update(this)"></td></tr>
-				<tr><td>C</td><td>
-					<input type="number" min=0 id="pC" value=92 onchange="update(this)">
-					</td></tr>
-				<tr><td>Total:</td><td id="nVoter"></td></tr>
-			</table>
-			<button onclick="simElection()">VOTE!</button>
-			<p>As should be obvious, this page is missing background information, and detailed instructions. It should, however, be fully functional. Change the vote counts for each vote permutation and then click VOTE to see the results.</p>
-			<table id="tally-rounds" class="clearfix">
-				<tr><th>Candidate</th><th>1st Round</th><th>2nd Round</th></tr>
-				<tr><td>Cand A</td>
-					<td class="cA Rd1">0</td><td class="cA Rd2">0</td></tr>
-				<tr><td>Cand B</td><td class="cB Rd1">0</td><td class="cB Rd2">0</td></tr>
-				<tr><td>Cand C</td><td class="cC Rd1">0</td><td class="cC Rd2">0</td></tr>
-			</table>
+			<div id="tables">
+				<p>Change the vote counts for each vote permutation and then click VOTE to see the results.</p>
+				<table id="pref-table">
+					<tr><th>Preference</th><th># Voters</th></tr>
+					<tr><td>A > B > C</td><td>
+						<input type="number" min=0 id="pABC" value=100 onchange="update(this)"></td></tr>
+					<tr><td>A > C > B</td><td>
+						<input type="number" min=0 id="pACB" value=99 onchange="update(this)"></td></tr>
+					<tr><td>A</td><td>
+						<input type="number" min=0 id="pA" value=98 onchange="update(this)"></td></tr>
+					<tr><td>B > A > C</td><td>
+						<input type="number" min=0 id="pBAC" value=97 onchange="update(this)"></td></tr>
+					<tr><td>B > C > A</td><td>
+						<input type="number" min=0 id="pBCA" value=96 onchange="update(this)"></td></tr>
+					<tr><td>B</td><td>
+						<input type="number" min=0 id="pB" value=95 onchange="update(this)">
+						</td></tr>
+					<tr><td>C > A > B</td><td>
+						<input type="number" min=0 id="pCAB" value=94 onchange="update(this)"></td></tr>
+					<tr><td>C > B > A</td><td>
+						<input type="number" min=0 id="pCBA" value=93 onchange="update(this)"></td></tr>
+					<tr><td>C</td><td>
+						<input type="number" min=0 id="pC" value=92 onchange="update(this)">
+						</td></tr>
+					<tr><td>Total:</td><td id="nVoter"></td></tr>
+				</table>
+				<button onclick="simElection()">VOTE!</button>
+				<table id="tally-rounds" class="clearfix">
+					<tr><th>Candidate</th><th>1st Round</th><th>2nd Round</th></tr>
+					<tr><td>Cand A</td>
+						<td class="cA Rd1">0</td><td class="cA Rd2">0</td></tr>
+					<tr><td>Cand B</td><td class="cB Rd1">0</td><td class="cB Rd2">0</td></tr>
+					<tr><td>Cand C</td><td class="cC Rd1">0</td><td class="cC Rd2">0</td></tr>
+				</table>
+			</div>
+			<div id="presets">
+				<h3>Real life example elections using IRV</h3>
+				<p>Burlington VT 2009 mayorial election<sup>[1]</sup>: Presents an example in <a href="https://electionscience.org/library/monotonicity/">non-monotonicity</a>. <span onclick="burlington(0)">Click here for the real totals</span> <span onclick="burlington(1)">and here for the hypothetical totals</span>. In this example the candidates are: Bob Kiss (A), Andy Montroll (B), and Kurt Wright (C). If all 495 of the C>A>B voters and 258 of the C-only voters had instead voted for A, then C would have been eliminated in the first round, then A would have lost to B. So? This means that by increasing their support for Mr. Kiss (A), those voters caused him to lose.</p>
+				<p>Other preset / example?</p>
+			</div>
 		</div>
+		<footer>
+			<p>References</p>
+			<span>[1] <a href="https://rangevoting.org/Burlington.html">rangevoting.org/Burlington</a></span>
+		</footer>
 		<script src="demoIRVscript.js"></script>
 	</body>
 </html>

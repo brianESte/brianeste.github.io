@@ -1,15 +1,15 @@
 
 var votes = {'ABC':0, 'ACB':0, 'A':0,
-						 'BAC':0, 'BCA':0, 'B':0,
-						 'CAB':0, 'CBA':0, 'C':0};
-var candidates = {'A':{'votes':0, 'active':true},
-									'B':{'votes':0, 'active':true},
-									'C':{'votes':0, 'active':true}};
+			 'BAC':0, 'BCA':0, 'B':0,
+			 'CAB':0, 'CBA':0, 'C':0};
+var candidates = {	'A':{'votes':0, 'active':true},
+					'B':{'votes':0, 'active':true},
+					'C':{'votes':0, 'active':true}};
 
 // no longer used, will likely delete
 var fields = [$("#pABC"), $("#pACB"), $("#pA"),
-							$("#pBAC"), $("#pBCA"), $("#pB"),
-							$("#pCAB"), $("#pCBA"), $("#pC")];
+				$("#pBAC"), $("#pBCA"), $("#pB"),
+				$("#pCAB"), $("#pCBA"), $("#pC")];
 
 // update the total number of voters
 function updateTotal(){
@@ -23,6 +23,10 @@ function updateTotal(){
 
 // election function/loop
 function simElection(){
+	for(const vote in votes){
+		votes[vote] = parseInt($("#p"+vote).val());
+	}
+
 	// clear background formatting
 	$("#tally-rounds td,th").css("background","#00cc99");
 	for(const c in candidates){
@@ -91,7 +95,20 @@ var update = self => {
 	votes[self.id.slice(1)] = val;
 	updateTotal();
 }
-
+function burlington(select){
+	// K -> A, M -> B, W -> C
+	if(select == 0){
+		var burlingtonVotes = [2043, 371, 568, 1332, 767, 455, 495, 1513, 1289];
+	} else {
+		var burlingtonVotes = [2043, 371, 1321, 1332, 767, 455, 0, 1513, 1031];
+	}
+	var prefs = $("#pref-table input");
+	var permLen = prefs.length;
+	for(var i = 0; i < permLen; i++){
+		prefs[i].value = burlingtonVotes[i];
+	}
+	updateTotal();
+}
 
 for(const vote in votes){
 	votes[vote] = parseInt($("#p"+vote).val());

@@ -1,6 +1,26 @@
 body{
 	background: #ddd;
 }
+
+#nav-banner{
+	display: flex;
+	background: #fff;
+	justify-content: space-between;
+	align-items: center;
+}
+#nav-banner a{
+	padding: 1em 16px;
+	text-decoration: none;
+	font-size: 1.17em;
+}
+#nav-banner a:hover{
+	background: #00ffff;
+}
+#main{
+	display: flex;
+	justify-content: space-around;
+}
+
 table{
 	margin: 0 10px;
 }
@@ -16,16 +36,27 @@ td > input{
 	width: 70px;
 }
 #pref-table{
-	float: left;
 }
 #tally-rounds{
-	float: right;
-}
-#main{
-	margin: 0 30vw 0 30vw;
 }
 .clearfix::after{
 	content:	"";
 	clear:		both;
 	display:	block
+}
+
+/* presets */
+#presets{	
+	margin: 0 0 0 10px;
+	max-width: 70%;
+}
+#presets span{
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+footer{
+	position: absolute;
+	bottom: 10px;
+	left: 5%;
 }
