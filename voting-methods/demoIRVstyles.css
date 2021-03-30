@@ -20,6 +20,12 @@ body{
 	display: flex;
 	justify-content: space-around;
 }
+@media screen and (max-width: 480px){
+	#main{	flex-direction: column;}
+}
+
+#candidate-deselect{	padding: 0;	}
+#candidate-deselect li{	list-style-type: none;	}
 
 table{
 	margin: 0 10px;
@@ -57,6 +63,6 @@ td > input{
 
 footer{
 	position: absolute;
-	bottom: 10px;
+	/*bottom: 10px; */
 	left: 5%;
 }

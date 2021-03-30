@@ -1,4 +1,6 @@
 
+var nCandidates = 3;	// nCand range from 3-5
+
 var votes = {'ABC':0, 'ACB':0, 'A':0,
 			 'BAC':0, 'BCA':0, 'B':0,
 			 'CAB':0, 'CBA':0, 'C':0};
@@ -30,7 +32,7 @@ function simElection(){
 	// clear background formatting
 	$("#tally-rounds td,th").css("background","#00cc99");
 	for(const c in candidates){
-		candidates[c].active = true;
+		candidates[c].active = $("#deselect"+c)[0].checked;	// pull starting value from deselector list 
 	}
 
 	// for each runoff round...
@@ -95,6 +97,8 @@ var update = self => {
 	votes[self.id.slice(1)] = val;
 	updateTotal();
 }
+
+// Presets / Examples
 function burlington(select){
 	// K -> A, M -> B, W -> C
 	if(select == 0){
@@ -109,6 +113,14 @@ function burlington(select){
 	}
 	updateTotal();
 }
+
+function addRef(ref){
+	var refNum = $("#references a").length + 1;
+
+	newHTML = '<p>['+refNum+'] <a href="#">'+ref+'</a></p>';
+	document.getElementById("references").innerHTML += ref;
+}
+
 
 for(const vote in votes){
 	votes[vote] = parseInt($("#p"+vote).val());

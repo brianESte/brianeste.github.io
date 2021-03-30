@@ -24,6 +24,11 @@
 		<div id="main"><!-- main content -->
 			<div id="tables">
 				<p>Change the vote counts for each vote permutation and then click VOTE to see the results.</p>
+				<ul id="candidate-deselect">
+					<li><input type="checkbox" name="deselectA" id="deselectA" checked><label for="deselectA">Candidate A</label></li>
+					<li><input type="checkbox" name="deselectB" id="deselectB" checked><label for="deselectB">Candidate B</label></li>
+					<li><input type="checkbox" name="deselectC" id="deselectC" checked><label for="deselectC">Candidate C</label></li>
+				</ul>
 				<table id="pref-table">
 					<tr><th>Preference</th><th># Voters</th></tr>
 					<tr><td>A > B > C</td><td>
@@ -51,10 +56,9 @@
 				<button onclick="simElection()">VOTE!</button>
 				<table id="tally-rounds" class="clearfix">
 					<tr><th>Candidate</th><th>1st Round</th><th>2nd Round</th></tr>
-					<tr><td>Cand A</td>
-						<td class="cA Rd1">0</td><td class="cA Rd2">0</td></tr>
-					<tr><td>Cand B</td><td class="cB Rd1">0</td><td class="cB Rd2">0</td></tr>
-					<tr><td>Cand C</td><td class="cC Rd1">0</td><td class="cC Rd2">0</td></tr>
+					<tr><td>A</td><td class="cA Rd1">0</td><td class="cA Rd2">0</td></tr>
+					<tr><td>B</td><td class="cB Rd1">0</td><td class="cB Rd2">0</td></tr>
+					<tr><td>C</td><td class="cC Rd1">0</td><td class="cC Rd2">0</td></tr>
 				</table>
 			</div>
 			<div id="presets">
@@ -64,8 +68,11 @@
 			</div>
 		</div>
 		<footer>
-			<p>References</p>
-			<span>[1] <a href="https://rangevoting.org/Burlington.html">rangevoting.org/Burlington</a></span>
+			<div id="references">
+				<p>References</p>
+				<p>[1] <a href="https://rangevoting.org/Burlington.html">rangevoting.org/Burlington</a></p>
+			</div>
+			
 		</footer>
 		<script src="demoIRVscript.js"></script>
 	</body>
