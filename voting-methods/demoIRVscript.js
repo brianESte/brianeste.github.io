@@ -1,17 +1,17 @@
 
 var nCandidates = 3;	// nCand range from 3-5
 
-var votes = {'ABC':0, 'ACB':0, 'A':0,
-			 'BAC':0, 'BCA':0, 'B':0,
-			 'CAB':0, 'CBA':0, 'C':0};
+var votes = {'AB':0, 'AC':0, 'A':0,
+			 'BA':0, 'BC':0, 'B':0,
+			 'CA':0, 'CB':0, 'C':0};
 var candidates = {	'A':{'votes':0, 'active':true},
 					'B':{'votes':0, 'active':true},
 					'C':{'votes':0, 'active':true}};
 
 // no longer used, will likely delete
-var fields = [$("#pABC"), $("#pACB"), $("#pA"),
-				$("#pBAC"), $("#pBCA"), $("#pB"),
-				$("#pCAB"), $("#pCBA"), $("#pC")];
+var fields = [$("#pAB"), $("#pAC"), $("#pA"),
+				$("#pBA"), $("#pBC"), $("#pB"),
+				$("#pCA"), $("#pCB"), $("#pC")];
 
 // update the total number of voters
 function updateTotal(){
@@ -106,7 +106,7 @@ function burlington(select){
 	} else {
 		var burlingtonVotes = [2043, 371, 1321, 1332, 767, 455, 0, 1513, 1031];
 	}
-	var prefs = $("#pref-table input");
+	var prefs = $("#ballots input");
 	var permLen = prefs.length;
 	for(var i = 0; i < permLen; i++){
 		prefs[i].value = burlingtonVotes[i];

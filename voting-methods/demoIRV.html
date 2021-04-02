@@ -3,7 +3,7 @@
 	<head>	<!-- head definition goes here -->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Haha yes</title>
+		<title>IRV Demo</title>
 		<link rel="stylesheet" type="text/css" href="demoIRVstyles.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	</head>
@@ -11,11 +11,13 @@
 		<header>
 			<div id="nav-banner">
 				<h3>Single Winner Voting Methods</h3>
-				<a href="#">Simple Plurality</a>
-				<a href="#">Approval</a>
-				<a href="#">Instant Runoff / Ranked Choice</a>
-				<a href="#">Score / Range</a>
-				<a href="#">STAR</a>
+				<div id="nav-list">
+					<a href="#" id="simple-plurality-link"></a>
+					<a href="#" id="approval-link"></a>
+					<a href="#" id="IRV-link"></a>
+					<a href="#" id="score-link"></a>
+					<a href="#">STAR</a>
+				</div>
 			</div>
 			<h2>Welcome to the Instant Runoff Voting Demo</h2>
 		</header>
@@ -23,48 +25,75 @@
 		<hr/>
 		<div id="main"><!-- main content -->
 			<div id="tables">
-				<p>Change the vote counts for each vote permutation and then click VOTE to see the results.</p>
+				<table id="ballots">
+					<thead>
+						<tr><th colspan="2">Ranking</th><th rowspan="2"># Voters</th></tr>
+						<tr><td>1.</td><td>2.</td></tr>
+					</thead>
+					<tbody>
+						<tr><td>A</td><td>B</td><td><input type="number" min=0 id="pAB" value=100 onchange="update(this)"></td></tr>
+						<tr><td>A</td><td>C</td><td><input type="number" min=0 id="pAC" value=99 onchange="update(this)"></td></tr>
+						<tr><td>A</td><td> </td><td><input type="number" min=0 id="pA" value=98 onchange="update(this)"></td></tr>
+						<tr><td>B</td><td>A</td><td><input type="number" min=0 id="pBA" value=97 onchange="update(this)"></td></tr>
+						<tr><td>B</td><td>C</td><td><input type="number" min=0 id="pBC" value=96 onchange="update(this)"></td></tr>
+						<tr><td>B</td><td> </td><td><input type="number" min=0 id="pB" value=95 onchange="update(this)"></td></tr>
+						<tr><td>C</td><td>A</td><td><input type="number" min=0 id="pCA" value=94 onchange="update(this)"></td></tr>
+						<tr><td>C</td><td>B</td><td><input type="number" min=0 id="pCB" value=93 onchange="update(this)"></td></tr>
+						<tr><td>C</td><td> </td><td><input type="number" min=0 id="pC" value=92 onchange="update(this)"></td></tr>
+					</tbody>
+					<tfoot>
+						<tr><td colspan="2">Total:</td><td id="nVoter"></td></tr>
+					</tfoot>
+				</table>
+			</div>
+			<div id="candidate-settings">
+				<p id="instructions">This ineractive demo is designed to illustrate how IRV works as well as its pros and cons. 
+					Each row in the table on the left represents a possible ballot permutation and how many people voted that way. 
+					Change the vote counts for each ballot permutation and then click VOTE to see the results.
+				</p>
+				<p>
+					The following allows you to change the number of candidates running.
+				</p>
+				<label for="cand-count">Number of candidates: </label>
+				<input type="number" id="cand-count" min="3" max="6" value=3>
+				<p>
+					The following allows you to remove a candidate without affecting the ballots. 
+				</p>
 				<ul id="candidate-deselect">
 					<li><input type="checkbox" name="deselectA" id="deselectA" checked><label for="deselectA">Candidate A</label></li>
 					<li><input type="checkbox" name="deselectB" id="deselectB" checked><label for="deselectB">Candidate B</label></li>
 					<li><input type="checkbox" name="deselectC" id="deselectC" checked><label for="deselectC">Candidate C</label></li>
 				</ul>
-				<table id="pref-table">
-					<tr><th>Preference</th><th># Voters</th></tr>
-					<tr><td>A > B > C</td><td>
-						<input type="number" min=0 id="pABC" value=100 onchange="update(this)"></td></tr>
-					<tr><td>A > C > B</td><td>
-						<input type="number" min=0 id="pACB" value=99 onchange="update(this)"></td></tr>
-					<tr><td>A</td><td>
-						<input type="number" min=0 id="pA" value=98 onchange="update(this)"></td></tr>
-					<tr><td>B > A > C</td><td>
-						<input type="number" min=0 id="pBAC" value=97 onchange="update(this)"></td></tr>
-					<tr><td>B > C > A</td><td>
-						<input type="number" min=0 id="pBCA" value=96 onchange="update(this)"></td></tr>
-					<tr><td>B</td><td>
-						<input type="number" min=0 id="pB" value=95 onchange="update(this)">
-						</td></tr>
-					<tr><td>C > A > B</td><td>
-						<input type="number" min=0 id="pCAB" value=94 onchange="update(this)"></td></tr>
-					<tr><td>C > B > A</td><td>
-						<input type="number" min=0 id="pCBA" value=93 onchange="update(this)"></td></tr>
-					<tr><td>C</td><td>
-						<input type="number" min=0 id="pC" value=92 onchange="update(this)">
-						</td></tr>
-					<tr><td>Total:</td><td id="nVoter"></td></tr>
-				</table>
 				<button onclick="simElection()">VOTE!</button>
-				<table id="tally-rounds" class="clearfix">
+				<table id="tally-rounds">
 					<tr><th>Candidate</th><th>1st Round</th><th>2nd Round</th></tr>
 					<tr><td>A</td><td class="cA Rd1">0</td><td class="cA Rd2">0</td></tr>
 					<tr><td>B</td><td class="cB Rd1">0</td><td class="cB Rd2">0</td></tr>
 					<tr><td>C</td><td class="cC Rd1">0</td><td class="cC Rd2">0</td></tr>
 				</table>
 			</div>
-			<div id="presets">
-				<h3>Real life example elections using IRV</h3>
-				<p>Burlington VT 2009 mayorial election<sup>[1]</sup>: Presents an example in <a href="https://electionscience.org/library/monotonicity/">non-monotonicity</a>. <span onclick="burlington(0)">Click here for the real totals</span> <span onclick="burlington(1)">and here for the hypothetical totals</span>. In this example the candidates are: Bob Kiss (A), Andy Montroll (B), and Kurt Wright (C). If all 495 of the C>A>B voters and 258 of the C-only voters had instead voted for A, then C would have been eliminated in the first round, then A would have lost to B. So? This means that by increasing their support for Mr. Kiss (A), those voters caused him to lose.</p>
-				<p>Other preset / example?</p>
+			<div id="criteria">
+				<h3>IRV vs various voting method criteria</h3>
+				<p><a href="https://electionscience.org/library/the-spoiler-effect/">The Spoiler Effect</a>: A common argument among IRV-proponents is 
+					that it eliminates the spoiler effect, but in reality, the effect being eliminated is vote splitting. 
+					<a href="https://electowiki.org/wiki/Vote_splitting">Vote splitting</a> is what causes the spoiler effect under Simple Plurality, hence
+					the opportunity for confusion. An example of the spoiler effect can be seen in the 2009 Burlington VT mayorial election<sup>[1]</sup>. 
+					The ballot totals can be entered by <span onclick="burlington(0)">clicking here</span>. Simulating the election, A wins after B and 
+					then C are eliminated. However, removing candidate C and simulating the election again causes the winner to change from A to B,
+					 indicating that candidate C spoiled the election for candidate B.
+				</p>
+				<p><a href="https://electionscience.org/library/monotonicity/">Monotonicity</a>: The common sense criterion that states that increasing 
+					support for a candidate should not hurt their chance of winning. Or conversely, decreasing support for a candiate should not help 
+					their chance of winning. Surprisingly, IRV fails to satisfy this criterion. The above mentioned example election in Burlington VT 
+					also demonstrates this. In this election the candidates are: Bob Kiss (A), Andy Montroll (B), and Kurt Wright (C).
+					If all 495 of the C>A>B voters and 258 of the C-only voters had instead voted for A, then C would have been eliminated in the first 
+					round, then A would have lost to B. These hypothetical vote changes can be entered by <span onclick="burlington(1)">clicking here</span>.
+					 So? This means that by increasing their support for Mr. Kiss (A), those voters caused him to lose.
+				</p>
+				<p>
+					<a href="https://electionscience.org/library/tactical-voting-basics/">Tactical Voting</a>: how does IRV fare against 
+					strategic/tactical voting?
+				</p>
 			</div>
 		</div>
 		<footer>
