@@ -24,27 +24,29 @@
 		<!--h2>This is the boring index page</h2-->
 		<hr/>
 		<div id="main"><!-- main content -->
-			<div id="tables">
-				<table id="ballots">
-					<thead>
-						<tr><th colspan="2">Ranking</th><th rowspan="2"># Voters</th></tr>
-						<tr><td>1.</td><td>2.</td></tr>
-					</thead>
-					<tbody>
-						<tr><td>A</td><td>B</td><td><input type="number" min=0 id="pAB" value=100 onchange="update(this)"></td></tr>
-						<tr><td>A</td><td>C</td><td><input type="number" min=0 id="pAC" value=99 onchange="update(this)"></td></tr>
-						<tr><td>A</td><td> </td><td><input type="number" min=0 id="pA" value=98 onchange="update(this)"></td></tr>
-						<tr><td>B</td><td>A</td><td><input type="number" min=0 id="pBA" value=97 onchange="update(this)"></td></tr>
-						<tr><td>B</td><td>C</td><td><input type="number" min=0 id="pBC" value=96 onchange="update(this)"></td></tr>
-						<tr><td>B</td><td> </td><td><input type="number" min=0 id="pB" value=95 onchange="update(this)"></td></tr>
-						<tr><td>C</td><td>A</td><td><input type="number" min=0 id="pCA" value=94 onchange="update(this)"></td></tr>
-						<tr><td>C</td><td>B</td><td><input type="number" min=0 id="pCB" value=93 onchange="update(this)"></td></tr>
-						<tr><td>C</td><td> </td><td><input type="number" min=0 id="pC" value=92 onchange="update(this)"></td></tr>
-					</tbody>
-					<tfoot>
-						<tr><td colspan="2">Total:</td><td id="nVoter"></td></tr>
-					</tfoot>
-				</table>
+			<div>
+				<div class="scrollable">
+					<table id="ballots">
+						<thead>
+							<tr><th colspan="2">Ranking</th><th rowspan="2"># Voters</th></tr>
+							<tr><td>1.</td><td>2.</td></tr>
+						</thead>
+						<tbody>
+							<tr><td>A</td><td>B</td><td><input type="number" min=0 id="pAB" value=100 onchange="update(this)"></td></tr>
+							<tr><td>A</td><td>C</td><td><input type="number" min=0 id="pAC" value=99 onchange="update(this)"></td></tr>
+							<tr><td>A</td><td> </td><td><input type="number" min=0 id="pA" value=98 onchange="update(this)"></td></tr>
+							<tr><td>B</td><td>A</td><td><input type="number" min=0 id="pBA" value=97 onchange="update(this)"></td></tr>
+							<tr><td>B</td><td>C</td><td><input type="number" min=0 id="pBC" value=96 onchange="update(this)"></td></tr>
+							<tr><td>B</td><td> </td><td><input type="number" min=0 id="pB" value=95 onchange="update(this)"></td></tr>
+							<tr><td>C</td><td>A</td><td><input type="number" min=0 id="pCA" value=94 onchange="update(this)"></td></tr>
+							<tr><td>C</td><td>B</td><td><input type="number" min=0 id="pCB" value=93 onchange="update(this)"></td></tr>
+							<tr><td>C</td><td> </td><td><input type="number" min=0 id="pC" value=92 onchange="update(this)"></td></tr>
+						</tbody>
+						<tfoot>
+							<tr><td colspan="2">Total:</td><td id="nVoter"></td></tr>
+						</tfoot>
+					</table>
+				</div>
 			</div>
 			<div id="candidate-settings">
 				<p id="instructions">This ineractive demo is designed to illustrate how IRV works as well as its pros and cons. 
@@ -55,21 +57,26 @@
 					The following allows you to change the number of candidates running.
 				</p>
 				<label for="cand-count">Number of candidates: </label>
-				<input type="number" id="cand-count" min="3" max="6" value=3>
+				<input type="number" id="cand-count" min="3" max="5" value="3" onchange="nCandUpdate()">
+				<input type="submit" value="update" onclick="candidateUpdate()">
 				<p>
 					The following allows you to remove a candidate without affecting the ballots. 
 				</p>
-				<ul id="candidate-deselect">
-					<li><input type="checkbox" name="deselectA" id="deselectA" checked><label for="deselectA">Candidate A</label></li>
-					<li><input type="checkbox" name="deselectB" id="deselectB" checked><label for="deselectB">Candidate B</label></li>
-					<li><input type="checkbox" name="deselectC" id="deselectC" checked><label for="deselectC">Candidate C</label></li>
-				</ul>
+				<div id="candidate-deselect">
+					<label><input type="checkbox" id="deselectA" checked>Candidate A</label>
+					<label><input type="checkbox" id="deselectB" checked>Candidate B</label>
+					<label><input type="checkbox" id="deselectC" checked>Candidate C</label>
+				</div>
 				<button onclick="simElection()">VOTE!</button>
 				<table id="tally-rounds">
-					<tr><th>Candidate</th><th>1st Round</th><th>2nd Round</th></tr>
-					<tr><td>A</td><td class="cA Rd1">0</td><td class="cA Rd2">0</td></tr>
-					<tr><td>B</td><td class="cB Rd1">0</td><td class="cB Rd2">0</td></tr>
-					<tr><td>C</td><td class="cC Rd1">0</td><td class="cC Rd2">0</td></tr>
+					<thead>
+						<tr><th>Candidate</th><th>Rd 1</th><th>Rd 2</th></tr>
+					</thead>
+					<tbody>
+						<tr><td>A</td><td>0</td><td>0</td></tr>
+						<tr><td>B</td><td>0</td><td>0</td></tr>
+						<tr><td>C</td><td>0</td><td>0</td></tr>
+					</tbody>
 				</table>
 			</div>
 			<div id="criteria">
@@ -86,7 +93,7 @@
 					support for a candidate should not hurt their chance of winning. Or conversely, decreasing support for a candiate should not help 
 					their chance of winning. Surprisingly, IRV fails to satisfy this criterion. The above mentioned example election in Burlington VT 
 					also demonstrates this. In this election the candidates are: Bob Kiss (A), Andy Montroll (B), and Kurt Wright (C).
-					If all 495 of the C>A>B voters and 258 of the C-only voters had instead voted for A, then C would have been eliminated in the first 
+					If all 495 of the C > A > B voters and 258 of the C-only voters had instead voted for A, then C would have been eliminated in the first 
 					round, then A would have lost to B. These hypothetical vote changes can be entered by <span onclick="burlington(1)">clicking here</span>.
 					 So? This means that by increasing their support for Mr. Kiss (A), those voters caused him to lose.
 				</p>

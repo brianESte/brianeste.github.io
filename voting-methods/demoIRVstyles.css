@@ -51,12 +51,22 @@ body{
 	display: flex;
 	padding: 0 20px;
 	justify-content: space-around;
+	
 }
 
 /* ballot table */
-table{
-	margin: 0 10px;
+.scrollable{
+	position: relative;	
+	overflow-y: auto;
+	overflow-x: clip;
+	max-height: 65vh;
 }
+table{	margin: 0 10px;	}
+.scrollable thead *, tfoot *{	position: sticky;	}
+.scrollable thead th{	top: 0;	}
+.scrollable thead td{	top: 1.9em;	}	/* this should be the height of the first row... */
+.scrollable tfoot td{	bottom: 0;	}	/* is this right? */
+
 th, td{
 	padding: 5px;
 	background: #00cc99;
@@ -81,10 +91,11 @@ td input[type=number] {
 	min-width: 340px;
 }
 
-#cand-count{	width: 40px;	}
+#cand-count{	width: 25px;	}
 #candidate-deselect{
 	padding: 0;	
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-around;
 }
 #candidate-deselect li{	list-style-type: none;	}
