@@ -51,6 +51,7 @@ body{
 	display: flex;
 	padding: 0 20px;
 	justify-content: space-around;
+	
 }
 
 /* ballot table */
@@ -60,8 +61,9 @@ body{
 	overflow-y: auto;
 	overflow-x: clip;
 	max-height: 65vh;
+    width: 107%;
 }
-table{	margin: 0 8px;	}
+table{	margin: 0 auto;	}
 .scrollable thead *, tfoot *{	position: sticky;	}
 .scrollable thead th{	top: 0;	}
 .scrollable thead td{	top: 1.9em;	}	/* this should be the height of the first row... */
@@ -79,9 +81,6 @@ table, th, td{
 td > input{	width: 50px;	}
 td input[type=number]{	-moz-appearance: textfield;	}
 
-@media screen and (max-width: 480px){
-	table{	margin: 0 auto;	}
-}
 
 /* candidate settings */
 #candidate-settings{
@@ -114,19 +113,27 @@ input[type=button]{	width: 100px;	}
 	#candidate-settings{	min-width: 0;	}
 }
 
-/* criteria styles */
+/* Information styles */
 #information{	margin: 0 0 0 10px;	}
 @media screen and (max-width: 480px){
 	#information{	margin: 0;	}
 }
-#information span{
-	cursor: pointer;
-	text-decoration: underline;
-}
+h4{     margin-bottom: 0;    }
+#information p{      margin-top: 0;  }
 
 footer{
 	margin-top: 50px;
     margin-left: 5%;
 }
 footer ul{  padding: 0; }
-footer li{	list-style-type: none;   }
+footer li{
+    position: relative;
+    list-style-type: none;   
+}
+/*
+footer li::before{
+    content: "[ ]";
+    position: relative;
+    left: -23.7px;
+}
+*/

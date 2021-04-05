@@ -28,19 +28,22 @@ function voteSumUpdate(){
 	$("#nVoter").html(sum)
 }
 
-// election function/loop
-function simElection(){
-	// update vote Obj ...
+function votesUpdate(){
 	for(const vote in votes){
 		votes[vote] = parseInt($("#p"+vote).val());
 	}
+	voteSumUpdate();
+}
+
+// election function/loop
+function simElection(){
+	// update vote Obj ...
+	votesUpdate();
 
 	// regenerate candidates object
 	genCandidates();
 
-	// clear background formatting		is this necessary if i create a new tally-table?
-	//$("#tally-rounds td,th").css("background","#00cc99");
-	var nCandidates0 = 0;
+	var nCandidates0 = 0;		// initialize starting number of candidates
 
 	for(const c in candidates){
 		if($("#deselect"+c)[0].checked){
@@ -181,9 +184,9 @@ function genVoteObjRec(startPref, nextCands){
 }
 
 function genHTMLwithInner(tag, inner){
-	var cell = document.createElement(tag);
-	cell.innerHTML = inner;
-	return cell;
+	var htmlObj = document.createElement(tag);
+	htmlObj.innerHTML = inner;
+	return htmlObj;
 }
 
 /**
@@ -290,12 +293,6 @@ function candidateUpdate(){
 	votesUpdate();
 }
 
-function votesUpdate(){
-	for(const vote in votes){
-		votes[vote] = parseInt($("#p"+vote).val());
-	}
-}
-
 // Burlington example votes
 function burlington(select){
 	// K -> A, M -> B, W -> C
@@ -314,11 +311,9 @@ function burlington(select){
 		prefs[i].value = burlingtonVotes[i];
 	}
 	votesUpdate();
-	voteSumUpdate();
 }
 
 genCandidates();
 votesUpdate();
-voteSumUpdate();
 simElection();
 

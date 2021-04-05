@@ -13,7 +13,7 @@
 				<h3>Single Winner Voting Methods</h3>
 				<div id="nav-list">
 					<a href="#" id="simple-plurality-link"></a>
-					<a href="#" id="approval-link"></a>
+					<a href="./demoApproval.html" id="approval-link"></a>
 					<a href="#" id="IRV-link"></a>
 					<a href="#" id="score-link"></a>
 					<a href="#">STAR</a>
@@ -21,10 +21,9 @@
 			</div>
 			<h2>Welcome to the Instant Runoff Voting Demo</h2>
 		</header>
-		<!--h2>This is the boring index page</h2-->
 		<hr/>
 		<div id="main"><!-- main content -->
-			<div>
+			<div id="scroll-container">
 				<div class="scrollable">
 					<table id="ballots">
 						<thead>
@@ -50,7 +49,7 @@
 			</div>
 			<div id="candidate-settings">
 				<p id="instructions">This ineractive demo is designed to illustrate how IRV works as well as its pros and cons. 
-					Each row in the table on the left represents a possible ballot permutation and how many people voted that way. 
+					Each row in the <span id="table-dir">table </span> represents a possible ballot permutation and how many people voted that way. 
 					Change the vote counts for each ballot permutation and then click VOTE to see the results.
 				</p>
 				<p>
@@ -58,7 +57,7 @@
 				</p>
 				<label for="cand-count">Number of candidates: </label>
 				<input type="number" id="cand-count" min="3" max="5" value="3" onchange="nCandUpdate()">
-				<input type="submit" value="update" onclick="candidateUpdate()">
+				<input type="button" value="update" onclick="candidateUpdate()">
 				<p>
 					The following allows you to remove a candidate without affecting the ballots. 
 				</p>
@@ -79,36 +78,39 @@
 					</tbody>
 				</table>
 			</div>
-			<div id="criteria">
-				<h3>IRV vs various voting method criteria</h3>
-				<p><a href="https://electionscience.org/library/the-spoiler-effect/">The Spoiler Effect</a>: A common argument among IRV-proponents is 
-					that it eliminates the spoiler effect, but in reality, the effect being eliminated is vote splitting. 
-					<a href="https://electowiki.org/wiki/Vote_splitting">Vote splitting</a> is what causes the spoiler effect under Simple Plurality, hence
-					the opportunity for confusion. An example of the spoiler effect can be seen in the 2009 Burlington VT mayorial election<sup>[1]</sup>. 
-					The ballot totals can be entered by <span onclick="burlington(0)">clicking here</span>. Simulating the election, A wins after B and 
-					then C are eliminated. However, removing candidate C and simulating the election again causes the winner to change from A to B,
-					 indicating that candidate C spoiled the election for candidate B.
+			<div id="information">
+				<h3>Information / Examples / Voting Method Criteria</h3>
+				<p>
+                    <strong>How it works</strong>: Under Instant Runoff Voting, voters rank candidates in order of preference. During 
+					the vote tallying, only the first preferences from each ballot are counted. If a candidate receives 50% or more of the vote,
+					they win. If no candidate receives 50% of the vote, the lowest ranking candidate is eliminated and the votes are recounted, 
+					ignoring the eliminated candidate. This continues until a candidate has reached 50% of the vote.<sup>[1]</sup>
+                </p>
+				<p><a href="https://electionscience.org/library/the-spoiler-effect/" target="_blank">The Spoiler Effect</a>: A common argument 
+					among IRV-proponents is that it eliminates the spoiler effect, but in reality, the effect being eliminated is vote splitting. 
+					Vote splitting is what causes the spoiler effect under Simple Plurality<sup>[2]</sup>, hence the opportunity for confusion. 
+					An example of the spoiler effect can be seen in the 2009 Burlington VT mayorial election<sup>[3]</sup>. The ballot totals can 
+					be entered by <span onclick="burlington(0)">clicking here</span>. Simulating the election, A wins after B and then C are 
+					eliminated. However, removing candidate C and simulating the election again causes the winner to change from A to B, 
+					indicating that candidate C spoiled the election for candidate B.
 				</p>
-				<p><a href="https://electionscience.org/library/monotonicity/">Monotonicity</a>: The common sense criterion that states that increasing 
-					support for a candidate should not hurt their chance of winning. Or conversely, decreasing support for a candiate should not help 
-					their chance of winning. Surprisingly, IRV fails to satisfy this criterion. The above mentioned example election in Burlington VT 
-					also demonstrates this. In this election the candidates are: Bob Kiss (A), Andy Montroll (B), and Kurt Wright (C).
-					If all 495 of the C > A > B voters and 258 of the C-only voters had instead voted for A, then C would have been eliminated in the first 
-					round, then A would have lost to B. These hypothetical vote changes can be entered by <span onclick="burlington(1)">clicking here</span>.
-					 So? This means that by increasing their support for Mr. Kiss (A), those voters caused him to lose.
+				<p><a href="https://electionscience.org/library/monotonicity/" target="_blank">Monotonicity</a>: This common sense criterion states that increasing support for a candidate should not hurt their chance of winning, or conversely, decreasing support for a candiate should not help their chance of winning. Surprisingly, IRV fails to satisfy this criterion. The above mentioned example election in Burlington VT also demonstrates this. In this election the candidates are: Bob Kiss (A), Andy Montroll (B), and Kurt Wright (C). If all 495 of the C > A > B voters and 258 of the C-only voters had instead voted for A, then C would have been eliminated in the first round, then A would have lost to B. These hypothetical vote changes can be entered by <span onclick="burlington(1)">clicking here</span>. So? This means that by increasing their support for Mr. Kiss (A), those voters caused him to lose.
 				</p>
 				<p>
-					<a href="https://electionscience.org/library/tactical-voting-basics/">Tactical Voting</a>: how does IRV fare against 
+					<a href="https://electionscience.org/library/tactical-voting-basics/" target="_blank">Tactical Voting</a>: how does IRV fare against 
 					strategic/tactical voting?
 				</p>
 			</div>
 		</div>
 		<footer>
 			<div id="references">
-				<p>References</p>
-				<p>[1] <a href="https://rangevoting.org/Burlington.html">rangevoting.org/Burlington</a></p>
+				<span>References</span>
+                <ul>
+					<li>[1] <a href="https://www.fairvote.org/rcv#how_rcv_works" target="_blank">How it works</a></li>
+                    <li>[2] <a href="https://electowiki.org/wiki/Vote_splitting" target="_blank">Vote Splitting</a></li>
+                    <li>[3] <a href="https://rangevoting.org/Burlington.html" target="_blank">rangevoting.org/Burlington</a></li>
+                </ul>
 			</div>
-			
 		</footer>
 		<script src="demoIRVscript.js"></script>
 	</body>
