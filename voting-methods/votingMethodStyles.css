@@ -1,0 +1,199 @@
+:root{
+	--PluralityGray: 89, 89, 89;	/* #cccccc */
+	--FairVotePurple: 85, 50, 133; 	/* #553285 */
+	--ApprovalGreen: 10, 102, 10; 		/* #1a4345 = 26, 67, 69;	#4e6f70 = 78, 111, 112 */
+	--ScoreBlue: 0, 92, 230;		/* #005ce6 */
+	--STAR-Red: 204, 0, 0;			/* #cc0000 */
+}
+
+/* common and general styles */
+body{
+	background: #fff;
+}
+
+h4{
+	display: inline;
+	font-family: sans-serif;
+	background-color: rgb(var(--rgb));
+	color: #fff;
+	padding: 2px;
+	position: relative;
+}
+h4::after{
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 100%;
+	width: 0;
+	height: 0;
+	border-right: 14px solid transparent;
+	border-bottom: calc(1.2em + 4px) solid rgb(var(--rgb));	/* #5fce5f */
+}
+
+p{      margin-top: 2px;  }
+sup{	font-size: 11.5px;}
+
+header :visited{	color: #000;	}
+
+/* color classes */
+/* credit to BoltClock on SO for this usage of css vars */
+.plurality{	--rgb: var(--PluralityGray);	}
+.approval{	--rgb: var(--ApprovalGreen);	}
+.IRV{	--rgb: var(--FairVotePurple);	}
+.score{	--rgb: var(--ScoreBlue);	}
+.STAR{	--rgb: var(--STAR-Red);	}
+/* end color classes */
+
+#nav-banner{
+	display: flex;
+	background: #fff;
+	align-items: center;
+}
+#nav-banner h3{
+	width: 25em;
+	margin: 0 0 0 8px;
+}
+#nav-list{
+	display: table;
+	width: 100%;
+}
+
+header a{
+	padding: 1em 16px;
+	text-decoration: none;
+	font-size: 1.17em;
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 10px;
+	background: rgba(var(--rgb), 0.6);
+}
+
+#nav-list a:hover{
+	background-color: rgba(var(--rgb), 1);
+	color: #fff;
+}
+
+h2{	margin: 10px 0;	}
+
+a.active-link{
+	background-color: rgba(var(--rgb), 1);
+	color: #fff;
+}
+
+#simple-plurality-link::after{	content: "Simple Plurality";	}
+#approval-link::after{	content: "Approval";	}
+#IRV-link::after{	content: "Instant Runoff / Ranked Choice";	}
+#score-link::after{	content: "Score / Range";	}
+
+@media screen and (max-width: 480px){
+	#nav-banner{	flex-direction: column;}
+	#nav-banner h3{
+		width: auto;
+		margin: 0;
+	}
+	#nav-list a{	padding: 4px;	}
+	#simple-plurality-link::after{	content: "FPTP";	}
+	#approval-link::after{	content: "AV";	}
+	#IRV-link::after{	content: "IRV / RCV";	}
+	#score-link::after{	content: "Score / Range";	}
+	#main{	flex-direction: column;	}
+	h2{	text-align: center;	}
+}
+
+#main{
+	display: flex;
+	padding: 0 16px;
+	justify-content: space-between;
+}
+
+/* ballot table */
+#scroll-container{	padding: 0 32px;	}
+.scrollable{
+	position: relative;	
+	overflow-y: auto;
+	overflow-x: clip;
+	max-height: 65vh;
+	width: 107%;
+	margin-bottom: 15px;
+}
+
+table{
+	margin: 0 auto;
+	background: rgb(var(--rgb));
+	color: #fff;
+}
+/* this section may need work, so that there are no gaps / bugs 
+in the header/footer of the table... */
+.scrollable thead, .scrollable tfoot{	position: sticky;	}
+.scrollable thead{	top: 0;	}
+.scrollable tfoot{	bottom: 0;	}
+
+th, td{
+	padding: 5px;
+	background: inherit; /* #00cc99; */
+	text-align: center;
+}
+thead, tfoot, tr{	background: inherit;	}
+table, th, td{
+	border:	1px solid black;
+	border-collapse: collapse;
+}
+td > input{	width: 50px;	}
+td input[type=number]{	-moz-appearance: textfield;	}
+
+@media screen and (max-width: 480px){
+	table{	margin: 0 auto;	}
+}
+
+/* candidate settings */
+#candidate-settings{	min-width: 340px;	}
+
+#table-dir::after{    content: "on the left";  }
+@media screen and (max-width: 480px){
+	#table-dir::after{	content: "above";	}
+}
+
+#cand-count{	width: 25px;	}
+#candidate-deselect{
+	padding: 0;	
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+#candidate-deselect li{	list-style-type: none;	}
+
+button{
+	width: 60%;
+	margin: 5px auto;
+	display: block;
+}
+
+.centered{	text-align: center;	}
+
+@media screen and (max-width: 480px){
+	#candidate-settings{	min-width: 0;	}
+}
+
+/* 	information styles 	*/
+#information{	margin: 0 0 0 10px;	}
+@media screen and (max-width: 480px){
+	#information{	margin: 0;	}
+}
+
+#information span{
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+/*	footer styles	*/
+footer{
+	margin-top: 10px;
+    margin-left: 5%;
+}
+footer ul{
+	padding: 0; 
+	margin-top: 8px;
+}
+footer li{	list-style-type: none;   }

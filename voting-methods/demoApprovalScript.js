@@ -100,7 +100,9 @@ function simElection(){
         tallyRows[candidate].append(genHTMLwithInner("td", candidateScores[candidate]));
         if(candidate == winner){
             tallyRows[candidate].cells[0].style.background = "#e6e600";
+			tallyRows[candidate].cells[0].style.color = "#000";
             tallyRows[candidate].cells[1].style.background = "#e6e600";
+            tallyRows[candidate].cells[1].style.color = "#000";
         }
     }
     for(const row in tallyRows){        // append the rows to the table body
@@ -198,7 +200,7 @@ function candidateUpdate(){
         var ballotApp = 0;
         for(const c of candList){
             if(ballot[ballotApp] == c){
-                row.append(genHTMLwithInner("td", "✔️"));
+                row.append(genHTMLwithInner("td", "&#10004"));
                 ballotApp++;
             }    
             else    row.append(genHTMLwithInner("td", ""));

@@ -140,6 +140,7 @@ function simElection(){
 		}
 	}
 	tallyRows[winningCand].cells[nCandidates0-1].style.background = "#e6e600";
+	tallyRows[winningCand].cells[nCandidates0-1].style.color = "#000";
 	for(var i = 0; i < nCandidates; i++){
 		tallyBody.append(tallyRows[String.fromCharCode(i+65)])
 	}
@@ -209,14 +210,6 @@ function candidateUpdate(){
 	// grab candidate deslector list
 	var deselectors = $("#candidate-deselect")[0];
 	var nCandidates0 = deselectors.childElementCount;
-	
-	if(nCandidates == nCandidates0){					// check that the nC did* change
-		console.log("nCand == nCandIn, nothing to do, returning to base")
-		console.log("current: ",nCandidates0," new: ",nCandidates)
-		return;
-	} else {
-		console.log("current: ",nCandidates0," new: ",nCandidates)
-	}
 
 	// update candidate deselector list
 	// <li><label><input type="checkbox" id="deselectC" checked>Candidate C</label></li>
@@ -275,7 +268,7 @@ function candidateUpdate(){
 		// add the number input cell
 		// <input id="pC" type="number" min=0 value=92 onchange="update(this)">
 		var nBallot = genInputObj({"id": "p" + ballot,"type": "number", "min": 0,
-			"value": Math.floor(Math.random()*100)});
+			"value": Math.floor(Math.random()*500)});
 		nBallot.setAttribute("onchange", "update(this)");
 	
 		var nBallotCell = document.createElement("td");
@@ -293,22 +286,31 @@ function candidateUpdate(){
 	votesUpdate();
 }
 
-// Burlington example votes
-function burlington(select){
-	// K -> A, M -> B, W -> C
-	$("#cand-count")[0].value = 3;
-	//nCandidates = 3;
-	candidateUpdate();
+// Enter a predefined set of ballots into the table
+function presetEntry(select){
+	$("#cand-count")[0].value = 3;		// Example is assumed to use only 3 candidates
 
-	if(select == 0){
-		var burlingtonVotes = [2043, 371, 568, 1332, 767, 455, 495, 1513, 1289];
-	} else {
-		var burlingtonVotes = [2043, 371, 1321, 1332, 767, 455, 0, 1513, 1031];
+	candidateUpdate();
+	var presetValues;		// create presetValues var
+
+	switch(select){
+		case 0:
+			presetValues = [33, 6, 89, 64, 4, 61, 98, 51, 33];
+			break;
+		case 1:			// Burlington normal votes				// K -> A, M -> B, W -> C
+			presetValues = [2043, 371, 568, 1332, 767, 455, 495, 1513, 1289];
+			break;
+		case 2:			// Burlington hypothetical votes
+			presetValues = [2043, 371, 1321, 1332, 767, 455, 0, 1513, 1031];
+			break;
+		default:
+			console.warning("unused case value sent to ")
 	}
+
 	var prefs = $("#ballots input");
 	var permLen = prefs.length;
 	for(var i = 0; i < permLen; i++){
-		prefs[i].value = burlingtonVotes[i];
+		prefs[i].value = presetValues[i];
 	}
 	votesUpdate();
 }
