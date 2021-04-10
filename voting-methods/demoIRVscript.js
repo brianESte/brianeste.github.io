@@ -1,6 +1,6 @@
 
 var nCandidates = 3;	// nCand range from 3-5
-var testObj;
+const nCandMax = 5;		// maximum number of candidates. More is unnecessary
 // may rename this to ballots...
 var votes = {'AB':0, 'AC':0, 'A':0,
 			 'BA':0, 'BC':0, 'B':0,
@@ -10,6 +10,10 @@ var candidates; // = {	'A':{'votes':0, 'active':true},	'B':{'votes':0, 'active':
 
 function nCandUpdate(){
 	nCandidates = Number($("#cand-count")[0].value);
+	if(nCandidates > nCandMax){
+		nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
+		$("#cand-count")[0].value = nCandMax;
+	}
 }
 
 function genCandidates(){
@@ -207,6 +211,7 @@ function genInputObj(options){
 
 function candidateUpdate(){
 	nCandidates = Number($("#cand-count")[0].value);
+	if(nCandidates > nCandMax)	nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
 	// grab candidate deslector list
 	var deselectors = $("#candidate-deselect")[0];
 	var nCandidates0 = deselectors.childElementCount;

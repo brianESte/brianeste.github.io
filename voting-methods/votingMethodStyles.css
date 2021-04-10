@@ -1,7 +1,7 @@
 :root{
 	--PluralityGray: 89, 89, 89;	/* #cccccc */
 	--FairVotePurple: 85, 50, 133; 	/* #553285 */
-	--ApprovalGreen: 10, 102, 10; 		/* #1a4345 = 26, 67, 69;	#4e6f70 = 78, 111, 112 */
+	--ApprovalGreen: 10, 102, 10; 	/* #1a4345 = 26, 67, 69;	#4e6f70 = 78, 111, 112 */
 	--ScoreBlue: 0, 92, 230;		/* #005ce6 */
 	--STAR-Red: 204, 0, 0;			/* #cc0000 */
 }
@@ -10,14 +10,19 @@
 body{
 	background: #fff;
 }
+hr{	margin-bottom: 0.8em;	}
 
+h3{	margin-top: 0;}
 h4{
-	display: inline;
-	font-family: sans-serif;
+	font-family: Arial, sans-serif;
 	background-color: rgb(var(--rgb));
 	color: #fff;
-	padding: 2px;
+	padding: 0.15em;
+	/* should probably be 1.2em, but 1.25 looks better on chrome, and isn't a noticeable issue on FF */
+	line-height: 1.25em;	
 	position: relative;
+	display: table;
+	margin: 0;
 }
 h4::after{
 	content: "";
@@ -27,12 +32,26 @@ h4::after{
 	left: 100%;
 	width: 0;
 	height: 0;
-	border-right: 14px solid transparent;
-	border-bottom: calc(1.2em + 4px) solid rgb(var(--rgb));	/* #5fce5f */
+	border-right: 1em solid transparent;
+	border-bottom: 1.5em solid rgb(var(--rgb));	/* #5fce5f */
 }
 
 p{      margin-top: 2px;  }
-sup{	font-size: 11.5px;}
+sup{
+	font-size: 0.7em;
+	line-height: 0;
+}
+
+table{
+	margin: 0 auto;
+	background: rgb(var(--rgb));
+	color: #fff;
+}
+th, td{
+	border:	0.5px solid black;
+	padding: 5px;
+	text-align: center;
+}
 
 header :visited{	color: #000;	}
 
@@ -109,42 +128,36 @@ a.active-link{
 }
 
 /* ballot table */
-#scroll-container{	padding: 0 32px;	}
-.scrollable{
-	position: relative;	
+/* this section could be better organized... */
+#scroll-container{
+	min-width: 200px;	/* this value should probably be a relative value */
+	padding: 0 20px;
+	margin: 0 20px 20px 20px ;
 	overflow-y: auto;
-	overflow-x: clip;
+	overflow-x: hidden;
 	max-height: 65vh;
-	width: 107%;
-	margin-bottom: 15px;
 }
 
-table{
-	margin: 0 auto;
-	background: rgb(var(--rgb));
-	color: #fff;
-}
-/* this section may need work, so that there are no gaps / bugs 
-in the header/footer of the table... */
+thead, tfoot, tr, th, td{	background: inherit;	}
+#ballots{	border-spacing: 0;	}
+
+/* border-spaceing: 0, and border-collapse: separate, is the best I have found that
+works on chrome and FF... */
 .scrollable thead, .scrollable tfoot{	position: sticky;	}
 .scrollable thead{	top: 0;	}
 .scrollable tfoot{	bottom: 0;	}
 
-th, td{
-	padding: 5px;
-	background: inherit; /* #00cc99; */
-	text-align: center;
-}
-thead, tfoot, tr{	background: inherit;	}
-table, th, td{
-	border:	1px solid black;
-	border-collapse: collapse;
-}
+/* Styles needed for Chrome: */
+.scrollable thead *, .scrollable tfoot td{ position: sticky}
+.scrollable thead th{	top: 0;	}
+.scrollable thead td{	top: 1.9em;	}	/* this should be the height of the first row... */
+.scrollable tfoot td{	bottom: 0;	}
+
 td > input{	width: 50px;	}
 td input[type=number]{	-moz-appearance: textfield;	}
 
 @media screen and (max-width: 480px){
-	table{	margin: 0 auto;	}
+	table{	margin: 0 auto 1.2em;	}
 }
 
 /* candidate settings */
@@ -171,6 +184,7 @@ button{
 }
 
 .centered{	text-align: center;	}
+#tally-rounds{	border-collapse: collapse;	}
 
 @media screen and (max-width: 480px){
 	#candidate-settings{	min-width: 0;	}

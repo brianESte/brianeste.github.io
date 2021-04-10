@@ -1,5 +1,6 @@
 
 var nCandidates = 3;	// nCand range from 3-5
+const nCandMax = 5;		// more than 5 candidates is unnecessary
 
 var ballots = {'A': 0, 'B': 0, 'AB': 0, 'C': 0, 'AC': 0, 'BC': 0, 'ABC': 0};
 var candidateScores = {	'A': 0, 'B': 0, 'C': 0};
@@ -7,6 +8,10 @@ var candidateScores = {	'A': 0, 'B': 0, 'C': 0};
 
 function nCandUpdate(){
 	nCandidates = Number($("#cand-count")[0].value);
+	if(nCandidates > nCandMax){
+		nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
+		$("#cand-count")[0].value = nCandMax;
+	}
 }
 
 // Currently only used in candidateUpdate()... 
@@ -140,6 +145,8 @@ function generateBallotObj(){
 
 function candidateUpdate(){
 	nCandidates = Number($("#cand-count")[0].value);
+	if(nCandidates > nCandMax)	nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
+
 	// grab candidate deslector list
 	var deselectors = $("#candidate-deselect")[0];
 	var nCandidates0 = deselectors.childElementCount;
