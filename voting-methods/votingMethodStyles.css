@@ -13,6 +13,10 @@ body{
 hr{	margin-bottom: 0.8em;	}
 
 h3{	margin-top: 0;}
+@media screen and (max-width: 480px){
+	h3{	margin-top: 1em;	}
+}
+
 h4{
 	font-family: Arial, sans-serif;
 	background-color: rgb(var(--rgb));
@@ -53,7 +57,7 @@ th, td{
 	text-align: center;
 }
 
-header :visited{	color: #000;	}
+header :visited, header :link{	color: #000;	}
 
 /* color classes */
 /* credit to BoltClock on SO for this usage of css vars */
@@ -63,6 +67,8 @@ header :visited{	color: #000;	}
 .score{	--rgb: var(--ScoreBlue);	}
 .STAR{	--rgb: var(--STAR-Red);	}
 /* end color classes */
+
+.stripeOut {	background: repeating-linear-gradient(45deg, #aaaaaa, #aaaaaa 2px, #000 4px, #000 5px);	}
 
 #nav-banner{
 	display: flex;
@@ -78,6 +84,8 @@ header :visited{	color: #000;	}
 	width: 100%;
 }
 
+h2{	margin: 10px 0;	}
+
 header a{
 	padding: 1em 16px;
 	text-decoration: none;
@@ -89,14 +97,7 @@ header a{
 	background: rgba(var(--rgb), 0.6);
 }
 
-#nav-list a:hover{
-	background-color: rgba(var(--rgb), 1);
-	color: #fff;
-}
-
-h2{	margin: 10px 0;	}
-
-a.active-link{
+#nav-list a:hover, a.active-link{
 	background-color: rgba(var(--rgb), 1);
 	color: #fff;
 }
@@ -117,22 +118,26 @@ a.active-link{
 	#approval-link::after{	content: "AV";	}
 	#IRV-link::after{	content: "IRV / RCV";	}
 	#score-link::after{	content: "Score / Range";	}
-	#main{	flex-direction: column;	}
+	main{	flex-direction: column;	}
 	h2{	text-align: center;	}
 }
 
-#main{
+main{
 	display: flex;
 	padding: 0 16px;
-	justify-content: space-between;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+main div{	margin: 0 10px 20px 10px;	}
+@media screen and (max-width: 480px){
+	main div{	margin: 0 0 20px 0;	}
 }
 
 /* ballot table */
 /* this section could be better organized... */
 #scroll-container{
-	min-width: 200px;	/* this value should probably be a relative value */
-	padding: 0 20px;
-	margin: 0 20px 20px 20px ;
+	min-width: 200px;	/* this value is only kind of needed */
+	padding: 0 5px;
 	overflow-y: auto;
 	overflow-x: hidden;
 	max-height: 65vh;
@@ -156,12 +161,11 @@ works on chrome and FF... */
 td > input{	width: 50px;	}
 td input[type=number]{	-moz-appearance: textfield;	}
 
-@media screen and (max-width: 480px){
-	table{	margin: 0 auto 1.2em;	}
-}
-
 /* candidate settings */
-#candidate-settings{	min-width: 340px;	}
+#candidate-settings{
+	min-width: 340px;
+	max-width: 400px;
+}
 
 #table-dir::after{    content: "on the left";  }
 @media screen and (max-width: 480px){
@@ -186,17 +190,14 @@ button{
 .centered{	text-align: center;	}
 #tally-rounds{	border-collapse: collapse;	}
 
-@media screen and (max-width: 480px){
-	#candidate-settings{	min-width: 0;	}
-}
 
 /* 	information styles 	*/
-#information{	margin: 0 0 0 10px;	}
-@media screen and (max-width: 480px){
-	#information{	margin: 0;	}
+#information{
+	min-width: 50%;
+	max-width: 800px;
 }
 
-#information span{
+span[onclick]{
 	cursor: pointer;
 	text-decoration: underline;
 }

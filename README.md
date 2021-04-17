@@ -1,3 +1,14 @@
 # brianestephenson.github.io
-The main (and only) purpose for this site is to rebuild/remake the Morsecode.io page that once existed. 
-I recognize using plain html and css files is kind of _old-school_, and i may upgrade to something _modern_ in the future.. but for now this is all i know. 
+The current main focus of this site is a comparison of simgle winner voting methods. 
+
+Notable pages: 
+* A remake of <span>Morsecode.io</span> (receive only)
+* Instant Runoff Voting page: meant to exhibit the pros and cons of IRV
+* Approval Voting page: meant to exhibit the pros and cons of AV
+
+Planned pages:
++ Simple Plurality page
++ Score Voting page
++ STAR voting page
+
+Suggestions, issues, corrections are welcome

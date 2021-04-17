@@ -12,17 +12,17 @@
 			<div id="nav-banner">
 				<h3>Single Winner Voting Methods</h3>
 				<div id="nav-list">
-					<a href="#" id="simple-plurality-link" class="plurality"></a>
+					<a href="#" id="simple-plurality-link" class="plurality stripeOut"></a>
 					<a href="#" id="approval-link" class="approval active-link"></a>
 					<a href="./demoIRV.html" id="IRV-link" class="IRV"></a>
-					<a href="#" id="score-link" class="score"></a>
-					<a href="#" id="STAR-link" class="STAR">STAR</a>
+					<a href="#" id="score-link" class="score stripeOut"></a>
+					<a href="#" id="STAR-link" class="STAR stripeOut">STAR</a>
 				</div>
 			</div>
 			<h2>Approval Voting Demo</h2>
 		</header>
 		<hr/>
-		<div id="main"><!-- main content -->
+		<main><!-- main content -->
 			<div id="scroll-container">
 				<table id="ballots" class="scrollable approval">
 					<thead>
@@ -30,13 +30,13 @@
 						<tr><td>A</td><td>B</td><td>C</td></tr>
 					</thead>
 					<tbody>
-						<tr><td>&#10004</td><td></td><td></td><td><input type="number" min=0 id="aA" value=100 onchange="update(this)"></td></tr>
-						<tr><td></td><td>&#10004</td><td></td><td><input type="number" min=0 id="aB" value=99 onchange="update(this)"></td></tr>
-						<tr><td>&#10004</td><td>&#10004</td><td></td><td><input type="number" min=0 id="aAB" value=98 onchange="update(this)"></td></tr>
-						<tr><td></td><td></td><td>&#10004</td><td><input type="number" min=0 id="aC" value=97 onchange="update(this)"></td></tr>
-						<tr><td>&#10004</td><td></td><td>&#10004</td><td><input type="number" min=0 id="aAC" value=96 onchange="update(this)"></td></tr>
-						<tr><td></td><td>&#10004</td><td>&#10004</td><td><input type="number" min=0 id="aBC" value=95 onchange="update(this)"></td></tr>
-						<tr><td>&#10004</td><td>&#10004</td><td>&#10004</td><td><input type="number" min=0 id="aABC" value=0 onchange="update(this)"></td></tr>
+						<tr><td>&#x2714</td><td></td><td></td><td><input type="number" min=0 id="aA" value=100 onchange="update(this)"></td></tr>
+						<tr><td></td><td>&#x2714</td><td></td><td><input type="number" min=0 id="aB" value=99 onchange="update(this)"></td></tr>
+						<tr><td>&#x2714</td><td>&#x2714</td><td></td><td><input type="number" min=0 id="aAB" value=98 onchange="update(this)"></td></tr>
+						<tr><td></td><td></td><td>&#x2714</td><td><input type="number" min=0 id="aC" value=97 onchange="update(this)"></td></tr>
+						<tr><td>&#x2714</td><td></td><td>&#x2714</td><td><input type="number" min=0 id="aAC" value=96 onchange="update(this)"></td></tr>
+						<tr><td></td><td>&#x2714</td><td>&#x2714</td><td><input type="number" min=0 id="aBC" value=95 onchange="update(this)"></td></tr>
+						<tr><td>&#x2714</td><td>&#x2714</td><td>&#x2714</td><td><input type="number" min=0 id="aABC" value=0 onchange="update(this)"></td></tr>
 					</tbody>
 					<tfoot>
 						<tr><td colspan="3">Total:</td><td id="nVoter"></td></tr>
@@ -103,20 +103,20 @@
 				<section>
 					<h4 class="approval">Tactical Voting<sup>[4]</sup></h4>
 					<p>
-						Approval Voting is not immune to tactical voting, but unless a voter falls into either the "all" or "none" categories, the benefits of voting tactically are likely not worth the effort. Approving of all or no candidates, while it may be a voter's honest preference, has no practical influence on the election, and thus these voters are better off being a little tactical. For voters that honestly approve of 
+						Tactical voting under Approval Voting falls into two categories, all/none and Bullet Voting. Approving of all or no candidates, while it may be a voter's honest preference, has no practical influence on the election, and thus these voters are better off being a little tactical. For voters that honestly approve of 
 						all listed candidates, it is in their best interest to tactically not approve of their least favorite candidate. Similarly, 
 						voters that <em>dis</em>approve of all candidates, are better off approving of their favorite, no matter how little they truly 
-						like that candidate.
+						like that candidate. Bullet voting is <q>the practice of choosing just one candidate despite the ability to choose or rank more.</q><sup>[5]</sup> The idea is that approving of candidates other than one's favorite increases the chances of the secondary candidate beating the favorite. This is true, but approving of secondary candidates also <em>de</em>creases the chance of one's unapproved candidates from winning.
 					</p>
 				</section>
 				<section>
 					<h4 class="approval">One Person, One Vote</h4>
 					<p>
-						A common critique of Approval Voting is that it does not follow the principle of One Person, One Vote (OPOV), because it allows voters to "vote" for more than one candidate. This is a mis-application of OPOV, as it is actually about the relative voting power of voters within the same state.<sup>[5]</sup>
+						Another critique of Approval Voting is that it does not follow the principle of One Person, One Vote (OPOV), because it allows voters to "vote" for more than one candidate. This is a mis-application of OPOV, as it is actually about the relative voting power of voters within the same state.<sup>[6]</sup>
 					</p>
 				</section>
 			</div>
-		</div>
+		</main>
 		<footer>
 			<span>References</span>
 			<ul>
@@ -124,7 +124,8 @@
 				<li>[2] <a href="https://electowiki.org/wiki/Vote_splitting" target="_blank">Vote Splitting</a></li>
 				<li>[3] <a href="https://electionscience.org/library/monotonicity/" target="_blank">Monotonicity</a></li>
 				<li>[4] <a href="https://electionscience.org/library/tactical-voting-basics/" target="_blank">Tactical Voting</a></li>
-				<li>[5] <a href="https://www.law.cornell.edu/wex/one-person_one-vote_rule" target="_blank">One Person, One Vote</a></li>
+				<li>[5] <a href="https://electionscience.org/library/bullet-voting/" target="_blank">Bullet Voting</a></li>
+				<li>[6] <a href="https://www.law.cornell.edu/wex/one-person_one-vote_rule" target="_blank">One Person, One Vote</a></li>
 			</ul>
 		</footer>
 		<script src="demoApprovalScript.js"></script>

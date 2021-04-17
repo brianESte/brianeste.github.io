@@ -150,14 +150,6 @@ function candidateUpdate(){
 	// grab candidate deslector list
 	var deselectors = $("#candidate-deselect")[0];
 	var nCandidates0 = deselectors.childElementCount;
-	
-	if(nCandidates == nCandidates0){					// check that the nC did* change
-		console.log("nCand == nCandIn, nothing to do, returning to base")
-		console.log("current: ",nCandidates0," new: ",nCandidates)
-		return;
-	} else {
-		console.log("current: ",nCandidates0," new: ",nCandidates)
-	}
 
     // update candidates
 	genCandidates();
