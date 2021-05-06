@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>	<!-- head definition goes here -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Plurality Demo</title>
+		<link rel="stylesheet" type="text/css" href="votingMethodStyles.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<div id="nav-banner">
+				<h3>Single Winner Voting Methods</h3>
+				<div id="nav-list">
+					<a href="#" id="simple-plurality-link" class="plurality active-link"></a>
+					<a href="./approval.html" id="approval-link" class="approval"></a>
+					<a href="./demoIRV.html" id="IRV-link" class="IRV"></a>
+					<a href="#" id="score-link" class="score stripeOut"></a>
+					<a href="#" id="STAR-link" class="STAR stripeOut">STAR</a>
+				</div>
+			</div>
+			<h2>Simple Plurality Voting Demo</h2>
+		</header>
+		<hr/>
+		<main class="plurality"><!-- main content -->
+			<div id="voterInfo">
+				<div class="table-holder">
+					<table id="voters" class="plurality">
+						<thead>
+							<tr><th>Candidate</th><th>A</th><th>B</th><th>C</th></td>
+						</thead>
+						<tbody>
+							<tr><td>Voters</td>
+								<td><input type="number" min=0 id="aVoters" onchange="update(this)"></td>
+								<td><input type="number" min=0 id="bVoters" onchange="update(this)"></td>
+								<td><input type="number" min=0 id="cVoters" onchange="update(this)"></td>
+								
+							</tr>
+							<tr><td>% Honesty</td>
+								<td><input type="number" min=0 id="aHonesty" onchange="update(this)"></td>
+								<td><input type="number" min=0 id="bHonesty" onchange="update(this)"></td>
+								<td><input type="number" min=0 id="cHonesty" onchange="update(this)"></td>
+								
+							</tr>
+							<tr><td>Votes</td>
+								<td>100</td>
+								<td>150</td>
+								<td>50</td>
+								
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<svg viewBox="0 0 200 20">
+					<line x1="21%" y1="50%" x2="74%" y2="50%" stroke="black" stroke-width="2px"></line>
+					<text font-size="1em" fill="black" y="75%" x="0" text-anchor="start">Left</text>
+					<text font-size="1em" fill="black" y="75%" x="100%" text-anchor="end">Right</text>
+					<polyline points="130 2 152 10 130 18"></polyline>
+					<polyline points="60 2 38 10 60 18"></polyline>
+				</svg>
+				<h4 class="plurality">Instructions</h4>
+				<p id="instructions">This interactive demo is designed to illustrate how Plurality Voting works as well as its issues. The table above displays the votign blocs associated with each candidate. The rows Voters and % Honesty, indicate how many voters are in each bloc, and the probability a voter in that bloc will vote for their favorite, respectively. The candidates are ordered as they would be on a one dimensional political spectrum. Thus, if a candidate is disabled / removed from the election (see below), their voting bloc will vote for the politically nearest candidate. Frontrunner / mainstream candidates are indicated with *'s. Change the number of voters in each group and their % honesty and then click VOTE to see the results.
+				</p>
+				<p>The following allows you to change the number of candidates running.</p>
+				<div class="centered">
+					<label for="cand-count">Number of candidates: </label>
+					<input type="number" id="cand-count" min="3" max="5" value="3" onchange="nCandUpdate()">
+				</div>
+				<button onclick="genElectionTable()">Generate Voters</button>
+				<p>
+					The following allows you to remove a candidate without affecting the ballots. 
+				</p>
+				<div id="candidate-deselect">
+					<label><input type="checkbox" id="deselectA" onchange="deselect(this)" checked>Candidate A</label>
+					<label><input type="checkbox" id="deselectB" onchange="deselect(this)" checked>Candidate B</label>
+					<label><input type="checkbox" id="deselectC" onchange="deselect(this)" checked>Candidate C</label>
+				</div>
+				<button onclick="simPlurality()">VOTE!</button>
+				<!--table id="tally-rounds" class="plurality">
+					<thead>
+						<tr><th>Candidate</th><th>Votes</th></tr>
+					</thead>
+					<tbody>
+						<tr><td>A</td><td>0</td></tr>
+						<tr><td>B</td><td>0</td></tr>
+						<tr><td>C</td><td>0</td></tr>
+					</tbody>
+				</table-->
+			</div>
+			<div id="information">
+				<h3>Information / Examples / Voting Method Criteria</h3>
+				<section>
+					<h4 class="plurality">How it works</h4>
+					<p>
+						Everyone is likely already aware of Plurality, even if they do not realize it. Under Plurality voters vote for one candidate, and the candidate with the most votes is declared the winner. This is the status quo in the vast majority of US municipalities as well as other parts of the world.
+					</p>
+				</section>
+				<section>
+					<h4 class="plurality">Monotonicity</h4>
+					<p>
+						<q>Ranking or rating a candidate higher should never cause that candidate to lose, nor should ranking or rating a candidate lower ever cause that candidate to win, assuming all other candidates remain rated or ranked the same</q><sup>[1]</sup>. Unsurprisingly, Plurality is monotonic. A candidate's final tally is directly dependent on how many voters vote for them.
+					</p>
+				</section>
+				<section>
+					<h4 class="plurality">The Spoiler Effect</h4>
+					<p>
+						<q>A spoiler is a non-winning candidate whose presence on the ballot affects which candidate wins.</q><sup>[2]</sup> Spoilers are a major issue under Plurality, due to vote splitting, which <q>occurs in an election when a voter supports more than one candidate but is unable to express their endorsement on the ballot</q><sup>[3]</sup>. By voting for one supported candidate over another, the voter is splitting their support of those candidates. If enough of a voting bloc splits their support between two or more candidates, those candidates will lose to a candidate with unified support. If one of the supported candidates would have won if the other had not run in the election, then the weaker of the two is considered a spoiler candidate. You can check for spoilers by removing a losing-candidate from the simulated election and recounting the votes.
+					</p>
+				</section>
+				<section>
+					<h4 class="plurality">Tactical Voting<sup>[4]</sup></h4>
+					<p>
+						Voters who vote for a third party<sup>[5]</sup> candidate in a competitive election risk allowing a candidate they do not support to win. Thus, in competitive elections, it is in the best interests of voters to vote for their compromise candidate, or the more preferred of the two mainstream candidates. Voting for a third party candidate under Plurality is also seen as a waste of a vote, because third party candidates generally have 0 chance of winning. Because of this, Plurality usually reinforces a two party system. 
+					</p>
+				</section>
+			</div>
+		</main>
+		<footer>
+			<span>References</span>
+			<ul>
+				<li>[1] <a href="https://electionscience.org/library/monotonicity/" target="_blank">Monotonicity</a></li>
+				<li>[2] <a href="https://electionscience.org/library/the-spoiler-effect/" target="_blank">The Spoiler Effect</a></li>
+				<li>[3] <a href="https://electowiki.org/wiki/Vote_splitting" target="_blank">Vote Splitting</a></li>
+				<li>[4] <a href="https://electionscience.org/library/tactical-voting-basics/" target="_blank">Tactical Voting</a></li>
+				<li>[5] <a href="https://en.wikipedia.org/wiki/Third_party_%28United_States%29" target="_blank">Third Party (US)</a></li>
+			</ul>
+		</footer>
+		<script src="pluralityFunctions.js"></script>
+	</body>
+</html>

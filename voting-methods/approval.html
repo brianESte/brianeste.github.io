@@ -12,7 +12,7 @@
 			<div id="nav-banner">
 				<h3>Single Winner Voting Methods</h3>
 				<div id="nav-list">
-					<a href="#" id="simple-plurality-link" class="plurality stripeOut"></a>
+					<a href="./plurality.html" id="simple-plurality-link" class="plurality"></a>
 					<a href="#" id="approval-link" class="approval active-link"></a>
 					<a href="./demoIRV.html" id="IRV-link" class="IRV"></a>
 					<a href="#" id="score-link" class="score stripeOut"></a>
@@ -24,7 +24,7 @@
 		<hr/>
 		<main><!-- main content -->
 			<div id="scroll-container">
-				<table id="ballots" class="scrollable approval">
+				<table id="ballots" class="sticky-table approval">
 					<thead>
 						<tr><th colspan="3">Approvals</th><th rowspan="2"># Voters</th></tr>
 						<tr><td>A</td><td>B</td><td>C</td></tr>
@@ -45,7 +45,7 @@
 			</div>
 			<div id="candidate-settings">
 				<h4 class="approval">Instructions</h4>
-				<p id="instructions">This ineractive demo is designed to illustrate how Approval Voting works as well as its pros and cons. Each row in the <span id="table-dir">table </span> represents a possible ballot permutation and how many people voted that way. 
+				<p id="instructions">This interactive demo is designed to illustrate how Approval Voting works as well as its pros and cons. Each row in the <span id="table-dir">table </span> represents a possible ballot permutation and how many people voted that way. 
 					Change the vote counts for each ballot permutation and then click VOTE to see the results.
 				</p>
 				<p>
@@ -86,18 +86,16 @@
 					</p>
 				</section>
 				<section>
-					<h4 class="approval">The Spoiler Effect</h4>
+					<h4 class="approval">Monotonicity</h4>
 					<p>
-						<q>A spoiler is a non-winning candidate whose presence on the ballot affects which candidate wins.</q><sup>[1]</sup> 
-						Spoilers are not an issue under Approval, either through vote splitting<sup>[2]</sup> or other means. Vote splitting is 
-						not an issue because voters are allowed (and encouraged) to approve of more than one candidate. You can check for spoilers 
-						by removing a losing-candidate from the simulated election and recounting the votes.
+						<q>Ranking or rating a candidate higher should never cause that candidate to lose, nor should ranking or rating a candidate lower ever cause that candidate to win, assuming all other candidates remain rated or ranked the same.</q><sup>[1]</sup>. Unsurprisingly, Approval Voting is monotonic. A candidate's final tally is directly dependent on how many voters indicate their approval of them.
 					</p>
 				</section>
 				<section>
-					<h4 class="approval">Monotonicity</h4>
+					<h4 class="approval">The Spoiler Effect</h4>
 					<p>
-						<q>Ranking or rating a candidate higher should never cause that candidate to lose, nor should ranking or rating a candidate lower ever cause that candidate to win, assuming all other candidates remain rated or ranked the same.</q><sup>[3]</sup>. Unsurprisingly, Approval Voting is monotonic. A candidate's final tally is directly dependent on how many voters indicate their approval of them.
+						<q>A spoiler is a non-winning candidate whose presence on the ballot affects which candidate wins.</q><sup>[2]</sup> 
+						Spoilers are not an issue under Approval, either through vote splitting<sup>[3]</sup> or other means. Vote splitting is not an issue because each candidate can be approved or not approved of independently of the other candidates on a ballot. You can check for spoilers by removing a losing-candidate from the simulated election and recounting the votes.
 					</p>
 				</section>
 				<section>
@@ -120,9 +118,9 @@
 		<footer>
 			<span>References</span>
 			<ul>
-				<li>[1] <a href="https://electionscience.org/library/the-spoiler-effect/" target="_blank">The Spoiler Effect</a></li>
-				<li>[2] <a href="https://electowiki.org/wiki/Vote_splitting" target="_blank">Vote Splitting</a></li>
-				<li>[3] <a href="https://electionscience.org/library/monotonicity/" target="_blank">Monotonicity</a></li>
+				<li>[1] <a href="https://electionscience.org/library/monotonicity/" target="_blank">Monotonicity</a></li>
+				<li>[2] <a href="https://electionscience.org/library/the-spoiler-effect/" target="_blank">The Spoiler Effect</a></li>
+				<li>[3] <a href="https://electowiki.org/wiki/Vote_splitting" target="_blank">Vote Splitting</a></li>
 				<li>[4] <a href="https://electionscience.org/library/tactical-voting-basics/" target="_blank">Tactical Voting</a></li>
 				<li>[5] <a href="https://electionscience.org/library/bullet-voting/" target="_blank">Bullet Voting</a></li>
 				<li>[6] <a href="https://www.law.cornell.edu/wex/one-person_one-vote_rule" target="_blank">One Person, One Vote</a></li>

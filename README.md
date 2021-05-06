@@ -3,12 +3,13 @@ The current main focus of this site is a comparison of simgle winner voting meth
 
 Notable pages: 
 * A remake of <span>Morsecode.io</span> (receive only)
-* Instant Runoff Voting page: meant to exhibit the pros and cons of IRV
-* Approval Voting page: meant to exhibit the pros and cons of AV
+* Simple Plurality page:        Exhibit how SP works, and its issues
+* Instant Runoff Voting page:   Exhibit the pros and cons of IRV
+* Approval Voting page:         Exhibit the pros and cons of AV
 
 Planned pages:
-+ Simple Plurality page
 + Score Voting page
 + STAR voting page
++ Multi-winner voting methods...?
 
 Suggestions, issues, corrections are welcome

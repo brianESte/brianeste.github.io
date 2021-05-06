@@ -7,10 +7,14 @@
 }
 
 /* common and general styles */
-body{
-	background: #fff;
+body{	background: #fff;	}
+hr{		margin-bottom: 0.8em;	}
+
+@media print{			/* displays a link's URL when printed */
+	a[href]:after {
+		content: " (" attr(href) ") ";
+	}
 }
-hr{	margin-bottom: 0.8em;	}
 
 h3{	margin-top: 0;}
 @media screen and (max-width: 480px){
@@ -63,9 +67,9 @@ header :visited, header :link{	color: #000;	}
 /* credit to BoltClock on SO for this usage of css vars */
 .plurality{	--rgb: var(--PluralityGray);	}
 .approval{	--rgb: var(--ApprovalGreen);	}
-.IRV{	--rgb: var(--FairVotePurple);	}
-.score{	--rgb: var(--ScoreBlue);	}
-.STAR{	--rgb: var(--STAR-Red);	}
+.IRV{		--rgb: var(--FairVotePurple);	}
+.score{		--rgb: var(--ScoreBlue);		}
+.STAR{		--rgb: var(--STAR-Red);			}
 /* end color classes */
 
 .stripeOut {	background: repeating-linear-gradient(45deg, #aaaaaa, #aaaaaa 2px, #000 4px, #000 5px);	}
@@ -76,7 +80,7 @@ header :visited, header :link{	color: #000;	}
 	align-items: center;
 }
 #nav-banner h3{
-	width: 25em;
+	width: 30%;
 	margin: 0 0 0 8px;
 }
 #nav-list{
@@ -119,22 +123,31 @@ header a{
 	#IRV-link::after{	content: "IRV / RCV";	}
 	#score-link::after{	content: "Score / Range";	}
 	main{	flex-direction: column;	}
-	h2{	text-align: center;	}
+	h2{		text-align: center;	}
 }
 
 main{
 	display: flex;
 	padding: 0 16px;
 	justify-content: space-around;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 }
-main div{	margin: 0 10px 20px 10px;	}
+main > div{	margin: 0 10px 20px 10px;	}
 @media screen and (max-width: 480px){
-	main div{	margin: 0 0 20px 0;	}
+	main > div{	margin: 0 0 20px 0;	}
+}
+
+/* Plurality voterInfo / instructions */
+#voterInfo{	max-width: 500px;	}
+.table-holder{
+	max-width: 100%;
+	overflow-x: auto;
 }
 
 /* ballot table */
 /* this section could be better organized... */
+table.plurality{	border-collapse: collapse;	}
+
 #scroll-container{
 	min-width: 200px;	/* this value is only kind of needed */
 	padding: 0 5px;
@@ -148,28 +161,48 @@ thead, tfoot, tr, th, td{	background: inherit;	}
 
 /* border-spaceing: 0, and border-collapse: separate, is the best I have found that
 works on chrome and FF... */
-.scrollable thead, .scrollable tfoot{	position: sticky;	}
-.scrollable thead{	top: 0;	}
-.scrollable tfoot{	bottom: 0;	}
+.sticky-table thead, .sticky-table tfoot{	position: sticky;	}
+.sticky-table thead{	top: 0;	}
+.sticky-table tfoot{	bottom: 0;	}
 
 /* Styles needed for Chrome: */
-.scrollable thead *, .scrollable tfoot td{ position: sticky}
-.scrollable thead th{	top: 0;	}
-.scrollable thead td{	top: 1.9em;	}	/* this should be the height of the first row... */
-.scrollable tfoot td{	bottom: 0;	}
+.sticky-table thead *, .sticky-table tfoot td{ position: sticky}
+.sticky-table thead th{	top: 0;	}
+.sticky-table thead td{	top: 1.9em;	}	/* this should be the height of the first row... */
+.sticky-table tfoot td{	bottom: 0;	}
 
-td > input{	width: 50px;	}
+td > input{	width: 45px;	}
 td input[type=number]{	-moz-appearance: textfield;	}
+
+/* 1D spectrum */
+svg{
+	display: block;
+	margin: 8px auto;
+	width: 60%;
+}
+svg > line{	
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+svg > polyline{
+	fill: transparent;
+	stroke: black;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 2px;
+}
 
 /* candidate settings */
 #candidate-settings{
 	min-width: 340px;
 	max-width: 400px;
 }
+#candidate-settings.plurality{	max-width: 50%;	}
 
 #table-dir::after{    content: "on the left";  }
 @media screen and (max-width: 480px){
 	#table-dir::after{	content: "above";	}
+	#candidate-settings{	min-width: auto;	}
 }
 
 #cand-count{	width: 25px;	}
@@ -179,7 +212,7 @@ td input[type=number]{	-moz-appearance: textfield;	}
 	flex-wrap: wrap;
 	justify-content: space-around;
 }
-#candidate-deselect li{	list-style-type: none;	}
+#candidate-deselect > label{	margin: 0 10px;	}
 
 button{
 	width: 60%;
