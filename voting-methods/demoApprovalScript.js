@@ -1,24 +1,19 @@
+// Approval Voting functions script
 
 var nCandidates = 3;	// nCand range from 3-5
 const nCandMax = 5;		// more than 5 candidates is unnecessary
 
 var ballots = {'A': 0, 'B': 0, 'AB': 0, 'C': 0, 'AC': 0, 'BC': 0, 'ABC': 0};
-var candidateScores = {	'A': 0, 'B': 0, 'C': 0};
-
+var candidates = {'A': {'votes':0, 'active':true}, 'B': {'votes':0, 'active':true}, 'C': {'votes':0, 'active':true}};
+for(let c = 0; c < 3; c++){
+	candidates[String.fromCharCode(c+65)].active = $("#cSelect"+String.fromCharCode(c+65))[0].checked;
+}
 
 function nCandUpdate(){
 	nCandidates = Number($("#cand-count")[0].value);
 	if(nCandidates > nCandMax){
 		nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
 		$("#cand-count")[0].value = nCandMax;
-	}
-}
-
-// Currently only used in candidateUpdate()... 
-function genCandidates(){
-	candidateScores = {};
-	for(var c = 0; c < nCandidates; c++){
-		candidateScores[String.fromCharCode(c+65)] = 0;
 	}
 }
 
@@ -38,7 +33,11 @@ function votesUpdate(){
 	voteSumUpdate();
 }
 
-// update the vote counts and total
+/**
+ * update the internal vote counts and then call voteSumUpdate()
+ * 
+ * @param {<input>} self 
+ */
 function update(self){
 	var val = parseInt(self.value);
 	if(isNaN(val) || val < 0){
@@ -49,78 +48,60 @@ function update(self){
 	voteSumUpdate();
 }
 
-function genHTMLwithInner(tag, inner){
-	var htmlObj = document.createElement(tag);
-	htmlObj.innerHTML = inner;
-	return htmlObj;
-}
-
-function genInputObj(options){
-	var inpObj = document.createElement("input");
-	for(const attr in options){
-		inpObj[attr] = options[attr];
-	}
-	return inpObj;
-}
-
+/**
+ * Simulate the election with the given ballots
+ * 
+ */
 function simElection(){
-    // clear previous scores
-    genCandidates();
-
+	// first, clear the candidate scores and create row object for each
     var tallyRows = {};             // object to hold each row, initialized with the row headers
-    for(const candidate in candidateScores){
-        var nRow = document.createElement("tr");
-        nRow.append(genHTMLwithInner("td", candidate));
-        tallyRows[candidate] = nRow;
-    }
+    for(const candidate in candidates){
+		candidates[candidate].votes = 0;		// clear previous scores
 
-    // delete deselected candidates from candidateScores
-    for(const c in candidateScores){
-		if(!$("#deselect"+c)[0].checked){
-            delete candidateScores[c];
-            tallyRows[c].append(genHTMLwithInner("td", ""))
-        }
-	}
+        tallyRows[candidate] = $("<tr>")		// add a row object to tallyRows
+			.append($("<td>"+candidate+"</td>"))
+    }
 
     // tally the votes
     for(const ballot in ballots){
         for(const approvedC of ballot){
-            if(candidateScores[approvedC] != null){
-                candidateScores[approvedC] += ballots[ballot];
+            if(candidates[approvedC].active){
+                candidates[approvedC].votes += ballots[ballot];
             }
         }
     }
 
     // determine winner
-    var winner = Object.keys(candidateScores)[0];
-    for(const c in candidateScores){
-        if(candidateScores[c] > candidateScores[winner]){
+    var winner = Object.keys(candidates)[0];
+    for(const c in candidates){
+        if(candidates[c].votes > candidates[winner].votes){
             winner = c;
         }
     }
 
     // display the results
-    var tBody = document.createElement("tbody");
-    for(const candidate in candidateScores){
-        tallyRows[candidate].append(genHTMLwithInner("td", candidateScores[candidate]));
-        if(candidate == winner){
-            tallyRows[candidate].cells[0].style.background = "#e6e600";
-			tallyRows[candidate].cells[0].style.color = "#000";
-            tallyRows[candidate].cells[1].style.background = "#e6e600";
-            tallyRows[candidate].cells[1].style.color = "#000";
-        }
+    var tBody = $("<tbody>");
+    for(const candidate in candidates){
+        if(candidates[candidate].active){
+			tallyRows[candidate].append($("<td>"+candidates[candidate].votes+"</td>"))
+			if(candidate == winner){
+				tallyRows[candidate].css({"background-color": "yellow", "color": "black"});
+			}	
+		} else {
+			tallyRows[candidate].append($("<td>"))
+		}
     }
     for(const row in tallyRows){        // append the rows to the table body
         tBody.append(tallyRows[row]);
     }
 
-    var tallyTable = $("#tally-rounds")[0];
-    tallyTable.replaceChild(tBody, tallyTable.tBodies[0]);
+	$("#tally-rounds tbody").replaceWith(tBody);
 }
 
+// currently only used in one location...
 function generateBallotObj(){
 	ballots = {};
-    var candList = Object.keys(candidateScores);
+    var candList = Object.keys(candidates);
 
     // starting at 1, and going to 2^n touches on all relevant ballot permutations
 	for(var b = 1; b < Math.pow(2, nCandidates); b++){
@@ -143,87 +124,104 @@ function generateBallotObj(){
     }
 }
 
-function candidateUpdate(){
+/**
+ * Update the ballot permutations
+ * 
+ */
+function generateBallots(){
 	nCandidates = Number($("#cand-count")[0].value);
-	if(nCandidates > nCandMax)	nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
+	if(nCandidates > nCandMax)	nCandidates = nCandMax;		// limit nCandidates if it exceeds the max
 
 	// grab candidate deslector list
-	var deselectors = $("#candidate-deselect")[0];
-	var nCandidates0 = deselectors.childElementCount;
+	var cSelectors = $("#candidate-selects");
+	var nCandidates0 = cSelectors.find("label").length;
 
-    // update candidates
-	genCandidates();
-    var candList = Object.keys(candidateScores);
-
-	// update candidate deselector list
-	// <li><label><input type="checkbox" id="deselectC" checked>Candidate C</label></li>
-	if(nCandidates > nCandidates0){
-		for(var c = nCandidates0; c < nCandidates; c++){
-			//var lItem = document.createElement("li");
-			var candLabel = document.createElement("label");
-			var candSel = genInputObj({"id": "deselect"+String.fromCharCode(c+65), "type": "checkbox"});
-			candSel.setAttribute("checked", true);
-			candLabel.append(candSel);
-			candLabel.innerHTML += "Candidate "+String.fromCharCode(c+65);
-			//lItem.append(candLabel);
-			deselectors.append(candLabel);	//lItem);
+	// first check if the number of candidates needs to be changed. 
+	if(nCandidates != nCandidates0){
+		// update candidate selector list
+		if(nCandidates > nCandidates0){
+			for(let c = nCandidates0; c < nCandidates; c++){
+				let cLetter = String.fromCharCode(c+65);
+				candidates[cLetter] = {votes: 0, active: true};
+				cSelectors.append($("<label>Candidate "+cLetter+"</label>")
+					.prepend($("<input>", {"id": "cSelect"+cLetter, 
+					"type": "checkbox", "onchange": "cSelectorToggle(this)", "checked": true})));
+			}
+		} else {
+			for(var c = nCandidates0; c > nCandidates; c--){
+				delete candidates[String.fromCharCode(c+64)];
+				cSelectors.find("label").eq(c-1).remove()
+			}	
 		}
-	} else {
-		for(var c = nCandidates0; c > nCandidates; c--)
-			deselectors.removeChild(deselectors.children[c-1]);
-	}
-	
-	// get table object
-	var bTable = $("#ballots")[0];
 
-	// update header and footer, starting with wide cells
-	var wideCells = $("#ballots [colspan]");
-	for(var cell of wideCells){
-		cell.colSpan = nCandidates;
-	}
-	// update candidate list row
-	var candidateRow = document.createElement("tr");
-	for(const c in candidateScores){
-		candidateRow.append(genHTMLwithInner("td", c))
-	}
-	bTable.tHead.replaceChild(candidateRow, bTable.tHead.rows[1]);
-
-	// update vote Object
-	generateBallotObj();
-	// create the blank tBody
-	var newBody = document.createElement("tbody");
-	// add a row for each ballot permutation
-	for(const ballot of Object.keys(ballots)){
-		var row = document.createElement("tr");		// create the row object
-
-        var ballotApp = 0;
-        for(const c of candList){
-            if(ballot[ballotApp] == c){
-                row.append(genHTMLwithInner("td", "&#10004"));
-                ballotApp++;
-            }    
-            else    row.append(genHTMLwithInner("td", ""));
+		// update header and footer, starting with wide cells
+		var wideCells = $("#ballots [colspan]");
+		for(var cell of wideCells){
+			cell.colSpan = nCandidates;
 		}
-	
-		// add the number input cell
-		// <input id="aA" type="number" min=0 value=92 onchange="update(this)">
-		var nBallot = genInputObj({"id": "a" + ballot,"type": "number", "min": 0,
-			"value": Math.floor(Math.random()*100)});
-		nBallot.setAttribute("onchange", "update(this)");
-	
-		var nBallotCell = document.createElement("td");
-		nBallotCell.append(nBallot);
-		row.append(nBallotCell);
 
-		newBody.append(row);	// append the row to the table body
+		// update candidate list row
+		var candidateRow = $("<tr>");
+		for(const c in candidates){
+			candidateRow.append($("<td>"+c+"</td>"))
+		}
+		$("#ballots thead tr").eq(1).replaceWith(candidateRow);
+
+		// update vote Object
+		generateBallotObj();
+		// create the blank tBody
+		var newBody = $("<tbody>");
+		// add a row for each ballot permutation
+		for(const ballot of Object.keys(ballots)){
+			var row = $("<tr>");		// create the row object
+
+			var ballotApp = 0;
+			for(const c in candidates){
+				if(ballot[ballotApp] == c){
+					row.append($("<td><span class='checkmark'></span></td>"));		// this creates a custom checkmark
+					ballotApp++;
+				}    
+				else{
+					row.append($("<td>"))
+				}
+			}
+		
+			row.append($("<td>")
+				.append($("<input>", {"id": "a" + ballot,"type": "number", "min": 0, "onchange": "update(this)"})));
+
+			newBody.append(row);	// append the row to the table body
+		}
+
+		// replace old tbody with updated tbody
+		$("#ballots tbody").replaceWith(newBody);
 	}
 
-	// replace old tbody with updated tbody
-	var tBody = bTable.tBodies[0];
-	bTable.replaceChild(newBody, tBody)
+	for(let ballotPerm in ballots){
+		$("#a"+ballotPerm)[0].value = Math.floor(Math.random()*100)
+	}
 
 	// update vote totals to match the new rando values
 	votesUpdate();
+}
+
+function candClick(self){
+	//console.log(self.innerHTML)
+	var candLetter = self.innerHTML;
+	var candColumn = candLetter.charCodeAt()-64;
+	// :where() pseudo class acts as an OR: ( || ) 
+	$("#ballots :where(thead, tbody) td:nth-child(" +candColumn+ ")").toggleClass("stripeOut");
+}
+
+// deselect specified candidate
+function cSelectorToggle(self){
+    var candLetter = self.id.slice(-1);
+    candidates[candLetter].active = !candidates[candLetter].active;
+    var blocColumn = candLetter.charCodeAt()-64;
+	
+    // candidateRow.find("th").eq(4).toggleClass("stripeOut")
+    //$("#ballots th:nth-child("+blocColumn+")").toggleClass("stripeOut");
+    // toggle honesty and votes cells of the selected column
+    //$("#ballots tr:not(:first-child) td:nth-child("+blocColumn+")").toggleClass("stripeOut");
 }
 
 //genCandidates();

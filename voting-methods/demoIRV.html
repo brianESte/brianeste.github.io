@@ -60,16 +60,17 @@
 					<label for="cand-count">Number of candidates: </label>
 					<input type="number" id="cand-count" min="3" max="5" value="3" onchange="nCandUpdate()">	
 				</div>
-				<button onclick="candidateUpdate()">Generate Ballots</button>
+				<button onclick="generateBallots()">Generate Ballots</button>
 				<p>
 					The following allows you to remove a candidate without affecting the ballots. 
 				</p>
-				<div id="candidate-deselect">
-					<label><input type="checkbox" id="deselectA" checked>Candidate A</label>
-					<label><input type="checkbox" id="deselectB" checked>Candidate B</label>
-					<label><input type="checkbox" id="deselectC" checked>Candidate C</label>
+				<div id="candidate-selects">
+					<label><input type="checkbox" id="cSelectA" checked>Candidate A</label>
+					<label><input type="checkbox" id="cSelectB" checked>Candidate B</label>
+					<label><input type="checkbox" id="cSelectC" checked>Candidate C</label>
 				</div>
 				<button onclick="simElection()">VOTE!</button>
+				<!-- May need to enclose the table in a div to handle horizonatl overflow... -->
 				<table id="tally-rounds" class="IRV">
 					<thead>
 						<tr><th>Candidate</th><th>Rd 1</th><th>Rd 2</th></tr>
@@ -99,14 +100,9 @@
 					</p>
 				</section>
 				<section>
-					<h4 class="IRV">The Spoiler Effect</h4>
+					<h4 class="IRV">The Spoiler Effect</h4><!-- This could be worded better, maybe... -->
 					<p>
-						<q>A spoiler is a non-winning candidate whose presence on the ballot affects which candidate wins.</q><sup>[4]</sup> A common argument among proponents of IRV is that it eliminates the spoiler effect,<sup>[5]</sup> but in reality, the effect being eliminated is vote splitting. 
-						Vote splitting is what causes the spoiler effect under Simple Plurality,<sup>[6]</sup> hence the opportunity for confusion. 
-						An example of the spoiler effect can be seen in this exmaple: <span onclick="presetEntry(0)">click here</span> to enter the 
-						vote totals. Simulating the election with all three candidates, C wins. However, removing candidate B and resimulating the election, 
-						A wins. This means that candidate B spoiled the election for candidate A. Other examples can be found by regenerating the ballots, 
-						removing a losing candidate and checking for a change in the winner.
+						<q>A spoiler is a non-winning candidate whose presence on the ballot affects which candidate wins.</q><sup>[4]</sup> A common argument among proponents of IRV is that it eliminates the spoiler effect,<sup>[5]</sup> but in reality, the effect is only mitigated by eliminating weak candidates. The spoilers that do occur are hidden by the multi-round tallying process. Discovering a spoiler in a real-world election would require access to the ballots. An example of the spoiler effect can be seen in this exmaple: <span onclick="presetEntry(0)">click here</span> to enter the vote totals. Simulating the election with all three candidates, C wins. However, removing candidate B and resimulating the election, A wins. This means that candidate B spoiled the election for candidate A. Other examples can be found by regenerating the ballots, removing a losing candidate and checking for a change in the winner. IRV appears to eliminate spoilers, in part, because it appears to prevent vote splitting by allowing secondary preferences. 
 					</p>
 				</section>
 				<section>
@@ -125,7 +121,7 @@
 				<li>[3] <a href="https://rangevoting.org/Burlington.html" target="_blank">rangevoting.org/Burlington</a></li>
 				<li>[4] <a href="https://electionscience.org/library/the-spoiler-effect/" target="_blank">The Spoiler Effect</a></li>
 				<li>[5] <a href="http://archive3.fairvote.org/reforms/instant-runoff-voting/irv-and-the-status-quo/spoiler-effect/" target="_blank">RCV's claim against the Spoiler Effect</a></li>
-				<li>[6] <a href="https://electowiki.org/wiki/Vote_splitting" target="_blank">Vote Splitting</a></li>
+				<!--li>[6] <a href="https://electowiki.org/wiki/Vote_splitting" target="_blank">Vote Splitting</a></li-->
 				<li>[7] <a href="https://electionscience.org/library/tactical-voting-basics/#voting_method_myths" target="_blank">Tactical Voting</a></li>
 				<li>[8] <a href="https://www.fairvote.org/rcv#rcvbenefits" target="_blank">RCV Benefits</a></li>
 				<li>[9] <a href="https://medium.com/discourse/ranked-choice-isnt-immune-to-strategic-voting-a55ee464ad1f" target="_blank">RCV not immune to strategic voting</a></li>

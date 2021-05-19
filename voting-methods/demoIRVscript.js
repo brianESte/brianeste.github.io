@@ -1,3 +1,4 @@
+// Instant Runoff Voting functions script
 
 var nCandidates = 3;	// nCand range from 3-5
 const nCandMax = 5;		// maximum number of candidates. More is unnecessary
@@ -5,7 +6,7 @@ const nCandMax = 5;		// maximum number of candidates. More is unnecessary
 var votes = {'AB':0, 'AC':0, 'A':0,
 			 'BA':0, 'BC':0, 'B':0,
 			 'CA':0, 'CB':0, 'C':0};
-var candidates; // = {	'A':{'votes':0, 'active':true},	'B':{'votes':0, 'active':true},	'C':{'votes':0, 'active':true}};
+var candidates = {'A':{'votes':0, 'active':true}, 'B':{'votes':0, 'active':true}, 'C':{'votes':0, 'active':true}};
 
 
 function nCandUpdate(){
@@ -39,7 +40,11 @@ function votesUpdate(){
 	voteSumUpdate();
 }
 
-// election function/loop
+/**
+ * Simulate an election with the current candidate selection and votes
+ * 
+ * should update this to make use of the active property
+ */
 function simElection(){
 	// update vote Obj ...
 	votesUpdate();
@@ -50,36 +55,31 @@ function simElection(){
 	var nCandidates0 = 0;		// initialize starting number of candidates
 
 	for(const c in candidates){
-		if($("#deselect"+c)[0].checked){
+		//console.log($("#cSelect"+c)[0].checked);
+		
+		if($("#cSelect"+c)[0].checked){
 			nCandidates0++;
 		} else {
 			delete candidates[c];
 		}
-		//candidates[c].active = ;	// pull starting value from deselector list
+		
+		//candidates[c].active = $("#cSelect"+c)[0].checked;	// pull starting value from deselector list
 		//if(candidates[c].active)	
 	}
+	//nCandidates0 = Object.keys(candidates).length;		// not very elegant. not a fan.
 
-	// grab tally table
-	var tallyTable = $("#tally-rounds")[0];
-	// udpate thead...
-	var headerRow = document.createElement("tr");
-	var thcell = document.createElement("th");
-	thcell.innerHTML = "Candidate";		// may change later...
-	headerRow.appendChild(thcell);
+	var headerRow = $("<tr>").append($("<th>Candidate</th>"));
 	for(var i = 1; i < nCandidates0; i++){
-		headerRow.appendChild(genHTMLwithInner("th", "Rd "+i));
+		headerRow.append($("<th>Rd&nbsp;"+i+"</th>"))
 	}
-	tallyTable.tHead.replaceChild(headerRow, tallyTable.tHead.rows[0]);
+	$("#tally-rounds thead tr").replaceWith(headerRow);
 
 	// create new tallyBody
-	var tallyBody = document.createElement("tbody");
+	var tallyBody = $("<tbody>");
 	var tallyRows = {};
 	for(var c = 0; c < nCandidates; c++){
 		var cLetter = String.fromCharCode(c+65);
-		var cCell = genHTMLwithInner("td", cLetter);
-		var row = document.createElement("tr");
-		row.append(cCell);
-		tallyRows[cLetter] = row;
+		tallyRows[cLetter] = $("<tr>").append($("<td>"+cLetter+"</td>"))
 	}
 
 	// for each runoff round...
@@ -106,7 +106,7 @@ function simElection(){
 		// then display the vote totals
 		for(const c in candidates){
 			//if(candidates[c].active){
-				tallyRows[c].append(genHTMLwithInner("td", candidates[c].votes));
+				tallyRows[c].append($("<td>"+candidates[c].votes+"</td>"))
 			//}
 		}
 		/*
@@ -143,12 +143,14 @@ function simElection(){
 			winningCand = c;
 		}
 	}
-	tallyRows[winningCand].cells[nCandidates0-1].style.background = "#e6e600";
-	tallyRows[winningCand].cells[nCandidates0-1].style.color = "#000";
+
+	tallyRows[winningCand].css({"background-color": "yellow", "color": "black"});
+
 	for(var i = 0; i < nCandidates; i++){
 		tallyBody.append(tallyRows[String.fromCharCode(i+65)])
 	}
-	tallyTable.replaceChild(tallyBody, tallyTable.tBodies[0]);
+
+	$("#tally-rounds tbody").replaceWith(tallyBody);
 }
 
 // update the vote counts and total
@@ -188,104 +190,78 @@ function genVoteObjRec(startPref, nextCands){
 	}
 }
 
-function genHTMLwithInner(tag, inner){
-	var htmlObj = document.createElement(tag);
-	htmlObj.innerHTML = inner;
-	return htmlObj;
-}
-
 /**
- * generates an html input object. Could/might modify/expand to all html tags
- * might not work with "onchange"... not sure why..
- * 
- * @param {Object} options 
- * @returns 	generated input object
+ * Generate a new ballot table
  */
-function genInputObj(options){
-	var inpObj = document.createElement("input");
-	for(const attr in options){
-		inpObj[attr] = options[attr];
-	}
-	return inpObj;
-}
-
-function candidateUpdate(){
+function generateBallots(){
 	nCandidates = Number($("#cand-count")[0].value);
 	if(nCandidates > nCandMax)	nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
 	// grab candidate deslector list
-	var deselectors = $("#candidate-deselect")[0];
-	var nCandidates0 = deselectors.childElementCount;
+	var cSelectors = $("#candidate-selects");
+	var nCandidates0 = cSelectors.find("label").length;
 
-	// update candidate deselector list
-	// <li><label><input type="checkbox" id="deselectC" checked>Candidate C</label></li>
-	if(nCandidates > nCandidates0){
-		for(var c = nCandidates0; c < nCandidates; c++){
-			//var lItem = document.createElement("li");
-			var candLabel = document.createElement("label");
-			var candSel = genInputObj({"id": "deselect"+String.fromCharCode(c+65), "type": "checkbox"});
-			candSel.setAttribute("checked", true);
-			candLabel.append(candSel);
-			candLabel.innerHTML += "Candidate "+String.fromCharCode(c+65);
-			//lItem.append(candLabel);
-			deselectors.append(candLabel);	//lItem);
+	if(nCandidates != nCandidates0){
+		// update candidate deselector list
+		if(nCandidates > nCandidates0){
+			for(var c = nCandidates0; c < nCandidates; c++){
+
+				let cLetter = String.fromCharCode(c+65);
+				cSelectors.append($("<label>Candidate "+cLetter+"</label>")
+					.prepend($("<input>", {"id": "cSelect"+cLetter, "type": "checkbox", "checked": true})))
+			}
+		} else {
+			for(var c = nCandidates0; c > nCandidates; c--){
+				cSelectors.find("label").eq(c-1).remove();
+			}
 		}
-	} else {
-		for(var c = nCandidates0; c > nCandidates; c--){
-			deselectors.removeChild(deselectors.children[c-1]);
+
+		// update header and footer
+		// update wide cells
+		var wideCells = $("#ballots [colspan]");
+		for(var cell of wideCells){
+			cell.colSpan = nCandidates - 1;
 		}
-	}
-	
-	// get table object
-	var bTable = $("#ballots")[0];
 
-	// update header and footer
-	// update wide cells
-	var wideCells = $("#ballots [colspan]");
-	for(var cell of wideCells){
-		cell.colSpan = nCandidates - 1;
-	}
-	// update rank# row
-	var rankRow = document.createElement("tr");
-	for(var r = 1; r < nCandidates; r++){
-		rankRow.append(genHTMLwithInner("td",r+"."))
-	}
-	bTable.tHead.replaceChild(rankRow, bTable.tHead.rows[1]);
-
-	// update candidates
-	genCandidates();
-
-	// update vote Object
-	generateVoteObj();
-	// create the blank tBody
-	var newBody = document.createElement("tbody");
-	// add a row for each ballot permutation
-	for(const ballot of Object.keys(votes)){
-		var row = document.createElement("tr");		// create the row object
-	
-		for(var pref of ballot){					// add the ranked candidates
-			row.append(genHTMLwithInner("td", pref))
+		// update rank# row
+		var rankRow = $("<tr>");
+		for(var r = 1; r < nCandidates; r++){
+			rankRow.append($("<td>"+r+".</td>"))
 		}
 		
-		for(var c = row.cells.length; c < nCandidates-1; c++){	// add blank cells as necessary
-			row.append(genHTMLwithInner("td", " "))
-		}
-	
-		// add the number input cell
-		// <input id="pC" type="number" min=0 value=92 onchange="update(this)">
-		var nBallot = genInputObj({"id": "p" + ballot,"type": "number", "min": 0,
-			"value": Math.floor(Math.random()*500)});
-		nBallot.setAttribute("onchange", "update(this)");
-	
-		var nBallotCell = document.createElement("td");
-		nBallotCell.append(nBallot);
-		row.append(nBallotCell);
+		$("#ballots thead tr").eq(1).replaceWith(rankRow);
 
-		newBody.append(row);	// append the row to the table body
+		// update candidates
+		genCandidates();
+
+		// update vote Object
+		generateVoteObj();
+		// create the blank tBody
+		var newBody = $("<tbody>");
+		// add a row for each ballot permutation
+		for(const ballot of Object.keys(votes)){
+			var row = $("<tr>")				// create the row object
+		
+			for(var pref of ballot){					// add the ranked candidates
+				row.append($("<td>"+pref+"</td>"))
+			}
+			
+			for(var c = row[0].childElementCount; c < nCandidates-1; c++){	// add blank cells as necessary
+				row.append($("<td> </td>"))
+			}
+		
+			// add the number input cell
+			row.append($("<td>").append($("<input>", {"id": "p"+ballot,"type": "number", "min": 0, "onchange": "update(this)"})));
+
+			newBody.append(row);	// append the row to the table body
+		}
+
+		// replace old tbody with updated tbody
+		$("#ballots tbody").replaceWith(newBody);
 	}
 
-	// replace old tbody with updated tbody
-	var tBody = bTable.tBodies[0];
-	bTable.replaceChild(newBody, tBody)
+	for(let ballotPerm in votes){
+		$("#p"+ballotPerm)[0].value = Math.floor(Math.random()*500)
+	}
 
 	// update vote totals to match the new rando values
 	votesUpdate();
@@ -309,7 +285,7 @@ function presetEntry(select){
 			presetValues = [2043, 371, 1321, 1332, 767, 455, 0, 1513, 1031];
 			break;
 		default:
-			console.warning("unused case value sent to ")
+			console.warning("unused case value sent to presetEntry()")
 	}
 
 	var prefs = $("#ballots input");
@@ -320,7 +296,7 @@ function presetEntry(select){
 	votesUpdate();
 }
 
-genCandidates();
+//genCandidates();
 votesUpdate();
 simElection();
 

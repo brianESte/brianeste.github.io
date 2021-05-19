@@ -58,6 +58,7 @@ table{
 th, td{
 	border:	0.5px solid black;
 	padding: 5px;
+	width: 21px;	/* may want to make this a relative value at some point */
 	text-align: center;
 }
 
@@ -149,8 +150,8 @@ main > div{	margin: 0 10px 20px 10px;	}
 table.plurality{	border-collapse: collapse;	}
 
 #scroll-container{
-	min-width: 200px;	/* this value is only kind of needed */
-	padding: 0 5px;
+	min-width: 200px;	/* this value prevents the table from being hidden */
+	padding: 0 10px 0 0;
 	overflow-y: auto;
 	overflow-x: hidden;
 	max-height: 65vh;
@@ -162,7 +163,10 @@ thead, tfoot, tr, th, td{	background: inherit;	}
 /* border-spaceing: 0, and border-collapse: separate, is the best I have found that
 works on chrome and FF... */
 .sticky-table thead, .sticky-table tfoot{	position: sticky;	}
-.sticky-table thead{	top: 0;	}
+.sticky-table thead{
+	top: 0;
+	z-index: 2;
+}
 .sticky-table tfoot{	bottom: 0;	}
 
 /* Styles needed for Chrome: */
@@ -173,6 +177,28 @@ works on chrome and FF... */
 
 td > input{	width: 45px;	}
 td input[type=number]{	-moz-appearance: textfield;	}
+thead [onclick]{	cursor: pointer;	}
+
+/* css checkmark */
+.checkmark{
+	display: inline-block;
+	position: relative;
+
+}
+
+.checkmark::after{
+	position: absolute;
+	display: block;
+	content: "";
+	height: 11px;
+	width: 5px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	border-radius: 2px;
+	left: calc(50% - 4px);
+	top: calc(50% - 8px);
+	transform: rotate(40deg);
+}
 
 /* 1D spectrum */
 svg{
@@ -206,13 +232,13 @@ svg > polyline{
 }
 
 #cand-count{	width: 25px;	}
-#candidate-deselect{
+#candidate-selects{
 	padding: 0;	
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
 }
-#candidate-deselect > label{	margin: 0 10px;	}
+#candidate-selects > label{	margin: 0 10px;	}
 
 button{
 	width: 60%;

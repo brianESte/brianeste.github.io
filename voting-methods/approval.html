@@ -27,16 +27,23 @@
 				<table id="ballots" class="sticky-table approval">
 					<thead>
 						<tr><th colspan="3">Approvals</th><th rowspan="2"># Voters</th></tr>
-						<tr><td>A</td><td>B</td><td>C</td></tr>
+						<tr><td onclick="candClick(this)">A</td><td onclick="candClick(this)">B</td><td onclick="candClick(this)">C</td></tr>
 					</thead>
 					<tbody>
-						<tr><td>&#x2714</td><td></td><td></td><td><input type="number" min=0 id="aA" value=100 onchange="update(this)"></td></tr>
-						<tr><td></td><td>&#x2714</td><td></td><td><input type="number" min=0 id="aB" value=99 onchange="update(this)"></td></tr>
-						<tr><td>&#x2714</td><td>&#x2714</td><td></td><td><input type="number" min=0 id="aAB" value=98 onchange="update(this)"></td></tr>
-						<tr><td></td><td></td><td>&#x2714</td><td><input type="number" min=0 id="aC" value=97 onchange="update(this)"></td></tr>
-						<tr><td>&#x2714</td><td></td><td>&#x2714</td><td><input type="number" min=0 id="aAC" value=96 onchange="update(this)"></td></tr>
-						<tr><td></td><td>&#x2714</td><td>&#x2714</td><td><input type="number" min=0 id="aBC" value=95 onchange="update(this)"></td></tr>
-						<tr><td>&#x2714</td><td>&#x2714</td><td>&#x2714</td><td><input type="number" min=0 id="aABC" value=0 onchange="update(this)"></td></tr>
+						<tr><td><span class="checkmark"></span></td><td></td><td></td>
+							<td><input type="number" min=0 id="aA" value=100 onchange="update(this)"></td></tr>
+						<tr><td></td><td><span class="checkmark"></span></td><td></td>
+							<td><input type="number" min=0 id="aB" value=99 onchange="update(this)"></td></tr>
+						<tr><td><span class="checkmark"></span></td><td><span class="checkmark"></span></td><td></td>
+							<td><input type="number" min=0 id="aAB" value=98 onchange="update(this)"></td></tr>
+						<tr><td></td><td></td><td><span class="checkmark"></span></td>
+							<td><input type="number" min=0 id="aC" value=97 onchange="update(this)"></td></tr>
+						<tr><td><span class="checkmark"></span></td><td></td><td><span class="checkmark"></span></td>
+							<td><input type="number" min=0 id="aAC" value=96 onchange="update(this)"></td></tr>
+						<tr><td></td><td><span class="checkmark"></span></td><td><span class="checkmark"></span></td>
+							<td><input type="number" min=0 id="aBC" value=95 onchange="update(this)"></td></tr>
+						<tr><td><span class="checkmark"></span></td><td><span class="checkmark"></span></td><td><span class="checkmark"></span></td>
+							<td><input type="number" min=0 id="aABC" value=0 onchange="update(this)"></td></tr>
 					</tbody>
 					<tfoot>
 						<tr><td colspan="3">Total:</td><td id="nVoter"></td></tr>
@@ -55,14 +62,14 @@
 					<label for="cand-count">Number of candidates: </label>
 					<input type="number" id="cand-count" min="3" max="5" value="3" onchange="nCandUpdate()">
 				</div>
-				<button onclick="candidateUpdate()">Generate Ballots</button>
+				<button onclick="generateBallots()">Generate Ballots</button>
 				<p>
 					The following allows you to remove a candidate without affecting the ballots. 
 				</p>
-				<div id="candidate-deselect">
-					<label><input type="checkbox" id="deselectA" checked>Candidate A</label>
-					<label><input type="checkbox" id="deselectB" checked>Candidate B</label>
-					<label><input type="checkbox" id="deselectC" checked>Candidate C</label>
+				<div id="candidate-selects">
+					<label><input type="checkbox" id="cSelectA" onchange="cSelectorToggle(this)" checked>Candidate A</label>
+					<label><input type="checkbox" id="cSelectB" onchange="cSelectorToggle(this)" checked>Candidate B</label>
+					<label><input type="checkbox" id="cSelectC" onchange="cSelectorToggle(this)" checked>Candidate C</label>
 				</div>
 				<button onclick="simElection()">VOTE!</button>
 				<table id="tally-rounds" class="approval">
