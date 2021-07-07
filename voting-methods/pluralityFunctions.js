@@ -50,11 +50,18 @@ function update(self){
 	//voteSumUpdate();
 }
 
-// deselect specified candidate
-function deselect(self){
-    var voterBloc = self.id.slice(-1).toLowerCase();
-    voterInfo[voterBloc].active = !voterInfo[voterBloc].active;
-    var blocColumn = voterBloc.charCodeAt()-95;
+// toggle specified candidate
+function toggleCand(self){
+    var blocColumn;
+
+    if(self.nodeName == "TH"){
+        blocColumn = self.cellIndex +1;
+    } else {
+        var voterBloc = self.id.slice(-1).toLowerCase();
+        voterInfo[voterBloc].active = !voterInfo[voterBloc].active;
+        blocColumn = voterBloc.charCodeAt()-95;
+    }
+    
     // candidateRow.find("th").eq(4).toggleClass("stripeOut")
     $("#voters th:nth-child("+blocColumn+")").toggleClass("stripeOut");
     // toggle honesty and votes cells of the selected column
@@ -181,9 +188,9 @@ function genElectionTable(){
 	if(nCandidates > nCandMax)	nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
     if(nCandidates < 3)	nCandidates = 3;	            // limit nCandidates if it is less than 3
 
-	// grab candidate deslector list
-	var deselectors = $("#candidate-deselect");
-	var nCandidates0 = deselectors.find("label").length;
+	// grab candidate slector list
+	var selectors = $("#candidate-selects");
+	var nCandidates0 = selectors.find("label").length;
 
     // update candidates
     candidateScores = {};
@@ -198,13 +205,13 @@ function genElectionTable(){
     var honestyRow = $("#voters tbody tr").eq(1);
     var votesRow = $("#voters tbody tr").eq(2);
 
-	// update candidate deselector list
+	// update candidate selector list
 	if(nCandidates > nCandidates0){
 		for(let c = nCandidates0; c < nCandidates; c++){
             let candLetter = String.fromCharCode(c+65);  
-            deselectors.append($("<label>Candidate "+String.fromCharCode(c+65)+"</label>")
-                .prepend($("<input>", {"id": "deselect"+String.fromCharCode(c+65), "type": "checkbox", 
-                "onchange": "deselect(this)", "checked": true})));
+            selectors.append($("<label>Candidate "+String.fromCharCode(c+65)+"</label>")
+                .prepend($("<input>", {"id": "toggle"+String.fromCharCode(c+65), "type": "checkbox", 
+                "onchange": "toggleCand(this)", "checked": true})));
 
             candidateRow.append($("<th>"+candLetter+"</th>"));
 
@@ -217,7 +224,7 @@ function genElectionTable(){
 		}
 	} else {
 		for(let c = nCandidates0; c > nCandidates; c--){
-            deselectors.find("label").eq(c-1).remove();
+            selectors.find("label").eq(c-1).remove();
 
             // remove unnecessary cells
             candidateRow.find("th").eq(c).remove();
@@ -226,6 +233,7 @@ function genElectionTable(){
             votesRow.find("td").eq(c).remove();
         }
 	}
+    // console.log(selectors);
 
     var frontRunners = frontRunnerRule[nCandidates];
 
@@ -254,7 +262,7 @@ function genElectionTable(){
 
 for(var box of $("[checked]")){
     if(!box.checked){
-        deselect(box)
+        toggleCand(box)
     }
 }
 

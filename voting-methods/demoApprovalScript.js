@@ -3,7 +3,7 @@
 var nCandidates = 3;	// nCand range from 3-5
 const nCandMax = 5;		// more than 5 candidates is unnecessary
 
-var ballots = {'A': 0, 'B': 0, 'AB': 0, 'C': 0, 'AC': 0, 'BC': 0, 'ABC': 0};
+var ballots = {'A': 0, 'B': 0, 'AB': 0, 'C': 0, 'AC': 0, 'BC': 0};
 var candidates = {'A': {'votes':0, 'active':true}, 'B': {'votes':0, 'active':true}, 'C': {'votes':0, 'active':true}};
 for(let c = 0; c < 3; c++){
 	candidates[String.fromCharCode(c+65)].active = $("#cSelect"+String.fromCharCode(c+65))[0].checked;
@@ -104,7 +104,7 @@ function generateBallotObj(){
     var candList = Object.keys(candidates);
 
     // starting at 1, and going to 2^n touches on all relevant ballot permutations
-	for(var b = 1; b < Math.pow(2, nCandidates); b++){
+	for(var b = 1; b < Math.pow(2, nCandidates)-1; b++){
         // first convert b to a reversed binary array
         var revBinArray = [];
         var bVal = b;
@@ -213,7 +213,7 @@ function candClick(self){
 }
 
 // deselect specified candidate
-function cSelectorToggle(self){
+function toggleCand(self){
     var candLetter = self.id.slice(-1);
     candidates[candLetter].active = !candidates[candLetter].active;
     var blocColumn = candLetter.charCodeAt()-64;
@@ -222,6 +222,14 @@ function cSelectorToggle(self){
     //$("#ballots th:nth-child("+blocColumn+")").toggleClass("stripeOut");
     // toggle honesty and votes cells of the selected column
     //$("#ballots tr:not(:first-child) td:nth-child("+blocColumn+")").toggleClass("stripeOut");
+}
+
+function zeroAll(){
+	for(const ballot in ballots){
+		$("#a"+ballot).val(0);
+		ballots[ballot] = 0;
+	}
+	$("#nVoter").html(0)
 }
 
 //genCandidates();

@@ -89,6 +89,9 @@ header :visited, header :link{	color: #000;	}
 	width: 100%;
 }
 
+.horizontal{	display: flex;	}
+.horizontal button{	width: 45%;	}
+
 h2{	margin: 10px 0;	}
 
 header a{

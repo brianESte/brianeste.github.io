@@ -8,7 +8,10 @@ var votes = {'AB':0, 'AC':0, 'A':0,
 			 'CA':0, 'CB':0, 'C':0};
 var candidates = {'A':{'votes':0, 'active':true}, 'B':{'votes':0, 'active':true}, 'C':{'votes':0, 'active':true}};
 
-
+/**
+ * Update the number of candidates, limit if necessary. 
+ * Referenced by number input's onchange()
+ */
 function nCandUpdate(){
 	nCandidates = Number($("#cand-count")[0].value);
 	if(nCandidates > nCandMax){
@@ -271,7 +274,7 @@ function generateBallots(){
 function presetEntry(select){
 	$("#cand-count")[0].value = 3;		// Example is assumed to use only 3 candidates
 
-	candidateUpdate();
+	generateBallots();
 	var presetValues;		// create presetValues var
 
 	switch(select){
@@ -294,6 +297,14 @@ function presetEntry(select){
 		prefs[i].value = presetValues[i];
 	}
 	votesUpdate();
+}
+
+function zeroAll(){
+	for(const vote in votes){
+		$("#p"+vote).val(0);
+		votes[vote] = 0;
+	}
+	$("#nVoter").html(0)
 }
 
 //genCandidates();

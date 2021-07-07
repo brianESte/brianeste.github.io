@@ -15,8 +15,8 @@
 					<a href="./plurality.html" id="simple-plurality-link" class="plurality"></a>
 					<a href="#" id="approval-link" class="approval active-link"></a>
 					<a href="./demoIRV.html" id="IRV-link" class="IRV"></a>
-					<a href="#" id="score-link" class="score stripeOut"></a>
-					<a href="#" id="STAR-link" class="STAR stripeOut">STAR</a>
+					<a href="https://www.youtube.com/watch?v=e3GFG0sXIig&t=124s" id="score-link" class="score" target="_blank"></a>
+					<a href="https://www.starvoting.us/" id="STAR-link" class="STAR" target="_blank">STAR</a>
 				</div>
 			</div>
 			<h2>Approval Voting Demo</h2>
@@ -42,8 +42,8 @@
 							<td><input type="number" min=0 id="aAC" value=96 onchange="update(this)"></td></tr>
 						<tr><td></td><td><span class="checkmark"></span></td><td><span class="checkmark"></span></td>
 							<td><input type="number" min=0 id="aBC" value=95 onchange="update(this)"></td></tr>
-						<tr><td><span class="checkmark"></span></td><td><span class="checkmark"></span></td><td><span class="checkmark"></span></td>
-							<td><input type="number" min=0 id="aABC" value=0 onchange="update(this)"></td></tr>
+						<!--tr><td><span class="checkmark"></span></td><td><span class="checkmark"></span></td><td><span class="checkmark"></span></td>
+							<td><input type="number" min=0 id="aABC" value=0 onchange="update(this)"></td></tr-->
 					</tbody>
 					<tfoot>
 						<tr><td colspan="3">Total:</td><td id="nVoter"></td></tr>
@@ -62,14 +62,17 @@
 					<label for="cand-count">Number of candidates: </label>
 					<input type="number" id="cand-count" min="3" max="5" value="3" onchange="nCandUpdate()">
 				</div>
-				<button onclick="generateBallots()">Generate Ballots</button>
+				<div class="horizontal">
+					<button onclick="generateBallots()">Generate Ballots</button>
+					<button onclick="zeroAll()">Clear Ballots</button>
+				</div>
 				<p>
 					The following allows you to remove a candidate without affecting the ballots. 
 				</p>
 				<div id="candidate-selects">
-					<label><input type="checkbox" id="cSelectA" onchange="cSelectorToggle(this)" checked>Candidate A</label>
-					<label><input type="checkbox" id="cSelectB" onchange="cSelectorToggle(this)" checked>Candidate B</label>
-					<label><input type="checkbox" id="cSelectC" onchange="cSelectorToggle(this)" checked>Candidate C</label>
+					<label><input type="checkbox" id="cSelectA" onchange="toggleCand(this)" checked>Candidate A</label>
+					<label><input type="checkbox" id="cSelectB" onchange="toggleCand(this)" checked>Candidate B</label>
+					<label><input type="checkbox" id="cSelectC" onchange="toggleCand(this)" checked>Candidate C</label>
 				</div>
 				<button onclick="simElection()">VOTE!</button>
 				<table id="tally-rounds" class="approval">

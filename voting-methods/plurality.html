@@ -15,8 +15,8 @@
 					<a href="#" id="simple-plurality-link" class="plurality active-link"></a>
 					<a href="./approval.html" id="approval-link" class="approval"></a>
 					<a href="./demoIRV.html" id="IRV-link" class="IRV"></a>
-					<a href="#" id="score-link" class="score stripeOut"></a>
-					<a href="#" id="STAR-link" class="STAR stripeOut">STAR</a>
+					<a href="https://www.youtube.com/watch?v=e3GFG0sXIig&t=124s" id="score-link" class="score" target="_blank"></a>
+					<a href="https://www.starvoting.us/" id="STAR-link" class="STAR" target="_blank">STAR</a>
 				</div>
 			</div>
 			<h2>Simple Plurality Voting Demo</h2>
@@ -27,7 +27,10 @@
 				<div class="table-holder">
 					<table id="voters" class="plurality">
 						<thead>
-							<tr><th>Candidate</th><th>A</th><th>B</th><th>C</th></td>
+							<tr><th>Candidate</th>
+								<th onclick="toggleCand(this)">A</th>
+								<th onclick="toggleCand(this)">B</th>
+								<th onclick="toggleCand(this)">C</th></tr>
 						</thead>
 						<tbody>
 							<tr><td>Voters</td>
@@ -70,10 +73,10 @@
 				<p>
 					The following allows you to remove a candidate without affecting the ballots. 
 				</p>
-				<div id="candidate-deselect">
-					<label><input type="checkbox" id="deselectA" onchange="deselect(this)" checked>Candidate A</label>
-					<label><input type="checkbox" id="deselectB" onchange="deselect(this)" checked>Candidate B</label>
-					<label><input type="checkbox" id="deselectC" onchange="deselect(this)" checked>Candidate C</label>
+				<div id="candidate-selects">
+					<label><input type="checkbox" id="toggleA" onchange="toggleCand(this)" checked>Candidate A</label>
+					<label><input type="checkbox" id="toggleB" onchange="toggleCand(this)" checked>Candidate B</label>
+					<label><input type="checkbox" id="toggleC" onchange="toggleCand(this)" checked>Candidate C</label>
 				</div>
 				<button onclick="simPlurality()">VOTE!</button>
 				<!--table id="tally-rounds" class="plurality">

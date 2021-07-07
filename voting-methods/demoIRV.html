@@ -15,8 +15,8 @@
 					<a href="./plurality.html" id="simple-plurality-link" class="plurality"></a>
 					<a href="./approval.html" id="approval-link" class="approval"></a>
 					<a href="#" id="IRV-link" class="IRV active-link"></a>
-					<a href="#" id="score-link" class="score stripeOut"></a>
-					<a href="#" class="STAR stripeOut">STAR</a>
+					<a href="https://www.youtube.com/watch?v=e3GFG0sXIig&t=124s" id="score-link" class="score" target="_blank"></a>
+					<a href="https://www.starvoting.us/" class="STAR" target="_blank">STAR</a>
 				</div>
 			</div>
 			<h2>Instant Runoff Voting Demo</h2>
@@ -60,7 +60,10 @@
 					<label for="cand-count">Number of candidates: </label>
 					<input type="number" id="cand-count" min="3" max="5" value="3" onchange="nCandUpdate()">	
 				</div>
-				<button onclick="generateBallots()">Generate Ballots</button>
+				<div class="horizontal">
+					<button onclick="generateBallots()">Generate Ballots</button>
+					<button onclick="zeroAll()">Clear Ballots</button>
+				</div>
 				<p>
 					The following allows you to remove a candidate without affecting the ballots. 
 				</p>
@@ -106,9 +109,9 @@
 					</p>
 				</section>
 				<section>
-					<h4 class="IRV">Tactical Voting<sup>[7]</sup></h4>
+					<h4 class="IRV">Tactical Voting<sup>[6]</sup></h4>
 					<p>
-						Proponents of IRV claim it is highly resistant to tactical voting.<sup>[8]</sup> The idea is that due to candidate ranking on the ballot, it is safe for voters to rank their favorite candidate first, second favorite second, and so on. This claim is subject to debate, as some claim that it can be better for voters to not rank their favorite first.<sup>[7]</sup> Others claim it reduces tactical voting compared to Simple Plurality (FPTP), but is not immune to it.<sup>[9]</sup>
+						Proponents of IRV claim it is highly resistant to tactical voting.<sup>[7]</sup> The idea is that due to candidate ranking on the ballot, it is safe for voters to rank their favorite candidate first, second favorite second, and so on. This claim is subject to debate, as some claim that it can be better for voters to not rank their favorite first.<sup>[6]</sup> Others claim it reduces tactical voting compared to Simple Plurality (FPTP), but is not immune to it.<sup>[8]</sup>
 					</p>
 				</section>
 			</div>
@@ -122,9 +125,9 @@
 				<li>[4] <a href="https://electionscience.org/library/the-spoiler-effect/" target="_blank">The Spoiler Effect</a></li>
 				<li>[5] <a href="http://archive3.fairvote.org/reforms/instant-runoff-voting/irv-and-the-status-quo/spoiler-effect/" target="_blank">RCV's claim against the Spoiler Effect</a></li>
 				<!--li>[6] <a href="https://electowiki.org/wiki/Vote_splitting" target="_blank">Vote Splitting</a></li-->
-				<li>[7] <a href="https://electionscience.org/library/tactical-voting-basics/#voting_method_myths" target="_blank">Tactical Voting</a></li>
-				<li>[8] <a href="https://www.fairvote.org/rcv#rcvbenefits" target="_blank">RCV Benefits</a></li>
-				<li>[9] <a href="https://medium.com/discourse/ranked-choice-isnt-immune-to-strategic-voting-a55ee464ad1f" target="_blank">RCV not immune to strategic voting</a></li>
+				<li>[6] <a href="https://electionscience.org/library/tactical-voting-basics/#voting_method_myths" target="_blank">Tactical Voting</a></li>
+				<li>[7] <a href="https://www.fairvote.org/rcv#rcvbenefits" target="_blank">RCV Benefits</a></li>
+				<li>[8] <a href="https://medium.com/discourse/ranked-choice-isnt-immune-to-strategic-voting-a55ee464ad1f" target="_blank">RCV not immune to strategic voting</a></li>
 			</ul>
 		</footer>
 		<script src="demoIRVscript.js"></script>
