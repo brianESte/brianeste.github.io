@@ -9,10 +9,9 @@
 	<body>
 		<div class="main-page">
 		<h1>Morse Code! Yea~!</h1>
-		<hr/><!--horizontal ruler-->
-		<p>A tribute to Morsecode.io. I used that page once upon a time to learn Morse, but it no longer exists...</p>
-		<div id="thirds-holder">
-			<div class="third">
+		<hr/>
+		<div id="section-holder">
+			<div class="section">
 
 		<div class="tuner-grid">
 			<div class="row1 col1">
@@ -79,10 +78,10 @@
 				</svg>
 			</div>
 			<div class="row2 col1">
-				<span>Level</span>
+				<span class="emb-label">Level</span>
 			</div>
 			<div class="row2 col2">
-				<span>WPM</span>
+				<span class="emb-label">WPM</span>
 			</div>
 		</div>
 		<div class="sw-grid">
@@ -144,10 +143,10 @@
 				</svg>
 			</div>
 			<div class="row2 col1">
-				<span>Audio<div class='audio' id='audio-sym'></div><span>
+				<span class="emb-label">Audio<div class='audio' id='audio-sym'></div></span>
 			</div>
 			<div class="row2 col3">
-				<span>Blinker</span>
+				<span class="emb-label">Blinker</span>
 			</div>
 			<div class="row3 col1">
 				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
@@ -166,7 +165,7 @@
 					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,3)"></path>
 					<!--/symbol-->
 				</svg>
-				<span>Text hint</span>
+				<span class="emb-label">Text hint</span>
 			</div>
 			<div class="row3 col2">
 				<textarea id="msg-hint" cols="20" readonly></textarea>
@@ -217,27 +216,86 @@
 				</tr>
 			</tbody>
 		</table>
-		</div>
-		<div class="third">
-		
-		<label id='prompt' for="text-in"></label>
-		<textarea class='ntouch' id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
-		<div class='button-array'>
-			<button class='touch button' onclick='checkWord(this)'></button>
-			<button class='touch button' onclick='checkWord(this)'></button>
-			<button class='touch button' onclick='checkWord(this)'></button>
-			<button class='touch button' onclick='checkWord(this)'></button>
+		<!--/div-->
+		<div id="input-section">
+			<label id='prompt' for="text-in"></label>
+			<textarea class='ntouch' id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
+			<div class='button-array'>
+				<button class='touch button' onclick='checkWord(this)'></button>
+				<button class='touch button' onclick='checkWord(this)'></button>
+				<button class='touch button' onclick='checkWord(this)'></button>
+				<button class='touch button' onclick='checkWord(this)'></button>
+			</div>
 		</div>
 		
 		<button onclick='setWord()'>New Word</button>
 		<span id='answer' onclick='showAnswer()'></span>
 		</div>
-		<div class="third" id="info-folder">
-			<figure>
-			<img id='infographic' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/International_Morse_Code.svg/1200px-International_Morse_Code.svg.png'>
-			<figcaption>Image credit to Wikipedia</figcaption>
-		</figure>
-		</div>
+			<div class="section" id="info-folder">
+				<div id="folder-tabs">
+					<!-- labels are displayed in reverse order of what is listed here, due to the rotation-->
+					<label for="" class="folder-label coral-page">BLANK</label>
+					<label for="history-tab" class="folder-label history-page">HISTORY</label>
+					<label for="code-tab" class="folder-label code-page">CODE TABLE</label>
+					<label for="instruction-tab" class="folder-label instruction-page">INSTRUCTIONS</label>
+				</div>
+				<svg height="0" width="0">
+					<defs>
+						<radialGradient id="metal">
+							<stop offset="10%" stop-color="white"/>
+							<stop offset="80%" stop-color="#555"/>
+						</radialGradient>
+						<path id="paperclip-back" d="M30 5 a 25 25 90 0 0 -25 25" stroke="url(#metal)" stroke-width="6" fill="none"/>
+						<path id="paperclip-front" d="M5 55 v115 a 25 25 180 0 0 50 0 v-140 a 25 25 90 0 0 -25 -25" stroke="url(#metal)" stroke-width="6" stroke-linecap="round" fill="none"/>
+					</defs>
+				</svg>
+				<input type="radio" name="active-folder" id="instruction-tab" checked>
+				<div class="folder instruction-page">
+					<div class="paperclip">
+						<svg viewbox="0 0 60 200" widith="30" height="100" class="paperclip-back">
+							<use href="#paperclip-back"/>
+						</svg>
+						<svg viewbox="0 0 60 200" widith="30" height="100" class="paperclip-front">
+							<use href="#paperclip-front"/>
+						</svg>
+					</div>
+					<div class="paper">
+						<p>A tribute to Morsecode.io. I used that page once upon a time to learn Morse, but it no longer exists...</p>
+						<p>The level dial changes the wordset. The higher the level, the more challenging the words. Level 0 is single letters. Not all levels have been implemented. There are 3 aids to toggle: auditory, visual and written. Each can be toggled with the appropriate switch. The decoded message is to be entered into the text field provided.</p>
+						<p>The desired aesthetic is that of an old timey control panel, not too different than the device shown in the history page.</p>
+					</div>
+				</div>
+				<input type="radio" name="active-folder" id="code-tab">
+				<div class="folder code-page">
+					<div class="paperclip">
+						<svg viewbox="0 0 60 200" widith="30" height="100" class="paperclip-back">
+							<use href="#paperclip-back"/>
+						</svg>
+						<svg viewbox="0 0 60 200" widith="30" height="100" class="paperclip-front">
+							<use href="#paperclip-front"/>
+						</svg>
+					</div>
+					<figure>
+						<img id='infographic' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/International_Morse_Code.svg/1200px-International_Morse_Code.svg.png'>
+						<figcaption>Image credit to Wikipedia</figcaption>
+					</figure>
+				</div>
+				<input type="radio" name="active-folder" id="history-tab">
+				<div class="folder history-page">
+					<div class="paperclip">
+						<svg viewbox="0 0 60 200" widith="30" height="100" class="paperclip-back">
+							<use href="#paperclip-back"/>
+						</svg>
+						<svg viewbox="0 0 60 200" widith="30" height="100" class="paperclip-front">
+							<use href="#paperclip-front"/>
+						</svg>
+					</div>
+					<figure>
+						<img id='infographic' src='https://d3h6k4kfl8m9p0.cloudfront.net/stories/t4OJnk88Xw9jsI1zaHkL.g.jpg'>
+						<figcaption>Image credit to xyzdecode.blogspot.com (no longer exists)</figcaption>
+					</figure>
+				</div>
+			</div>
 		</div>
 		<!--p id='uagent-info' style='display: none;'></p-->
 		<!--p id='touch-info'></p-->
