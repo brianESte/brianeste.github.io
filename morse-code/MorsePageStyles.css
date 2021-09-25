@@ -41,30 +41,32 @@ body{
 	display: grid;
 	grid-template-columns: 40% 15% 40%;
 	grid-column-gap: 10px;
-	grid-row-gap: 5px;
+	grid-row-gap: 4px;
 	justify-content: space-evenly;
-	margin-top: 10px;
+	margin-top: 5px;
 }
 .sw-grid div{	text-align: center;	}
 .row1{	grid-row: 1 / 2;	}
 .row2{	grid-row: 2 / 3;	}
 .row3{	grid-row: 3 / 4;	}
+.row4{	grid-row: 4 / 5;	}
 .col1{	grid-column: 1 / 2;	}
 .col2{	grid-column: 2 / 3;	}
 .col3{	grid-column: 3 / 4;	}
 .row3.col2{	grid-column: 2 / 4;	}
+.col1-4{
+	grid-column: 1 / 4;	
+	display: flex;
+	justify-content: center;
+}
 
 .tuner-grid div{	text-align: center;	}
 .row1.col2{	position: relative;	}
 
 #blinker{
 	position: absolute;
-	top: calc(50% - 25px);
-	left: calc(50% - 25px);
-	min-height: 50px;	/* what should the height / width ranges be? */
-	min-width: 50px;
-	border-radius: 25px;
-	background: #666699;
+	top: calc(50% - 40px);
+	left: calc(50% - 40px);
 }
 
 input{	margin: 6px;	}
@@ -121,18 +123,18 @@ https://i.pinimg.com/originals/ec/e7/27/ece727292ecde177d2cf1cc02b0d94de.jpg	*/
 	background-color: black;
 	color: white;
 	font-family: Manjari, monospace;
-	padding: 3px 5px 2px;
+	text-transform: uppercase;
 	letter-spacing: .3em;
+	padding: 5px 10px 2px;
+	display: inline-block;
 }
 
 textarea{
 	resize: none;
 	width: 95%;
 }
-
+/*
 table{	border-collapse: collapse;	}
-input{	margin: 6px;	}
-h1{	margin: 10px 0 10px 0;	}
 
 td{position: relative;	}
 input[type='range']{
@@ -149,7 +151,7 @@ meter{
 	box-shadow: 0 5px 5px -5px #333 inset;
 	-webkit-appearance: none;
 	-moz-appearance: none;
-}
+}*/
 meter:-moz-meter-bar{
 	/*box-shadow: 0 5px 5px -5px #999 inset;	*/
 	border-radius: 5px;
@@ -160,6 +162,7 @@ meter:-moz-meter-bar{
 		#719fd1 100%);					*/
 	background-size: 50% 50%;
 }
+/*
 meter:-moz-sub-optimum{
 	background: cyan;
 }
@@ -209,10 +212,10 @@ meter:-moz-sub-optimum{
 	border-width: 4px 4px 0 0;
 	border-radius: 0 15px 0 0;
 	transform: rotate(45deg);
-}
+}*/
 
 #input-section{
-	margin-top: 20px;
+	margin-top: 10px;
 }
 #prompt:before{	content: 'What is the morse message? ';}
 #prompt{
@@ -257,16 +260,12 @@ input[type="radio"]:not(:checked) + .folder{	display: none;	}
 	background-color: var(--manilaColor);
 	border-bottom-color: var(--manilaColor);
 }
-.instruction-page svg{
-	transform: rotate(10deg);
-}
+.instruction-page .paperclip > svg{	transform: rotate(10deg);	}
 .code-page{
 	background-color: skyblue;
 	border-bottom-color: skyblue;
 }
-.code-page svg{
-	transform: rotate(20deg);
-}
+.code-page .paperclip > svg{	transform: rotate(20deg);	}
 .history-page{
 	background-color: var(--paleGreen);	
 	border-bottom-color: var(--paleGreen);

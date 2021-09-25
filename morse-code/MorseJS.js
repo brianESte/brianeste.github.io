@@ -16,7 +16,8 @@ var pos = 0;
 var lvlSlider = document.getElementById('lvl-slider');
 var hintDisplay = document.getElementById('msg-hint');
 var inBox = document.getElementById('text-in');
-var blinker = document.getElementById('blinker');
+//var blinker = document.getElementById('blinker');
+var light = document.getElementById("light");
 
 // Settings variables
 var level = 0;
@@ -223,13 +224,21 @@ function beepOn(){
 function beepOff(){
 	if(gainNode.gain.value){	gainNode.gain.value = 0	}
 }
+
 function rxMorse(){
 	if(bitArry[pos]){
 		// document.getElementById('toggle-audio').checked
 		if(audioOn){	beepOn()	}
-		if(blinkOn){	blinker.style.background = 'red'	}
+		if(blinkOn){	
+			//blinker.style.background = 'red';
+			light.setAttribute("fill", "url(#light-on)");
+			light.setAttribute("stroke", "none")
+		}
 	}	else {
-		blinker.style.background = 'black';	
+		// set light to "off" appearance
+		//blinker.style.background = 'black';
+		light.setAttribute("fill", "#aa0000");
+		light.setAttribute("stroke", "#440000");
 		beepOff();
 	}
 	pos = (pos >= bitArry.length) ? 0 : pos + 1;

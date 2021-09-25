@@ -122,7 +122,23 @@
 				</svg>
 			</div>
 			<div class="row1 col2">
-				<div id="blinker"></div>
+				<svg viewBox="0 0 260 260" height="80" width="80" id="blinker">
+					<defs>
+						<linearGradient id="metal-line" gradientTransform="rotate(90)">
+							<stop offset="5%" stop-color="#aaa"/>
+							<stop offset="50%" stop-color="#eee"/>
+							<stop offset="95%" stop-color="#aaa"/>
+						</linearGradient>
+						<radialGradient id="light-on">
+							<stop offset="20%" stop-color="#eee"/>
+							<stop offset="90%" stop-color="#ffff66"/>
+						</radialGradient>
+					</defs>
+					<polygon points="130,3 240,66.5 240,193.5 130,257 20,193.5 20,66.5" fill="url(#metal-line)"/>
+					<circle cx=130 cy=130 r=95 fill="#aa0000" stroke-width=10 stroke="#440000" id="light"/>
+					<circle cx=130 cy=130 r=95 stroke-width=10 stroke="#b72020" stroke-opacity="0.45" fill="none"/>
+					<!--circle cx="125" cy="125" r="100" fill="#cc0000" fill-opacity="0.2"/-->						
+				</svg>
 			</div>
 			<div class="row1 col3">
 				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
@@ -143,7 +159,7 @@
 				</svg>
 			</div>
 			<div class="row2 col1">
-				<span class="emb-label">Audio<div class='audio' id='audio-sym'></div></span>
+				<span class="emb-label">AUDIO<div class='audio' id='audio-sym'></div></span>
 			</div>
 			<div class="row2 col3">
 				<span class="emb-label">Blinker</span>
@@ -165,71 +181,27 @@
 					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,3)"></path>
 					<!--/symbol-->
 				</svg>
-				<span class="emb-label">Text hint</span>
+
 			</div>
 			<div class="row3 col2">
-				<textarea id="msg-hint" cols="20" readonly></textarea>
+				<textarea class="row3 col2" id="msg-hint" cols="20" readonly></textarea>
 			</div>
-		</div>
-		<table style="display: none">
-			<tbody>
-				<tr>
-					<td><span id='lvl-disp'>0</span></td>
-					<td><input type='range' id='lvl-slider' min='0' max='10' value='0' onchange='updateLvl()'></td>
-				</tr>
-				<tr>
-					<td><span id='wpm-disp'>1</span></td>
-					<td><input type='range' id='wpm-slider' min='1' max='25' value='10' onchange='updateWPM()'>
-					</td>
-				</tr>
-				<tr>
-				  <td><span id='fwth-disp'>1</span></td>
-					<td><input type='range' id='Farnsworth-slider' min='1' max='4' value='1' onchange='updateFwth()'></td>
-				</tr>
-				<tr>
-				  <td>
-						<input type="checkbox" id="toggle-audio" name="audio" onclick='toggleAudio()'>
-						<label for="toggle-audio">Audio</label>
-					</td>
-					<td><div class='audio' id='audio-sym'><span></span></div></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="checkbox" id="toggle-blink" name="blink" checked>
-						<label for="toggle-blink">Blink</label>
-					</td>
-					<td><p id="blinker"></p></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="checkbox" id="toggle-length" name="dd_length">
-						<label for="toggle-length">Length?</label>
-					</td>
-					<td><meter id="dida-meter" low="1" max="10" value="5"></meter></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="checkbox" id="toggle-text" name="morse-text" onclick="toggleHint()" checked>
-						<label for="toggle-text">Text</label>
-					</td>
-					<td><span id="msg-hint"></span></td>
-				</tr>
-			</tbody>
-		</table>
-		<!--/div-->
-		<div id="input-section">
-			<label id='prompt' for="text-in"></label>
-			<textarea class='ntouch' id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
-			<div class='button-array'>
-				<button class='touch button' onclick='checkWord(this)'></button>
-				<button class='touch button' onclick='checkWord(this)'></button>
-				<button class='touch button' onclick='checkWord(this)'></button>
-				<button class='touch button' onclick='checkWord(this)'></button>
+			<div class="row4 col1-4">
+				<span class="emb-label">Text hint</span>
 			</div>
-		</div>
-		
-		<button onclick='setWord()'>New Word</button>
-		<span id='answer' onclick='showAnswer()'></span>
+		</div><!-- end switch grid -->
+			<div id="input-section">
+				<label id='prompt' for="text-in"></label>
+				<textarea class='ntouch' id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
+				<div class='button-array'>
+					<button class='touch button' onclick='checkWord(this)'></button>
+					<button class='touch button' onclick='checkWord(this)'></button>
+					<button class='touch button' onclick='checkWord(this)'></button>
+					<button class='touch button' onclick='checkWord(this)'></button>
+				</div>
+			</div>
+			<button onclick='setWord()'>New Word</button>
+			<span id='answer' onclick='showAnswer()'></span>
 		</div>
 			<div class="section" id="info-folder">
 				<div id="folder-tabs">
