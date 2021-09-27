@@ -8,12 +8,11 @@
 	</head>
 	<body>
 		<div class="main-page">
-		<h1>Morse Code! Yea~!</h1>
-		<hr/>
-		<div id="section-holder">
-			<div class="section" id="console">
-
-		<div class="tuner-grid">
+			<h1>Morse Code! Yea~!</h1>
+			<hr/>
+			<div id="section-holder">
+				<div class="section" id="console">
+					<div class="tuner-grid">
 			<div class="row1 col1">
 				<svg class="radio-tuner" id="lvl-tuner" viewBox="0 0 200 200">
 					<defs>
@@ -83,7 +82,7 @@
 			<div class="row2 col2">
 				<span class="emb-label">WPM</span>
 			</div>
-		</div>
+					</div>
 		<div class="sw-grid">
 			<div class="row1 col1">
 				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
@@ -102,22 +101,22 @@
 							<stop offset="90%" stop-color="#999"/>
 						</radialGradient>
 						<clipPath id="switch-plate" clipPathUnits="objectBoundingBox">
-							<path d="M0 0.325 a0.0625 0.125 0 0 1 0.0625 -0.125 H0.3 a0.25 0.5 0 0 1 0.4 0 h0.2375 a0.0625 0.125 0 0 1 0.0625 0.125 v.35 a0.0625 0.125 0 0 1 -0.0625 0.125 h-0.2375 a0.25 0.5 0 0 1 -0.4 0 h-0.2375 a0.0625 0.125 0 0 1 -0.0625 -0.125 Z"></path>
+							<path d="M0 0.325 a0.0625 0.125 0 0 1 0.0625 -0.125 H0.3 a0.25 0.5 0 0 1 0.4 0 h0.2375 a0.0625 0.125 0 0 1 0.0625 0.125 v.35 a0.0625 0.125 0 0 1 -0.0625 0.125 h-0.2375 a0.25 0.5 0 0 1 -0.4 0 h-0.2375 a0.0625 0.125 0 0 1 -0.0625 -0.125 Z"/>
 						</clipPath>
 					</defs>
 					<!-- switch plate shape and fill -->
-					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"></path>
-					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"></circle>
+					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"/>
+					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"/>
 					<!-- black and red plate faces, and OFF/ON text -->
-					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"></path> 
+					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"/> 
 					<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
 					<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)">OFF</text>
 					<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)">ON</text>
 					<!-- switch shaft and knob -->
-					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"></path>
-					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"></circle>
+					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"/>
+					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"/>
 					<!-- clickable overlay -->
-					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,1)"></path>
+					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,1)"/>
 					<!--/symbol-->
 				</svg>
 			</div>
@@ -143,18 +142,18 @@
 			<div class="row1 col3">
 				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
 					<!-- switch plate shape and fill -->
-					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"></path>
-					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"></circle>
+					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"/>
+					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"/>
 					<!-- black and red plate faces, and OFF/ON text -->
-					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"></path> 
+					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"/> 
 					<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
 					<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)">OFF</text>
 					<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)">ON</text>
 					<!-- switch shaft and knob -->
-					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"></path>
-					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"></circle>
+					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"/>
+					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"/>
 					<!-- clickable overlay -->
-					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,2)"></path>
+					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,2)"/>
 					<!--/symbol-->
 				</svg>
 			</div>
@@ -167,18 +166,18 @@
 			<div class="row3 col1">
 				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
 					<!-- switch plate shape and fill -->
-					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"></path>
-					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"></circle>
+					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"/>
+					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"/>
 					<!-- black and red plate faces, and OFF/ON text -->
-					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"></path> 
+					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"/> 
 					<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
 					<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)">OFF</text>
 					<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)">ON</text>
 					<!-- switch shaft and knob -->
-					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"></path>
-					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"></circle>
+					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"/>
+					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"/>
 					<!-- clickable overlay -->
-					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,3)"></path>
+					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,3)"/>
 					<!--/symbol-->
 				</svg>
 
@@ -262,10 +261,11 @@
 							<use href="#paperclip-front"/>
 						</svg>
 					</div>
-					<figure>
-						<img id='infographic' src='https://d3h6k4kfl8m9p0.cloudfront.net/stories/t4OJnk88Xw9jsI1zaHkL.g.jpg'>
-						<figcaption>Image credit to xyzdecode.blogspot.com (no longer exists)</figcaption>
-					</figure>
+						<figure>
+							<img id='infographic' src='https://d3h6k4kfl8m9p0.cloudfront.net/stories/t4OJnk88Xw9jsI1zaHkL.g.jpg'>
+							<figcaption>Image credit to xyzdecode.blogspot.com (no longer exists)</figcaption>
+						</figure>
+					</div>
 				</div>
 			</div>
 		</div>

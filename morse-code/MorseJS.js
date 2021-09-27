@@ -32,7 +32,7 @@ var textHintOn = false;
 // Tone settings/vars
 var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
 // different browsers use different methods.. all named similarly, though.
-var oscOn = false;	// so that the oscillator is only started once.	
+var oscOn = false;			// so that the oscillator is only started once.	
 var oscillator = audioCtx.createOscillator();
 var gainNode = audioCtx.createGain();
 
@@ -120,7 +120,7 @@ function setOptions(){
 			break;
 		}
 	}
-	// if it was not, then add it
+	// if correct answer was not already added to list, then add it
 	if(needAns){
 		buttons[Math.floor(Math.random()*buttons.length)].innerHTML = word.toUpperCase()
 	}
@@ -139,17 +139,12 @@ function tuneWPM(it){
 	updateWPM();
 }
 
-function toggleAudio(){
+/*function toggleAudio(){
 	if(!oscOn){	
 		oscillator.start();
 		oscOn = true;
 	}
-	if(document.getElementById('toggle-audio').checked){
-		document.getElementById('audio-sym').classList.add('audio-on');
-	}else{
-		document.getElementById('audio-sym').classList.remove('audio-on');
-	}		
-}
+}*/
 
 function toggle(it,select){
 	var position;
@@ -157,7 +152,11 @@ function toggle(it,select){
 		case 1:
 			audioOn = !audioOn;
 			position = audioOn;
-			toggleAudio();
+			// start oscillator:
+			if(!oscOn){	
+				oscillator.start();
+				oscOn = true;
+			}
 			break;
 		case 2:
 			blinkOn = !blinkOn;

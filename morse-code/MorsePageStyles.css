@@ -2,11 +2,11 @@
 	--manilaColor: 	#ffe699;
 	--coral:		#ffb3b3;
 	--paleGreen:	#c1f0c1;
-	--folder_tab_dx: 13px;
-	--tab_padding: 6px;
-	--label-size:	14px;
+	--folder_tab_dx:	13px;
+	--tab_brdr_btm:		23.9px;
+	--tab_padding:		6px;
+	--label_size:		14px;
 }
-
 
 body{
 	background: #966F33;
@@ -172,9 +172,9 @@ textarea{
 
 /*			Info Folder			*/
 #info-folder{
-	padding: 10px 0 10px 10px;
+	padding: 10px 0 10px 0;
 	position: relative;
-	margin-left: 16px;
+	margin-left: 30px;
 }
 input[type="radio"]:not(:checked) + .folder{	display: none;	}
 
@@ -199,40 +199,42 @@ input[type="radio"]:not(:checked) + .folder{	display: none;	}
 	border-bottom-color: var(--coral);
 }
 .folder{
+	position: relative;		/* so that the folder-tab edges will be covered */		
 	border-radius: 16px 0 0 16px;
 	padding: 10px;
 	height: 570px;		/* will likely change this later	*/
 }
 #folder-tabs{
 	position: absolute;
-	/* need to figure out a way to make this # flow */
-	left: calc(calc(var(--tab_padding) * -8) + calc(-34 * var(--label-size)) + 106px);		/* 489px */	
+	right: calc(100% - 0.7px);
+	display: flex;
 	transform: rotate(-90deg);
 	transform-origin: bottom right;
 }
 .folder-label{
 	position: relative;
-	margin: 0 18px 0 0;
+	margin: 0 0 0 calc(2 * var(--folder_tab_dx));		/*	used to space the tabs from each other */
 	padding: var(--tab_padding);
 	border-radius: 10px 10px 0 0;
 	font-family: monospace;
-	font-size: var(--label-size);
+	font-size: var(--label_size);
+	white-space: nowrap;
 }
 .folder-label::before{
-	top: 6px;
-	right: calc(1px - var(--folder_tab_dx));
-	position: absolute;
 	content: "";
-	border-bottom: 23px solid;
+	position: absolute;
+	right: calc(1px - var(--folder_tab_dx));
+	bottom: 0;
+	border-bottom: var(--tab_brdr_btm) solid;
 	border-bottom-color: inherit;
 	border-right: var(--folder_tab_dx) solid transparent;
 }
 .folder-label::after{
-	top: 6px;
-	left: calc(1px - var(--folder_tab_dx));
-	position: absolute;
 	content: "";
-	border-bottom: 23px solid;
+	position: absolute;
+	left: calc(1px - var(--folder_tab_dx));
+	bottom: 0;
+	border-bottom: var(--tab_brdr_btm) solid;
 	border-bottom-color: inherit;
 	border-left: var(--folder_tab_dx) solid transparent;
 }

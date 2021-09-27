@@ -1,0 +1,19 @@
+
+# picture formats 
+#################
+*.png
+
+# packages / compressed objects
+###############################
+*.zip
+*.tar
+*.rar
+
+# notes file
+############
+notes
+*.swp
+
+# Scratch files
+###############
+scratch.*
