@@ -50,30 +50,40 @@
 			<div id="candidate-settings">
 				<h4 class="IRV">Instructions</h4>
 				<p id="instructions">This interactive demo is designed to illustrate how IRV works as well as its pros and cons. 
-					Each row in the <span id="table-dir">table </span> represents a possible ballot permutation and how many people voted that way. 
-					Change the vote counts for each ballot permutation and then click VOTE to see the results.
+					Each row in the <span id="table-dir">table </span> represents a possible ballot permutation and how many people voted that way. Change the vote counts for each ballot permutation, then click VOTE to view the results. Candidates can also be deselected to observe how the election would play out, had they not been an option.
 				</p>
-				<p>
-					The following allows you to change the number of candidates running:
-				</p>
-				<div class="centered">
-					<label for="cand-count">Number of candidates: </label>
-					<input type="number" id="cand-count" min="3" max="5" value="3" onchange="nCandUpdate()">	
+				<p>Have real-world data, or a specific example? Upload a ballot data file! Each line should have one or more candidate identifiers (CIDs) and a number indicating the candidate order for that ballot permutation and its number of voters. CIDs may be alphanumeric plus the following: -. Delimiters can be (basically) anything not allowed in a CID.</p>
+				<!--p>The following allows you to change the number of candidates running:</p-->
+				<div class="horizontal">
+					<div>
+						<label for="cand-count">Number of candidates: </label>
+						<input type="number" id="cand-count" min="3" max="5" value="3" onchange="nCandUpdate()">
+					</div>
+					<div>
+						<label for="chkbx-hide-unused">Hide unused ballots</label>
+						<input type="checkbox" id="chkbx-hide-unused" onchange="toggle_unused()" checked>
+					</div>
 				</div>
 				<div class="horizontal">
 					<button onclick="generateBallots()">Generate Ballots</button>
 					<button onclick="zeroAll()">Clear Ballots</button>
 				</div>
-				<p>
-					The following allows you to remove a candidate without affecting the ballots. 
-				</p>
+				<!--div class="centered"></div-->
+				<div class="centered">
+					<form>
+						<label for="file-input">Upload ballot file</label>
+						<input type="file" id="file-input" name="text_file" value="bruh"><br><br>
+					</form>
+					<!-- TODO: add a table/list showing the file candidate <-> ABC mapping -->
+				</div>
+				<!--p>	The following allows you to remove a candidate without affecting the ballots.</p-->
 				<div id="candidate-selects">
 					<label><input type="checkbox" id="cSelectA" checked>Candidate A</label>
 					<label><input type="checkbox" id="cSelectB" checked>Candidate B</label>
 					<label><input type="checkbox" id="cSelectC" checked>Candidate C</label>
 				</div>
 				<button onclick="simElection()">VOTE!</button>
-				<!-- May need to enclose the table in a div to handle horizonatl overflow... -->
+				<!-- May need to enclose the table in a div to handle horizontal overflow... -->
 				<table id="tally-rounds" class="IRV">
 					<thead>
 						<tr><th>Candidate</th><th>Rd 1</th><th>Rd 2</th></tr>
@@ -114,6 +124,7 @@
 						Proponents of IRV claim it is highly resistant to tactical voting.<sup>[7]</sup> The idea is that due to candidate ranking on the ballot, it is safe for voters to rank their favorite candidate first, second favorite second, and so on. This claim is subject to debate, as some claim that it can be better for voters to not rank their favorite first.<sup>[6]</sup> Others claim it reduces tactical voting compared to Simple Plurality (FPTP), but is not immune to it.<sup>[8]</sup>
 					</p>
 				</section>
+				<p id="file-disp"></p>
 			</div>
 		</main>
 		<footer>

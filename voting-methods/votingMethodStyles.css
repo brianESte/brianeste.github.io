@@ -89,7 +89,10 @@ header :visited, header :link{	color: #000;	}
 	width: 100%;
 }
 
-.horizontal{	display: flex;	}
+.horizontal{
+	display: flex;
+	justify-content: space-around;
+}
 .horizontal button{	width: 45%;	}
 
 h2{	margin: 10px 0;	}
@@ -224,7 +227,7 @@ svg > polyline{
 /* candidate settings */
 #candidate-settings{
 	min-width: 340px;
-	max-width: 400px;
+	max-width: 500px;
 }
 #candidate-settings.plurality{	max-width: 50%;	}
 
@@ -234,7 +237,8 @@ svg > polyline{
 	#candidate-settings{	min-width: auto;	}
 }
 
-#cand-count{	width: 25px;	}
+#candidate-settings input[type="number"]{	width: 36px;	}
+#cand-count{	margin-bottom: 8px;	}
 #candidate-selects{
 	padding: 0;	
 	display: flex;
