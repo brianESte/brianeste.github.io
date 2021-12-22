@@ -1,4 +1,8 @@
 
+# Ballot data files
+####################
+*.irv
+
 # picture formats 
 #################
 *.png

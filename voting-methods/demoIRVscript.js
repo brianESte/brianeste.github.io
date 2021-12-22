@@ -6,7 +6,11 @@ const nCandMax = 5;		// maximum number of candidates. More is unnecessary
 var ballots = {'AB':0, 'AC':0, 'A':0,
 			 'BA':0, 'BC':0, 'B':0,
 			 'CA':0, 'CB':0, 'C':0};
-var candidates = {'A':{'votes':0, 'active':true}, 'B':{'votes':0, 'active':true}, 'C':{'votes':0, 'active':true}};
+var candidates = {};
+
+// sankey nodes / links variables	(global for debugging purposes)
+var sankey_nodes = [];
+var sankey_links = [];
 
 /**
  * Update the number of candidates, limit if necessary. 
@@ -20,10 +24,13 @@ function nCandUpdate(){
 	}
 }
 
+/**
+ * Generate the candidate object
+ */
 function genCandidates(){
 	candidates = {};	// 'A':{'votes':0, 'active':true},
 	for(let c = 0; c < nCandidates; c++){
-		candidates[String.fromCharCode(c+65)] = {'votes':0, 'active':true};
+		candidates[String.fromCharCode(c+65)] = {'votes':0, 'active':true, 'src_node': 0, 'tar_node': 0, "ballots":{}};
 	}
 }
 
@@ -174,6 +181,115 @@ function simElection(){
 	}
 
 	$("#tally-rounds tbody").replaceWith(tallyBody);
+}
+
+/**
+ * new election sim idea
+ * @param {*} self 
+ */
+function sim_election_2(){
+	// regenerate candidates object
+	genCandidates();
+
+	// set any unchecked candidates to inactive
+	for(let c in candidates){
+		if(!$("#cSelect"+c)[0].checked){
+			candidates[c].active = false;
+		}
+	}
+
+	// create list of active candidates
+	var active_cands = Object.keys(candidates).filter(c => {return candidates[c].active	});
+
+	// Alternative method: check each ballot manually
+	for(let b in ballots){
+		if(ballots[b])	candidates[b[0]].ballots[b] = ballots[b];
+	}
+
+	// clear sankey nodes/links vars, create the initial nodes for the Sankey diagram
+	sankey_links = [];
+	sankey_nodes = [];
+	var node_ctr = 0;
+	for(let c of Object.keys(candidates).filter(c => {return candidates[c].active	})){
+		// ignore active/inactive for now
+		sankey_nodes.push({"node": node_ctr, "name": c});
+		candidates[c].src_node = node_ctr++;
+	}
+	
+	while(active_cands.length > 2){
+		// reset the candidate votes to 0
+		for(let c in candidates)
+			candidates[c].votes = 0;
+		
+		// count the votes for each candidate
+		for(let c of active_cands){
+			for(let n_v of Object.values(candidates[c].ballots)){
+				candidates[c].votes += n_v;
+			}
+		}
+		// determine which candidates to eliminate
+		let round_ranking = active_cands.slice();
+		round_ranking.sort((a, b) => { return candidates[b].votes - candidates[a].votes});
+		var bottom_sum = 0;
+		for(let c of round_ranking.slice(1))
+			bottom_sum += candidates[c].votes;
+		for(var i = 0; i < round_ranking.length-2; i++){
+			if(candidates[round_ranking[i]].votes > bottom_sum)
+				break;	// eliminate all cands at indices > i
+			bottom_sum -= candidates[round_ranking[i+1]].votes;
+		}
+		// create list of candidates to be eliminated, and increment elimination index
+		let to_be_eliminated = round_ranking.slice(++i);
+		// create new nodes for the candidates progressing to the next round, and links to them
+		for(let c of round_ranking.slice(0, i)){
+			// ignore active/inactive for now
+			sankey_nodes.push({"name": c, "node": node_ctr});
+			sankey_links.push({"source": candidates[c].src_node, "target": node_ctr, "value": candidates[c].votes});
+			candidates[c].tar_node = node_ctr++;
+		}
+		// set all candidates to be eliminated to inactive
+		for(let e of to_be_eliminated)	candidates[e].active = false;
+		// then process their ballots
+		for(let e of to_be_eliminated){
+			// create link from eliminated candidate to transfer recipients and transfer ballots
+			for(let b of Object.keys(candidates[e].ballots)){
+				// figure out the next active rank of the ballot, so we can determine the ballot transfer recipient
+				let nex_rank = b.indexOf(e)+1;
+				while(candidates[b[nex_rank]] && !candidates[b[nex_rank]].active)	nex_rank++;
+				// define the recipient node number
+				let recipient_node = -1;
+				if(b[nex_rank]){
+					// if there is a valid ballot transfer recipient, reassign the recipient_node, and transfer the ballots
+					recipient_node = candidates[b[nex_rank]].tar_node;
+					candidates[b[nex_rank]].ballots[b] = candidates[e].ballots[b];
+				} 
+				// create / update the transfer link
+				let previous_link = sankey_links.find(el => {return el.source == candidates[e].src_node && el.target == recipient_node});
+				if(previous_link){
+					previous_link.value += candidates[e].ballots[b];
+				} else
+					sankey_links.push({"source":candidates[e].src_node, "target":recipient_node, "value":candidates[e].ballots[b]});
+			}
+		}
+		// update the node values of the remaining candidates
+		for(let c of round_ranking.slice(0, i)){
+			candidates[c].src_node = candidates[c].tar_node;
+		}
+		// update the list of active candidates
+		active_cands = Object.keys(candidates).filter(c => {return candidates[c].active	});
+	}
+	// If there were any exhausted ballots, add the exhausted node
+	if(sankey_links.some((e) => {	return e.target == -1})){
+		sankey_nodes.push({"node": node_ctr, "name": "Exhausted"})
+		// update all links to use exhausted node number instead of placeholder (-1)
+		for(let l in sankey_links){
+			if(sankey_links[l].target == -1)
+				sankey_links[l].target = node_ctr;
+		}
+	}
+
+	// rebuild the sankey diagram
+	rebuild_sankey(sankey_nodes, sankey_links);
 }
 
 // update the vote counts and total
@@ -513,6 +629,6 @@ document.getElementById("file-input").addEventListener("change", process_ballot_
 genCandidates();
 generateBallots();
 //votesUpdate();
-simElection();
+sim_election_2();
 
 // TODO: add table/list to display the ABC..-> candidate mapping from file
