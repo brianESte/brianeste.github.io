@@ -8,10 +8,6 @@ var ballots = {'AB':0, 'AC':0, 'A':0,
 			 'CA':0, 'CB':0, 'C':0};
 var candidates = {};
 
-// sankey nodes / links variables	(global for debugging purposes)
-var sankey_nodes = [];
-var sankey_links = [];
-
 /**
  * Update the number of candidates, limit if necessary. 
  * Referenced by number input's onchange()
@@ -53,7 +49,7 @@ function votesUpdate(){
 /**
  * Simulate an election with the current candidate selection and votes
  * 
- * should update this to make use of the active property
+ * keeping this function in case I feel like reuing any of the code or bringing the results table back.
  */
 function simElection(){
 	// update vote Obj ...
@@ -207,12 +203,12 @@ function sim_election_2(){
 	}
 
 	// clear sankey nodes/links vars, create the initial nodes for the Sankey diagram
-	sankey_links = [];
-	sankey_nodes = [];
+	var sankey_links = [];
+	var sankey_nodes = [];
 	var node_ctr = 0;
-	for(let c of Object.keys(candidates).filter(c => {return candidates[c].active	})){
-		// ignore active/inactive for now
-		sankey_nodes.push({"node": node_ctr, "name": c});
+	// add the initial nodes, filtered by which are active:
+	for(let c of Object.keys(candidates).filter(c => {return candidates[c].active})){
+		sankey_nodes.push({id: node_ctr, name: c});
 		candidates[c].src_node = node_ctr++;
 	}
 	
@@ -243,8 +239,8 @@ function sim_election_2(){
 		// create new nodes for the candidates progressing to the next round, and links to them
 		for(let c of round_ranking.slice(0, i)){
 			// ignore active/inactive for now
-			sankey_nodes.push({"name": c, "node": node_ctr});
-			sankey_links.push({"source": candidates[c].src_node, "target": node_ctr, "value": candidates[c].votes});
+			sankey_nodes.push({name: c, id: node_ctr});
+			sankey_links.push({source: candidates[c].src_node, target: node_ctr, value: candidates[c].votes});
 			candidates[c].tar_node = node_ctr++;
 		}
 		// set all candidates to be eliminated to inactive
@@ -268,7 +264,7 @@ function sim_election_2(){
 				if(previous_link){
 					previous_link.value += candidates[e].ballots[b];
 				} else
-					sankey_links.push({"source":candidates[e].src_node, "target":recipient_node, "value":candidates[e].ballots[b]});
+					sankey_links.push({source:candidates[e].src_node, target:recipient_node, value:candidates[e].ballots[b]});
 			}
 		}
 		// update the node values of the remaining candidates
@@ -280,7 +276,7 @@ function sim_election_2(){
 	}
 	// If there were any exhausted ballots, add the exhausted node
 	if(sankey_links.some((e) => {	return e.target == -1})){
-		sankey_nodes.push({"node": node_ctr, "name": "Exhausted"})
+		sankey_nodes.push({id: node_ctr, name: "Exhausted"})
 		// update all links to use exhausted node number instead of placeholder (-1)
 		for(let l in sankey_links){
 			if(sankey_links[l].target == -1)
@@ -288,8 +284,17 @@ function sim_election_2(){
 		}
 	}
 
+	// filter out any empty initial nodes
+	// could maybe try to filter those earlier in the sim process...
+	sankey_nodes = sankey_nodes.filter(n => {
+		if(n.id >= nCandidates)	return true; 
+		for(let link of sankey_links)
+			if(link.source === n.id)	return true;
+		return false;
+	});
+
 	// rebuild the sankey diagram
-	rebuild_sankey(sankey_nodes, sankey_links);
+	build_sankey({nodes: sankey_nodes, links: sankey_links});
 }
 
 // update the vote counts and total
@@ -396,6 +401,9 @@ function build_ballot_table(){
 	$("#ballots tbody").replaceWith(newBody);
 }
 
+/**
+ * populate the ballot table from the ballot object
+ */
 function fill_ballot_table(){
 	if(document.getElementById("chkbx-hide-unused").checked){
 		// if unused should be hidden, go thorugh each row, set the value
@@ -420,7 +428,7 @@ function fill_ballot_table(){
 }
 
 /**
- * Generate a new ballot table
+ * Generate new ballots, updating the table if necessary
  */
 function generateBallots(){
 	// check the number of candidates in the spinbox, 
