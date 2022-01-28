@@ -145,7 +145,7 @@ function generateBallots(){
 				candidates[cLetter] = {votes: 0, active: true};
 				cSelectors.append($("<label>Candidate "+cLetter+"</label>")
 					.prepend($("<input>", {"id": "cSelect"+cLetter, 
-					"type": "checkbox", "onchange": "cSelectorToggle(this)", "checked": true})));
+						"type": "checkbox", "onchange": "toggleCand(this)", "checked": true})));
 			}
 		} else {
 			for(var c = nCandidates0; c > nCandidates; c--){

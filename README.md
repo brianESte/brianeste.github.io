@@ -1,4 +1,4 @@
-# brianestephenson.github.io
+# brianESte.github.io
 The current main focus of this site is a comparison of simgle winner voting methods. 
 
 Notable pages: 

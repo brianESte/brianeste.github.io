@@ -9,15 +9,19 @@ var ballots = {'AB':0, 'AC':0, 'A':0,
 var candidates = {};
 
 /**
- * Update the number of candidates, limit if necessary. 
- * Referenced by number input's onchange()
+ * inc/de-crements the number of candidates and updates the candidate selectors
+ * 
+ * @param {int} inc +/-1, indicates whether the number of c-selects should increment or decrement
  */
-function nCandUpdate(){
-	nCandidates = Number($("#cand-count")[0].value);
-	if(nCandidates > nCandMax){
-		nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
-		$("#cand-count")[0].value = nCandMax;
-	}
+function increment_n(inc){
+	if(nCandidates+inc > nCandMax || nCandidates+inc < 3)	return
+
+	nCandidates += inc;
+	var c_selects = $("#candidate-selects").children();
+
+	c_selects.eq(nCandidates-1).css("display", "flex");
+	c_selects.eq(nCandidates).css("display", "none");
+	$("#cand-count").val(nCandidates);
 }
 
 /**
@@ -180,8 +184,7 @@ function simElection(){
 }
 
 /**
- * new election sim idea
- * @param {*} self 
+ * New and improved election sim function
  */
 function sim_election_2(){
 	// regenerate candidates object
@@ -195,11 +198,16 @@ function sim_election_2(){
 	}
 
 	// create list of active candidates
-	var active_cands = Object.keys(candidates).filter(c => {return candidates[c].active	});
+	var active_cands = Object.keys(candidates).filter(c => candidates[c].active);
+	// record number of initially active candidates for reference at the end
+	var n_initial_cands = active_cands.length;
 
-	// Alternative method: check each ballot manually
+	// loop through each ballot and assign it to the first active candidate ranked
 	for(let b in ballots){
-		if(ballots[b])	candidates[b[0]].ballots[b] = ballots[b];
+		if(ballots[b] == 0)	continue;
+		var ar = 0;			// active rank
+		while(b[ar] && !candidates[b[ar]].active)	ar++;
+		if(b[ar])	candidates[b[ar]].ballots[b] = ballots[b];
 	}
 
 	// clear sankey nodes/links vars, create the initial nodes for the Sankey diagram
@@ -207,12 +215,12 @@ function sim_election_2(){
 	var sankey_nodes = [];
 	var node_ctr = 0;
 	// add the initial nodes, filtered by which are active:
-	for(let c of Object.keys(candidates).filter(c => {return candidates[c].active})){
+	for(let c of Object.keys(candidates).filter(c => candidates[c].active)){
 		sankey_nodes.push({id: node_ctr, name: c});
 		candidates[c].src_node = node_ctr++;
 	}
 	
-	while(active_cands.length > 2){
+	do{
 		// reset the candidate votes to 0
 		for(let c in candidates)
 			candidates[c].votes = 0;
@@ -272,10 +280,10 @@ function sim_election_2(){
 			candidates[c].src_node = candidates[c].tar_node;
 		}
 		// update the list of active candidates
-		active_cands = Object.keys(candidates).filter(c => {return candidates[c].active	});
-	}
+		active_cands = Object.keys(candidates).filter(c => candidates[c].active);
+	}while(active_cands.length > 2);
 	// If there were any exhausted ballots, add the exhausted node
-	if(sankey_links.some((e) => {	return e.target == -1})){
+	if(sankey_links.some((e) => e.target == -1)){
 		sankey_nodes.push({id: node_ctr, name: "Exhausted"})
 		// update all links to use exhausted node number instead of placeholder (-1)
 		for(let l in sankey_links){
@@ -287,7 +295,7 @@ function sim_election_2(){
 	// filter out any empty initial nodes
 	// could maybe try to filter those earlier in the sim process...
 	sankey_nodes = sankey_nodes.filter(n => {
-		if(n.id >= nCandidates)	return true; 
+		if(n.id >= n_initial_cands )	return true;
 		for(let link of sankey_links)
 			if(link.source === n.id)	return true;
 		return false;
@@ -338,28 +346,9 @@ function genBallotObjRec(obj, startPref, nextCands){
 }
 
 /**
- * Build / generate a new ballot table and candidate selectors
+ * Build / generate a new ballot table
  */
 function build_ballot_table(){
-	//console.log("need to rebuild table");
-	// grab candidate deslector list
-	var cSelectors = $("#candidate-selects");
-	var nCandidates0 = cSelectors.find("label").length;
-
-	// update candidate deselector list
-	if(nCandidates > nCandidates0){
-		for(let c = nCandidates0; c < nCandidates; c++){
-
-			let cLetter = String.fromCharCode(c+65);
-			cSelectors.append($("<label>Candidate "+cLetter+"</label>")
-				.prepend($("<input>", {"id": "cSelect"+cLetter, "type": "checkbox", "checked": true})))
-		}
-	} else {
-		for(let c = nCandidates0; c > nCandidates; c--){
-			cSelectors.find("label").eq(c-1).remove();
-		}
-	}
-
 	// begin rebuilding / regenerating table
 	// update header and footer
 	// update wide cells
@@ -429,14 +418,12 @@ function fill_ballot_table(){
 
 /**
  * Generate new ballots, updating the table if necessary
+ * 
+ * @param {bool} init regen candidates, ballots, and table, even if nCandidates is unchanged
  */
-function generateBallots(){
-	// check the number of candidates in the spinbox, 
-	var nCandidates = Number($("#cand-count")[0].value);
-	if(nCandidates > nCandMax)	nCandidates = nCandMax;	// limit nCandidates if it exceeds the max
-
-	// if the number of candidates changed, rebuild the table
-	if(nCandidates != $("#candidate-selects").find("label").length){
+function generateBallots(init=false){
+	// if initialising or if the number of candidates changed, rebuild the table
+	if(init || nCandidates-1 != $("#ballots thead tr th").eq(0).attr("colspan")){
 		// update candidates
 		genCandidates();
 		// update ballot Object
@@ -633,9 +620,9 @@ function place_content(target, file){
 }
 
 
-document.getElementById("file-input").addEventListener("change", process_ballot_file)
+//document.getElementById("file-input").addEventListener("change", process_ballot_file)
 genCandidates();
-generateBallots();
+generateBallots(true);
 //votesUpdate();
 sim_election_2();
 
