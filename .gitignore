@@ -15,7 +15,7 @@
 
 # notes file
 ############
-notes
+*notes
 *.swp
 
 # Scratch files
