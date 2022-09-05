@@ -53,7 +53,7 @@ function votesUpdate(){
 /**
  * Simulate an election with the current candidate selection and votes
  * 
- * keeping this function in case I feel like reuing any of the code or bringing the results table back.
+ * keeping this function in case I feel like reusing any of the code or bringing the results table back.
  */
 function simElection(){
 	// update vote Obj ...
@@ -442,42 +442,24 @@ function generateBallots(init=false){
 }
 
 /**
- * Enter a predefined set of ballots into the table
- * 
- * @param {Int} select Selects the set of ballots to enter
+ * Load an example set of ballots
+ * @param {*} n_cands 		number of candidates in the example
+ * @param {*} ex_ballots 	an object of non-zero ballot counts
  */
-function presetEntry(select){
-	var presetValues;
-
-	switch(select){
-		case 0:
-			presetValues = [33, 6, 89, 64, 4, 61, 98, 51, 33];
-			break;
-		case 1:			// Burlington normal votes				// K -> A, M -> B, W -> C
-			presetValues = [2043, 371, 568, 1332, 767, 455, 495, 1513, 1289];
-			break;
-		case 2:			// Burlington hypothetical votes
-			presetValues = [2043, 371, 1321, 1332, 767, 455, 0, 1513, 1031];
-			break;
-		default:
-			console.warning("unused case value sent to presetEntry()")
-	}
-
-	if(nCandidates != 3){
-		// update candidates
+function load_example(n_cands, ex_ballots){
+	// update ballot object and table if the number of cands in the example differs from the current one
+	if(nCandidates != n_cands){
+		// TODO: update candidate selectors / nCand input ?
+		nCandidates = n_cands;
 		genCandidates();
-		// update ballot Object
 		generateBallotObj();
-		// build a new ballot table and candidate selectors
 		build_ballot_table();
 	}
 
-	//var prefs = $("#ballots input");
-	var permutations = Object.keys(ballots);
-	var permLen = permutations.length;
-	for(let i = 0; i < permLen; i++){
-		ballots[permutations[i]] = presetValues[i];
+	for(let bal_perm in ex_ballots){
+		ballots[bal_perm] = ex_ballots[bal_perm];
 	}
+
 	fill_ballot_table();
 	//votesUpdate();
 }
