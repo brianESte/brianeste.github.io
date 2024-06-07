@@ -10,7 +10,7 @@ var kv_list = {
   "Lahn Kanu": {
     abbreviation: "LK",
     boat_prices: [5, 0, 0, 0, 0, 0, 0],
-    group_prices: [34, 32, 2.5],
+    group_prices: [37, 35, 5],
     shuttle: null,
     tours: [
       { name: "Tour de Natur", num: 0, dist: "14", starttime: "09:00", flex: false, sections: [2, 2]},
@@ -33,7 +33,7 @@ var kv_list = {
     shuttle: 6,
     tours: [
       { name: "Der Natur ganz nah", num: 0, dist: 16, starttime: "10:00", flex: false, sections: [1, 2] },
-      { name: "Facettenreich – Etwas für jedermann", num: 1, dist: 17, starttime: "09:30", flex: false, sections: [5, 3] },
+      { name: "Facettenreich - Etwas für jedermann", num: 1, dist: 17, starttime: "09:30", flex: false, sections: [5, 3] },
       { name: "Sprudelnde Lahn", num: 2, dist: 15, starttime: "10:30", flex: false, sections: [8, 3] },
       { name: "Abwechslungsreiche Herausforderung", num: 3, dist: 28, starttime: "09:30", flex: false, sections: [11, 5] },
       { name: "Viele Eindrücke - Tunnel und Schleusen", num: 4, dist: 16, starttime: "11:00", flex: false, sections: [11, 4] },
@@ -46,7 +46,7 @@ var kv_list = {
   },
   "Kanuverleih-Oberlahn": {
     abbreviation: "KV-OL",
-    boat_prices: [30, 43, 59, 43, 59, 79, 79],
+    boat_prices: [35, 45, 65, 45, 65, 80, 85],
     group_prices: [0, 0, 0],
     shuttle: null,
     tours: [
@@ -117,17 +117,7 @@ function handle_tour_click(self){
 for(let KV in kv_list){
   let kv_tours = kv_list[KV].tours;
   for(let tour of kv_tours){
-    // let tour_id = kv_list[KV].abbreviation+"_"+tour.num;
-    // console.log(tour);
-    // this.tours.push(<TourItem 
-    //   key={"tour_"+tour.name}
-    //   KV={KV}
-    //   tour_num={tour.num}
-    //   name={kv_list[KV].abbreviation+": "+tour.name}
-    //   onClick={() => this.handleTourClick(KV, tour.num)} 
-    // ></TourItem>)
     let name = kv_list[KV].abbreviation+": "+tour.name;
-    // console.log(`KV=${KV} tour_num=${tour.num} name=${name} onclick=handle_tour_click(${KV}, ${tour.num})`);
     let el_for ='ts_'+KV+'_'+tour.num;
     $("#tour_list").append($("<li>")
       .append($("<input>", {"name": "tour", "id": "ts_"+KV+"_"+tour.num, "type": "radio"}))
@@ -135,160 +125,3 @@ for(let KV in kv_list){
     )
   }
 }
-
-// class App extends React.Component {
-//   // var tours = [];
-//   constructor(props){
-//     super(props);
-
-//     this.tours = [];
-//     for(let KV in kv_list){
-//       let kv_tours = kv_list[KV].tours;
-//       for(let tour of kv_tours){
-        // let tour_id = kv_list[KV].abbreviation+"_"+tour.num;
-        // console.log(tour);
-        // this.tours.push(<TourItem 
-        //   key={"tour_"+tour.name}
-        //   KV={KV}
-        //   tour_num={tour.num}
-        //   name={kv_list[KV].abbreviation+": "+tour.name}
-        //   onClick={() => this.handleTourClick(KV, tour.num)} 
-        // ></TourItem>)
-//       }
-//     }
-
-//     this.state = {
-//       // n_adults: 1, n_children: 0, n_dogs: 0, 
-//       group_cts: [1, 0, 0],
-//       // n_K1: 0, n_K2: 0, n_C3: 0,
-//       boat_cts: [0, 0, 0, 0, 0, 0, 0],
-//       KV: "Lahn Kanu",
-//       tour_num: 0,
-//       starttime: null,
-//       cost: 0
-//     };
-    
-//     this.handleChange = this.handleChange.bind(this);
-//   }
-
-//   calcPrice(){
-//     // var counts = [this.state.n_adults, this.state.n_children, this.state.n_dogs];
-//     this.setState((prevState) => { return {...prevState, cost: dot_product(this.state.group_cts, kv_list[this.state.KV].price_schema)}})
-//   }
-
-//   handleChange({target}) {
-//     var [name, index] = target.name.split("-")
-
-//     this.setState((prevState) => {
-//       let count_list = prevState[name]
-//       count_list[index] = parseInt(target.value);
-
-//       return {
-//         ...prevState,
-//         name: count_list,
-//         cost: dot_product(this.state.group_cts, kv_list[this.state.KV].group_prices) + dot_product(this.state.boat_cts, kv_list[this.state.KV].boat_prices)
-//       }
-//     })
-//   }
-
-//   handleTourClick(KV, tour_num){
-//     this.setState((prevState) => {
-//       // set previous sections to default color
-//       var [sec_start, n_sections] = kv_list[this.state.KV].tours[this.state.tour_num].sections;
-//       for(let i = sec_start; i < sec_start+n_sections; i++){
-//         document.getElementById("section_"+i).style.stroke = river_color;
-//         document.getElementById("section_"+i).style.strokeDasharray = "none";
-//       }
-        
-//       // set new sections to highlighted color
-//       [sec_start, n_sections] = kv_list[KV].tours[tour_num].sections;
-//       const dash_style = kv_list[KV].tours[tour_num].flex ? "10 20" : "none";
-//       document.getElementById("section_"+sec_start).style.stroke = river_highlight;
-//       for(let i = sec_start+1; i < sec_start+n_sections; i++){
-//         document.getElementById("section_"+i).style.stroke = river_highlight;
-//         document.getElementById("section_"+i).style.strokeDasharray = dash_style;
-//       }
-
-//       return { 
-//         ...prevState, 
-//         KV: KV, 
-//         tour_num: tour_num, 
-//         starttime: kv_list[KV].tours[tour_num].starttime,
-//         cost: dot_product(this.state.group_cts, kv_list[KV].group_prices) + dot_product(this.state.boat_cts, kv_list[KV].boat_prices)
-//       }
-//     })
-//   }
-
-  // render() {
-  //   return (
-  //     <div className="App">
-  //       <div className='selection_box'>
-  //         <div className='tour_list'>
-  //           <ul>
-  //             {this.tours}
-  //           </ul>
-  //         </div>
-  //         <div className='tour_details'>
-  //           <fieldset>
-  //             <legend>Group Details</legend>
-  //             <div className='input_container'>
-  //               <label># Adults</label>
-  //               <input type="number" min="1" name="group_cts-0" value={this.state.group_cts[0]} onChange={this.handleChange}></input>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label># Children</label>
-  //               <input type="number" min="0" name="group_cts-1" value={this.state.group_cts[1]} onChange={this.handleChange}></input>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label># Dogs</label>
-  //               <input type="number" min="0" name="group_cts-2" value={this.state.group_cts[2]} onChange={this.handleChange}></input>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label># Single Kayaks</label>
-  //               <input type="number" min="0" name="boat_cts-0" value={this.state.boat_cts[0]} onChange={this.handleChange}></input>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label># Double Kayaks</label>
-  //               <input type="number" min="0" name="boat_cts-1" value={this.state.boat_cts[1]} onChange={this.handleChange}></input>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label># Triple Kayaks</label>
-  //               <input type="number" min="0" name="boat_cts-2" value={this.state.boat_cts[2]} onChange={this.handleChange}></input>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label># Double Canoes</label>
-  //               <input type="number" min="0" name="boat_cts-3" value={this.state.boat_cts[3]} onChange={this.handleChange}></input>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label># Triple Canoes</label>
-  //               <input type="number" min="0" name="boat_cts-4" value={this.state.boat_cts[4]} onChange={this.handleChange}></input>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label># 4 Person Canoes</label>
-  //               <input type="number" min="0" name="boat_cts-5" value={this.state.boat_cts[5]} onChange={this.handleChange}></input>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label># 5 Person Canoes</label>
-  //               <input type="number" min="0" name="boat_cts-6" value={this.state.boat_cts[6]} onChange={this.handleChange}></input>
-  //             </div>
-  //           </fieldset>
-  //           <fieldset>
-  //             <legend>Tour Details</legend>
-  //             <div className='input_container'>
-  //               <label>Start time</label>
-  //               <span>{this.state.starttime}</span>
-  //             </div>
-  //             <div className='input_container'>
-  //               <label>Total cost [EU]</label>
-  //               <span>{this.state.cost}</span>
-  //             </div>
-  //           </fieldset>
-
-  //         </div>
-  //       </div>
-  //       <MapSvg></MapSvg>
-  //     </div>
-  //   )
-  // }
-// }
-

@@ -362,7 +362,7 @@
         id="rect1046" width="236.07932" height="98.591965" x="2143.8604" y="36.979073" />
       <g id="g5414" transform="translate(0,0.29892951)">
         <path
-          style="fill:none;stroke:#00a9ff;stroke-width:9.99987;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+					style="fill:none;stroke:#005eff;stroke-width:9.99987;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
           d="m 2153.6201,70.007828 c 10.003,0 20.0045,0 30.005,0" id="ex_base_section" /><text xml:space="preserve"
           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.3333px;line-height:1.25984px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px"
           x="2199.4109" y="77.960953" id="text1527">
@@ -371,7 +371,7 @@
       </g>
       <g id="g5419" transform="translate(0,1.0888797)">
         <path
-          style="fill:none;stroke:#00a9ff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:10, 19.9999;stroke-dashoffset:0;stroke-opacity:1"
+					style="fill:none;stroke:#005eff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:10, 19.9999;stroke-dashoffset:0;stroke-opacity:1"
           d="m 2153.6222,92.789754 c 10.0014,0 20.0017,0 30.0008,0" id="ex_optional_section" /><text xml:space="preserve"
           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.3333px;line-height:1.25984px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px"
           x="2199.4109" y="98.675171" id="text1543">
@@ -411,12 +411,13 @@
   </svg>
   <!-- divider between map and floating content -->
   <div class='selection_box'>
-    <div class="scroll_container">
-      <noscript>This page requires JavaScript to run properly</noscript>
-      <ul id="tour_list"></ul>
-    </div>
-    <div class='tour_details'>
-      <fieldset>
+		<fieldset class="scroll_container tour_selection">
+			<noscript>This page requires JavaScript to run properly</noscript>
+			<legend>Tour Selection</legend>
+			<ul id="tour_list"></ul>
+		</fieldset>
+		<div class='group_tour'>
+			<fieldset class="group_details">
         <legend>Group Details</legend>
         <div class='detail_line'>
           <label># Adults</label>
@@ -459,7 +460,7 @@
           <input type="number" min=0 max=10 name="boat_cts-6" value=0 onchange="handle_group_change(this)"></input>
         </div>
       </fieldset>
-      <fieldset>
+			<fieldset class="tour_details">
         <legend>Tour Details</legend>
         <div class='detail_line'>
           <label>Start time</label>
