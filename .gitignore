@@ -6,6 +6,7 @@
 # picture formats 
 #################
 *.png
+*.xcf
 
 # packages / compressed objects
 ###############################

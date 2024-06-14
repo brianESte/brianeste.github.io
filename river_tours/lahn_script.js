@@ -6,6 +6,13 @@ const dot_product = (a, b) => a.map((el, i) => el*b[i]).reduce((c, d) => c+d);
 const river_color = "#00a9ff";
 const river_highlight = "#005eff";
 
+// set map_svg to undefined until it is loaded in
+var map_svg = undefined;
+window.addEventListener("load", () => {
+	map_svg = document.getElementById("lahn_map").contentDocument;
+	console.log(map_svg);
+});
+
 var kv_list = {
   "Lahn Kanu": {
     abbreviation: "LK",
@@ -50,7 +57,7 @@ var kv_list = {
     group_prices: [0, 0, 0],
     shuttle: null,
     tours: [
-      { name: "Hausstrecke mit Schiffstunnel Weilburg", num: 0, dist: "3.4-28.9", starttime: "09:00 - 13:00", flex: true, sections: [11, 6] },
+      { name: "Hausstrecke mit Schiffstunnel Weilburg", num: 0, dist: "3.4-28.9", starttime: "09:00 - 13:00", flex: true, sections: [10, 7] },
       { name: "Ab Leun bis Gräveneck", num: 1, dist: "12.1-26.6", starttime: "10:00", flex: true, sections: [9, 4] },
       { name: "Ab Fürfurt bis Limburg", num: 2, dist: "3.4-24.9", starttime: "11:00", flex: true, sections: [14, 5] },
       { name: "Ab Villmar bis Diez", num: 3, dist: "2.7-19.8", starttime: "11:30", flex: true, sections: [16, 4] },
@@ -92,8 +99,8 @@ function handle_tour_click(self){
   // clear previous river section
   var [sec_start, n_sections] = kv_list[state.KV].tours[state.tour_num].sections;
   for(let i = sec_start; i < sec_start+n_sections; i++){
-    document.getElementById("section_"+i).style.stroke = river_color;
-    document.getElementById("section_"+i).style.strokeDasharray = "none";
+    map_svg.getElementById("section_"+i).style.stroke = river_color;
+    map_svg.getElementById("section_"+i).style.strokeDasharray = "none";
   }
 
   // update state
@@ -105,10 +112,10 @@ function handle_tour_click(self){
   // set new sections to highlighted color
   [sec_start, n_sections] = kv_list[KV].tours[num].sections;
   const dash_style = kv_list[KV].tours[num].flex ? "10 20" : "none";
-  document.getElementById("section_"+sec_start).style.stroke = river_highlight;
+  map_svg.getElementById("section_"+sec_start).style.stroke = river_highlight;
   for(let i = sec_start+1; i < sec_start+n_sections; i++){
-    document.getElementById("section_"+i).style.stroke = river_highlight;
-    document.getElementById("section_"+i).style.strokeDasharray = dash_style;
+    map_svg.getElementById("section_"+i).style.stroke = river_highlight;
+    map_svg.getElementById("section_"+i).style.strokeDasharray = dash_style;
   }
 
   update_cost();

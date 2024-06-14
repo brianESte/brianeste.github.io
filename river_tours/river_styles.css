@@ -4,7 +4,23 @@ html {  background-color: black;  }
 body {
   text-align: center;
   position: relative;
-  background-color: rgb(148, 126, 156);
+}
+
+.svg_container {
+  background-color: rgb(158, 138, 165);
+}
+
+/* .scroll_container >  */
+legend {
+  border-radius: 10px;
+  border: solid 1px #9b9b9b;
+  padding: 0 7px;
+}
+
+fieldset {
+  border-radius: 10px;
+  margin: 2px;
+  /* height: fit-content; */
 }
 
 /* floats on top of map */
