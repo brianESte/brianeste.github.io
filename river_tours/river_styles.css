@@ -1,81 +1,235 @@
 /* river_styles.css */
-html {  background-color: black;  }
+:root {
+	--body-margin: 8px;
+}
+
+html {
+	background-color: black;
+}
 
 body {
-  text-align: center;
-  position: relative;
+	margin: var(--body-margin);
+	text-align: center;
+	position: relative;
 }
 
 .svg_container {
-  background-color: rgb(158, 138, 165);
+	background-color: rgb(158, 138, 165);
 }
 
-/* .scroll_container >  */
+#lahn_map {
+	max-height: 100vw;
+}
+
+.toggle_menu {
+	appearance: none;
+}
+
+.menu_toggle_button {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.menu_toggle_overlay {
+	display: none;
+	height: 100vh;
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	opacity: 0;
+}
+
 legend {
-  border-radius: 10px;
-  border: solid 1px #9b9b9b;
-  padding: 0 7px;
+	border-radius: 10px;
+	border: solid 1px #9b9b9b;
+	padding: 0 7px;
+	width: 8em;
 }
 
 fieldset {
-  border-radius: 10px;
-  margin: 2px;
-  /* height: fit-content; */
+	border-radius: 10px;
+	margin: 2px;
+	min-height: 2.5em;
+}
+
+.fieldset_content {
+	overflow: hidden;
+	width: 15.4em;
 }
 
 /* floats on top of map */
 .selection_box {
-  position: absolute;
-  display: flex;
-  top: 0;
-  left: 14%;
-  background-color: aliceblue;
-  border: solid #016001;
-  border-width: 0 2px 2px 2px;
-  border-radius: 0 0 14px 14px;
-  min-height: 0;
+	position: absolute;
+	display: flex;
+	top: 0;
+	left: 14%;
+	background-color: aliceblue;
+	border: solid #016001;
+	border-width: 0 2px 2px 2px;
+	border-radius: 0 0 14px 14px;
+	min-height: 0;
+	z-index: 1;
 }
 
-.scroll_container{
-  position: relative;
-  min-height: 0;
-  min-width: 20em;
+.scroll_container {
+	position: relative;
+	margin-left: -0.3em;
+	height: 100%;
+	min-width: 20em;
 }
 
 #tour_list {
-  position: absolute;
-  left: 0;  top: 0; right: 0; bottom: 0;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  min-height: 0;
-  padding: 0 0.3em;
+	position: absolute;
+	inset: 0;
+	overflow-y: scroll;
+	scrollbar-width: none;
+	min-height: 0;
+	padding: 0 0.3em;
 }
 
 ul {
-  margin: 0;
-  text-align: left;
-  list-style: none;
+	margin: 0;
+	text-align: left;
+	list-style: none;
 }
 
 .detail_line {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 input[type="number"] {
-  width: 40px;
-  margin-left: 8px;
+	width: 40px;
+	margin-left: 8px;
 }
 
 #tour_dist {
-  min-width: 4.9em;
-  text-align: right;
+	min-width: 4.9em;
+	text-align: right;
 }
 
-input[type="radio"]{  display: none;  } 
-input[type="radio"]:checked + label { background-color: rgb(47, 162, 255);  }
-input[type="radio"] + label{
-  cursor: pointer;
-  display: inline-block;
-  width: 100%;
+input[type="radio"] {
+	display: none;
+}
+
+input[type="radio"]:checked + label {
+	background-color: rgb(47, 162, 255);
+}
+
+input[type="radio"] + label {
+	cursor: pointer;
+	display: inline-block;
+	width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+	body {
+		margin: 0;
+	}
+
+	.svg_container {
+		width: calc(100vh - var(--body-margin));
+		transform: translate(calc(50vw - 50vh), 0) rotate(90deg) translate(25vh, 0);
+	}
+
+	.selection_box {
+		--t_delta_x: 400ms;
+		--t_delta_y: 1000ms;
+		flex-direction: column;
+		left: auto;
+		right: 0;
+		border-radius: 0 0 0 14px;
+	}
+
+	.menu_toggle_overlay {
+		display: block;
+		pointer-events: initial;
+	}
+
+	/*
+	This could possibly be merged with .fieldset_content or otherwise simplified
+	The divs need a defined height for the transition to function smoothly.
+	 */
+	.group_details > div {
+		height: 13.8em;
+	}
+
+	.tour_details > div {
+		height: 3.5em;
+	}
+
+	/*
+	expansion cycle:
+		1. fieldset min-width 1s
+		2. fieldset_content display: init 0s, fieldset_content height: full 1s
+	*/
+	fieldset {
+		transition:
+			padding var(--t_delta_x) linear,
+			border-width var(--t_delta_x) linear;
+	}
+
+	legend {
+		transition: width var(--t_delta_x) linear;
+	}
+
+	.fieldset_content {
+		transition:
+			width var(--t_delta_x) linear,
+			height var(--t_delta_y) linear var(--t_delta_x);
+	}
+
+	.scroll_container {
+		min-width: 0;
+		height: 16em;
+		transition:
+			width var(--t_delta_x) linear,
+			height var(--t_delta_y) linear var(--t_delta_x);
+	}
+
+	/*
+	Menu is collapsed when .toggle_menu is checked
+	contraction cycle:
+		1. fieldset height contracts to 0: dt1=?
+		2. fieldset width contracts to 0: dt2=? t=dt1
+	*/
+	.toggle_menu:checked {
+		~ .selection_box {
+			fieldset {
+				border-width: 0;
+				padding: 0;
+				transition:
+					padding var(--t_delta_x) linear var(--t_delta_y),
+					border-width var(--t_delta_x) linear var(--t_delta_y);
+			}
+
+			legend {
+				width: 5em;
+				transition: width var(--t_delta_x) linear var(--t_delta_y);
+			}
+
+			.fieldset_content {
+				transition:
+					height var(--t_delta_y) linear,
+					width var(--t_delta_x) linear var(--t_delta_y);
+				height: 0;
+				width: 0;
+			}
+
+			.scroll_container {
+				height: 0;
+				transition: height var(--t_delta_y) linear;
+			}
+
+			.menu_toggle_button {
+				pointer-events: initial;
+			}
+		}
+
+		/* note that ~ is the "subsequent-sibling combinator" */
+		~ .menu_toggle_overlay {
+			pointer-events: none;
+		}
+	}
 }

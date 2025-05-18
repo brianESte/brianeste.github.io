@@ -1,87 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="river_styles.css">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lahn Tour Comparison</title>
-	<link rel="icon" type="image/x-icon" href="/res/favicon_16x16.png">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="river_styles.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lahn Tour Comparison</title>
+	<link rel="icon" type="image/x-icon" href="./res/favicon_16x16.png">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
 <body>
-  <!-- original source: https://lahnkanu.com/lahnkarte/ -->
+	<!-- original source: https://lahnkanu.com/lahnkarte/ -->
 	<div class="svg_container">
-		<object data="res/lahn_map.svg" id="lahn_map" type="image/svg+xml"></object>
+		<object data="res/lahn_map.svg" id="lahn_map" type="image/svg+xml">
+			Your browser does not support SVG :(
+		</object>
 	</div>
-  <!-- divider between map and floating content -->
-  <div class='selection_box'>
-		<fieldset class="scroll_container tour_selection">
+	<!-- divider between map and floating content -->
+	<!-- CSS-only toggleable menu: https://codepen.io/nlfonseca/pen/RGqRWN
+	 An input[checkbox] with 2 labels control the state of the menu. Only one label has pointer-events enables at a time
+	-->
+	<input class="toggle_menu" id="toggle_menu" type="checkbox" checked />
+	<div class='selection_box'>
+		<fieldset class="tour_selection ">
 			<noscript>This page requires JavaScript to run properly</noscript>
 			<legend>Tour Selection</legend>
-			<ul id="tour_list"></ul>
+			<!-- Can these 2 divs be combined...? -->
+			<div class="scroll_container">
+				<div class="fieldset_content">
+					<ul id="tour_list"></ul>
+				</div>
+			</div>
 		</fieldset>
 		<div class='group_tour'>
 			<fieldset class="group_details">
-        <legend>Group Details</legend>
-        <div class='detail_line'>
-          <label># Adults</label>
-          <input type="number" min=1 max=15 name="group_cts-0" value=1 onchange="handle_group_change(this)"></input>
-        </div>
-        <div class='detail_line'>
-          <label># Children</label>
-          <input type="number" min=0 max=15 name="group_cts-1" value=0 onchange="handle_group_change(this)"></input>
-        </div>
-        <div class='detail_line'>
-          <label># Dogs</label>
-          <input type="number" min=0 max=15 name="group_cts-2" value=0 onchange="handle_group_change(this)"></input>
-        </div>
-        <div class='detail_line'>
-          <label># Single Kayaks</label>
-          <input type="number" min=0 max=10 name="boat_cts-0" value=0 onchange="handle_group_change(this)"></input>
-        </div>
-        <div class='detail_line'>
-          <label># Double Kayaks</label>
-          <input type="number" min=0 max=10 name="boat_cts-1" value=0 onchange="handle_group_change(this)"></input>
-        </div>
-        <div class='detail_line'>
-          <label># Triple Kayaks</label>
-          <input type="number" min=0 max=10 name="boat_cts-2" value=0 onchange="handle_group_change(this)"></input>
-        </div>
-        <div class='detail_line'>
-          <label># Double Canoes</label>
-          <input type="number" min=0 max=10 name="boat_cts-3" value=0 onchange="handle_group_change(this)"></input>
-        </div>
-        <div class='detail_line'>
-          <label># Triple Canoes</label>
-          <input type="number" min=0 max=10 name="boat_cts-4" value=0 onchange="handle_group_change(this)"></input>
-        </div>
-        <div class='detail_line'>
-          <label># 4 Person Canoes</label>
-          <input type="number" min=0 max=10 name="boat_cts-5" value=0 onchange="handle_group_change(this)"></input>
-        </div>
-        <div class='detail_line'>
-          <label># 5 Person Canoes</label>
-          <input type="number" min=0 max=10 name="boat_cts-6" value=0 onchange="handle_group_change(this)"></input>
-        </div>
-      </fieldset>
+				<legend>Group Details</legend>
+				<div class="fieldset_content">
+					<div class='detail_line'>
+						<label># Adults</label>
+						<input type="number" min=1 max=15 name="group_cts-0" value=1 onchange="handle_group_change(this)" />
+					</div>
+					<div class='detail_line'>
+						<label># Children</label>
+						<input type="number" min=0 max=15 name="group_cts-1" value=0 onchange="handle_group_change(this)" />
+					</div>
+					<div class='detail_line'>
+						<label># Dogs</label>
+						<input type="number" min=0 max=15 name="group_cts-2" value=0 onchange="handle_group_change(this)" />
+					</div>
+					<div class='detail_line'>
+						<label># Single Kayaks</label>
+						<input type="number" min=0 max=10 name="boat_cts-0" value=0 onchange="handle_group_change(this)" />
+					</div>
+					<div class='detail_line'>
+						<label># Double Kayaks</label>
+						<input type="number" min=0 max=10 name="boat_cts-1" value=0 onchange="handle_group_change(this)" />
+					</div>
+					<div class='detail_line'>
+						<label># Triple Kayaks</label>
+						<input type="number" min=0 max=10 name="boat_cts-2" value=0 onchange="handle_group_change(this)" />
+					</div>
+					<div class='detail_line'>
+						<label># Double Canoes</label>
+						<input type="number" min=0 max=10 name="boat_cts-3" value=0 onchange="handle_group_change(this)" />
+					</div>
+					<div class='detail_line'>
+						<label># Triple Canoes</label>
+						<input type="number" min=0 max=10 name="boat_cts-4" value=0 onchange="handle_group_change(this)" />
+					</div>
+					<div class='detail_line'>
+						<label># 4 Person Canoes</label>
+						<input type="number" min=0 max=10 name="boat_cts-5" value=0 onchange="handle_group_change(this)" />
+					</div>
+					<div class='detail_line'>
+						<label># 5 Person Canoes</label>
+						<input type="number" min=0 max=10 name="boat_cts-6" value=0 onchange="handle_group_change(this)" />
+					</div>
+				</div>
+			</fieldset>
 			<fieldset class="tour_details">
-        <legend>Tour Details</legend>
-        <div class='detail_line'>
-          <label>Start time</label>
-          <span id="tour_starttime">~</span>
-        </div>
-        <div class='detail_line'>
-          <label>Travel distance [km]</label>
-          <span id="tour_dist">~</span>
-        </div>
-        <div class='detail_line'>
-          <label>Total cost [EU]</label>
-          <span id="tour_cost">~</span>
-        </div>
-      </fieldset>
-    </div>
-  </div>
-  <script src="lahn_script.js"></script>
+				<legend>Tour Details</legend>
+				<div class="fieldset_content">
+					<div class='detail_line'>
+						<label>Start time</label>
+						<span id="tour_starttime">~</span>
+					</div>
+					<div class='detail_line'>
+						<label>Travel distance [km]</label>
+						<span id="tour_dist">~</span>
+					</div>
+					<div class='detail_line'>
+						<label>Total cost [EU]</label>
+						<span id="tour_cost">~</span>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<!-- (On mobile) Expand the menu when collapsed -->
+		<label class="menu_toggle_button" for="toggle_menu"></label>
+	</div>
+	<!-- (On mobile) Collapse the menu when contracted -->
+	<label class="menu_toggle_overlay" for="toggle_menu"></label>
+	<script src="lahn_script.js"></script>
 </body>
+
 </html>
