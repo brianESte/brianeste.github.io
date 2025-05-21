@@ -101,8 +101,8 @@ function handle_tour_click(self) {
 	// clear previous river section
 	var [sec_start, n_sections] = kv_list[trip_details.KV].tours[trip_details.tour_num].sections;
 	for (let i = sec_start; i < sec_start + n_sections; i++) {
-		map_svg.getElementById("section_" + i).style.stroke = river_color;
-		map_svg.getElementById("section_" + i).style.strokeDasharray = "none";
+		map_svg.getElementById("section_" + i + "_").style.stroke = river_color;
+		map_svg.getElementById("section_" + i + "_").style.strokeDasharray = "none";
 	}
 
 	// update trip_details
@@ -114,10 +114,10 @@ function handle_tour_click(self) {
 	// set new river sections to highlighted color
 	[sec_start, n_sections] = kv_list[KV].tours[num].sections;
 	const dash_style = kv_list[KV].tours[num].flex ? "10 20" : "none";
-	map_svg.getElementById("section_" + sec_start).style.stroke = river_highlight;
+	map_svg.getElementById("section_" + sec_start + "_").style.stroke = river_highlight;
 	for (let i = sec_start + 1; i < sec_start + n_sections; i++) {
-		map_svg.getElementById("section_" + i).style.stroke = river_highlight;
-		map_svg.getElementById("section_" + i).style.strokeDasharray = dash_style;
+		map_svg.getElementById("section_" + i + "_").style.stroke = river_highlight;
+		map_svg.getElementById("section_" + i + "_").style.strokeDasharray = dash_style;
 	}
 
 	update_cost();

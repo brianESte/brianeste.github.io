@@ -6,6 +6,7 @@
 # picture formats 
 #################
 *.png
+*src.svg
 *.xcf
 
 # packages / compressed objects
@@ -14,11 +15,12 @@
 *.tar
 *.rar
 
-# notes file
+# notes / scratch files
 ############
 *notes*
 *.swp
-
-# Scratch files
-###############
 scratch.*
+
+# Test files
+###############
+*/res/test/

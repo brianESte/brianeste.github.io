@@ -4,6 +4,7 @@
 }
 
 html {
+	height: 100%;
 	background-color: black;
 }
 
@@ -23,6 +24,8 @@ body {
 
 .toggle_menu {
 	appearance: none;
+	position: absolute;
+	top: 0;
 }
 
 .menu_toggle_button {
@@ -205,7 +208,7 @@ input[type="radio"] + label {
 			}
 
 			legend {
-				width: 5em;
+				width: 4.3em;
 				transition: width var(--t_delta_x) linear var(--t_delta_y);
 			}
 
