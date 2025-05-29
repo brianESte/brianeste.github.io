@@ -1,29 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>	<!-- head definition goes here -->
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Morse Code</title>
-		<link rel="stylesheet" type="text/css" href="MorsePageStyles.css">
-	</head>
-	<body>
-		<div class="main-page">
-			<h1>Morse Code! Yea~!</h1>
-			<hr/>
-			<div id="section-holder">
-				<div class="section" id="console">
-					<div class="tuner-grid">
-			<div class="row1 col1">
-				<svg class="radio-tuner" id="lvl-tuner" viewBox="0 0 200 200">
-					<defs>
-						<clipPath id="number-ring" clipPathUnits="objectBoundingBox">
-							<circle cx="0.5" cy="0.5" r="0.45"/>
-						</clipPath>
-					</defs>
-					<foreignObject width="200" height="200">
-						<div class="ag-conic-fill"></div>
-					</foreignObject>
-					<circle cx=100 cy=100 r=90 fill="transparent" stroke="#aaa" stroke-width="1"/>
+
+<head> <!-- head definition goes here -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Morse Code</title>
+	<link rel="stylesheet" type="text/css" href="MorsePageStyles.css">
+</head>
+
+<body>
+	<div class="main-page">
+		<div id="section-holder">
+			<div class="section" id="console">
+				<div class="tuner-grid">
+					<div class="row1 col1">
+						<svg class="radio-tuner" id="lvl-tuner" viewBox="0 0 200 200">
+							<defs>
+								<clipPath id="number-ring" clipPathUnits="objectBoundingBox">
+									<circle cx="0.5" cy="0.5" r="0.45" />
+								</clipPath>
+							</defs>
+							<foreignObject width="200" height="200">
+								<div class="ag-conic-fill"></div>
+							</foreignObject>
+							<circle cx=100 cy=100 r=90 fill="transparent" stroke="#aaa" stroke-width="1" />
 					<text text-anchor="middle" x="42.6" y="155.2" onclick="tuneLvl(this)">0</text>
 					<text text-anchor="middle" x="27.2" y="125.1" onclick="tuneLvl(this)">1</text>
 					<text text-anchor="middle" x="26.6" y="91.4" onclick="tuneLvl(this)">2</text>
@@ -85,40 +85,43 @@
 					</div>
 		<div class="sw-grid">
 			<div class="row1 col1">
-				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
-					<defs>
-						<linearGradient id="ag-lin-v" gradientTransform="rotate(90)">
-							<stop offset="10%" stop-color="#999"/>
-							<stop offset="50%" stop-color="#fff"/>
-							<stop offset="90%" stop-color="#999"/>
-						</linearGradient>
-						<radialGradient id="switch-core">
-							<stop offset="10%" stop-color="#000"/>
-							<stop offset="90%" stop-color="#ccc"/>
-						</radialGradient>
-						<radialGradient id="ag-ball">
-							<stop offset="10%" stop-color="#fff"/>
-							<stop offset="90%" stop-color="#999"/>
-						</radialGradient>
-						<clipPath id="switch-plate" clipPathUnits="objectBoundingBox">
-							<path d="M0 0.325 a0.0625 0.125 0 0 1 0.0625 -0.125 H0.3 a0.25 0.5 0 0 1 0.4 0 h0.2375 a0.0625 0.125 0 0 1 0.0625 0.125 v.35 a0.0625 0.125 0 0 1 -0.0625 0.125 h-0.2375 a0.25 0.5 0 0 1 -0.4 0 h-0.2375 a0.0625 0.125 0 0 1 -0.0625 -0.125 Z"/>
-						</clipPath>
-					</defs>
-					<!-- switch plate shape and fill -->
-					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"/>
-					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"/>
-					<!-- black and red plate faces, and OFF/ON text -->
-					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"/> 
-					<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
-					<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)">OFF</text>
-					<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)">ON</text>
-					<!-- switch shaft and knob -->
-					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"/>
-					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"/>
-					<!-- clickable overlay -->
-					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,1)"/>
-					<!--/symbol-->
-				</svg>
+				<label class="toggle-switch" >
+					<input type="checkbox" onchange="toggle(this, 1)" name="audio_checkbox">
+					<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
+						<defs>
+							<linearGradient id="ag-lin-v" gradientTransform="rotate(90)">
+								<stop offset="10%" stop-color="#999"/>
+								<stop offset="50%" stop-color="#fff"/>
+								<stop offset="90%" stop-color="#999"/>
+							</linearGradient>
+							<radialGradient id="switch-core">
+								<stop offset="10%" stop-color="#000"/>
+								<stop offset="90%" stop-color="#ccc"/>
+							</radialGradient>
+							<radialGradient id="ag-ball">
+								<stop offset="10%" stop-color="#fff"/>
+								<stop offset="90%" stop-color="#999"/>
+							</radialGradient>
+							<clipPath id="switch-plate-outline" clipPathUnits="objectBoundingBox">
+								<path d="M0 0.325 a0.0625 0.125 0 0 1 0.0625 -0.125 H0.3 a0.25 0.5 0 0 1 0.4 0 h0.2375 a0.0625 0.125 0 0 1 0.0625 0.125 v.35 a0.0625 0.125 0 0 1 -0.0625 0.125 h-0.2375 a0.25 0.5 0 0 1 -0.4 0 h-0.2375 a0.0625 0.125 0 0 1 -0.0625 -0.125 Z"></path>
+							</clipPath>
+							<g id="toggle-switch-base" font-size="16" font-family="monospace" font-weight="600">
+								<!-- switch plate shape and fill -->
+								<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"></path>
+								<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"></circle>
+								<!-- black and red plate faces, and OFF/ON text -->
+								<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"></path> 
+								<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
+								<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)" fill="#ddd">OFF</text>
+								<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)" fill="#ddd">ON</text>
+							</g>
+						</defs>
+						<!-- switch base -->
+						<use x="0" y="0" href="#toggle-switch-base"/>
+						<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url(#ag-lin-v)" class="switch-shaft" part="switch-shaft"></path>
+						<circle cx="30%" cy="50%" r="18" fill="url(#ag-ball)" stroke="#aaa" stroke-width="1" class="switch-ball" part="switch-ball"></circle>
+					</svg>
+				</label>
 			</div>
 			<div class="row1 col2">
 				<svg viewBox="0 0 260 260" id="blinker">
@@ -140,22 +143,14 @@
 				</svg>
 			</div>
 			<div class="row1 col3">
-				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
-					<!-- switch plate shape and fill -->
-					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"/>
-					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"/>
-					<!-- black and red plate faces, and OFF/ON text -->
-					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"/> 
-					<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
-					<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)">OFF</text>
-					<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)">ON</text>
-					<!-- switch shaft and knob -->
-					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"/>
-					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"/>
-					<!-- clickable overlay -->
-					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,2)"/>
-					<!--/symbol-->
-				</svg>
+				<label class="toggle-switch">
+					<input type="checkbox" onchange="toggle(this, 2)" name="blinker_checkbox">
+					<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
+						<use x="0" y="0" href="#toggle-switch-base"/>
+						<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft" part="switch-shaft"></path>
+						<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball" part="switch-ball"></circle>
+					</svg>
+				</label>
 			</div>
 			<div class="row2 col1">
 				<span class="emb-label">AUDIO<div class='audio' id='audio-sym'></div></span>
@@ -164,23 +159,14 @@
 				<span class="emb-label">Blinker</span>
 			</div>
 			<div class="row3 col1">
-				<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
-					<!-- switch plate shape and fill -->
-					<path d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="url('#ag-lin-v')"/>
-					<circle cx="50%" cy="50%" r="28" fill="url('#switch-core')" stroke="#999" stroke-width="3"/>
-					<!-- black and red plate faces, and OFF/ON text -->
-					<path d="M4 26 a6 6 0 0 1 6 -6 H45.4 a40 40 0 0 0 0 40 h-35.4 a6 6 0 0 1 -6 -6 Z" fill="#000"/> 
-					<path d="M150 20 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-35.4 a40 40 0 0 0 0 -40 Z" fill="#ff0000"/>
-					<text x="11" y="40" text-anchor="middle" transform="rotate(90,11,40)">OFF</text>
-					<text x="140" y="40" text-anchor="middle" transform="rotate(90,140,40)">ON</text>
-					<!-- switch shaft and knob -->
-					<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft"/>
-					<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball"/>
-					<!-- clickable overlay -->
-					<path class="clickable" d="M0 26 a10 10 0 0 1 10 -10 H48 a40 40 0 0 1 64 0 h38 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-38 a40 40 0 0 1 -64 0 h-38 a10 10 0 0 1 -10 -10 Z" fill="transparent" clip-path="url('#switch-plate')" onclick="toggle(this,3)"/>
-					<!--/symbol-->
-				</svg>
-
+				<label class="toggle-switch">
+					<input type="checkbox" onchange="toggle(this, 3)" name="texthint_checkbox">
+					<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
+						<use x="0" y="0" href="#toggle-switch-base"/>
+						<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft" part="switch-shaft"></path>
+						<circle cx="30%" cy="50%" r="18" fill="url('#ag-ball')" stroke="#aaa" stroke-width="1" class="switch-ball" part="switch-ball"></circle>
+					</svg>
+				</label>
 			</div>
 			<div class="row3 col2">
 				<textarea class="row3 col2" id="msg-hint" cols="20" readonly></textarea>
@@ -190,17 +176,78 @@
 			</div>
 		</div><!-- end switch grid -->
 			<div id="input-section">
-				<label id='prompt' for="text-in"></label>
-				<textarea class='ntouch' id="text-in" name="answer-area" cols="40" placeholder="type received message here"></textarea>
-				<div class='button-array'>
-					<button class='touch button' onclick='checkWord(this)'></button>
-					<button class='touch button' onclick='checkWord(this)'></button>
-					<button class='touch button' onclick='checkWord(this)'></button>
-					<button class='touch button' onclick='checkWord(this)'></button>
+				<div class='button-panel touch'>
+					<button class="row1 col1 button" onclick="checkWord(this)">
+						<svg viewBox="-11 -11 22 22" width="60" height="60">
+							<defs>
+								<clipPath id="clip-r11" clipPathUnits="objectBoundingBox">
+									<circle cx="0.5" cy="0.5" r="0.499"/>
+								</clipPath>
+								<clipPath id="clip-r9" clipPathUnits="userSpaceOnUse">
+									<circle cx="0" cy="0" r="9"/>
+								</clipPath>
+								<!-- based on te-connectivity AV19 -->
+								<symbol id="pb_AV19xxRA" viewbox="-11.5 -11.5 23 23" width="22" height="22" x="-11" y="-11">
+									<foreignObject x="-11" y="-11" width="22" height="22" clip-path="url(#clip-r11)">
+										<div class="conic_gradient outer_ring"></div>
+									</foreignObject>
+									<foreignObject x="-9" y="-9" width="18" height="18" clip-path="url(#clip-r9)">
+										<div class="conic_gradient flat_ring"></div>
+									</foreignObject>
+									<circle cx="0" cy="0" r="7.25" stroke-width="1.5" fill="none" part="illuminated_ring" class="illuminated_ring"/>
+								</symbol>
+							</defs>
+							<use href="#pb_AV19xxRA" x="0" y="0"/>
+						</svg>
+					</button>
+					<div class="row1 col2">
+						<svg viewBox="-38 -11.5 76 23">
+							<defs>
+								<symbol id="vfd_display" viewbox="-38 -11.5 76 23" width="76" height="23" x="-38" y="-11.5">
+									<rect width="76" height="23" x="-38" y="-11.5" fill="#333333" />
+									<rect width="70" height="17" x="-35" y="-8.5" rx="2" fill="#000" />
+									<path d="M 38,11.5 v -23 h-76 v23 h76" stroke="#A00" stroke-width="1" fill="none" />
+								</symbol>
+								</defs>
+							<use href="#vfd_display" x="0" y="0"/>
+							<text x="0" y="0"></text>
+						</svg>
+					</div>
+					<button class="row2 col1 button" onclick="checkWord(this)">
+						<svg viewBox="-11 -11 22 22" width="60" height="60">
+							<use href="#pb_AV19xxRA" x="0" y="0"/>
+						</svg>
+					</button>
+					<div class="row2 col2">
+						<svg viewBox="-38 -11.5 76 23">
+							<use href="#vfd_display" x="0" y="0"/>
+							<text x="0" y="0"></text>
+						</svg>
+					</div>
+					<button class="row3 col1 button" onclick="checkWord(this)">
+						<svg viewBox="-11 -11 22 22" width="60" height="60">
+							<use href="#pb_AV19xxRA" x="0" y="0"/>
+						</svg>
+					</button>
+					<div class="row3 col2">
+						<svg viewBox="-38 -11.5 76 23">
+							<use href="#vfd_display" x="0" y="0"/>
+							<text x="0" y="0"></text>
+						</svg>
+					</div>
+					<button class="row4 col1 button" onclick="checkWord(this)">
+						<svg viewBox="-11 -11 22 22" width="60" height="60">
+							<use href="#pb_AV19xxRA" x="0" y="0"/>
+						</svg>
+					</button>
+					<div class="row4 col2">
+						<svg viewBox="-38 -11.5 76 23">
+							<use href="#vfd_display" x="0" y="0"/>
+							<text x="0" y="0"></text>
+						</svg>
+					</div>
 				</div>
 			</div>
-			<button onclick='setWord()'>New Word</button>
-			<span id='answer' onclick='showAnswer()'></span>
 		</div>
 			<div class="section" id="info-folder">
 				<div id="folder-tabs">

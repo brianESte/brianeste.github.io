@@ -8,15 +8,16 @@
 	--label_size:		14px;
 }
 
-body{
+
+body {
 	background: #966F33;
 }
 
-.main-page{	
+.main-page {
 	margin: auto;
 }
 
-#section-holder{
+#section-holder {
 	display: flex;
 	justify-content: space-evenly;
 }
@@ -46,7 +47,7 @@ body{
 	justify-content: space-evenly;
 	margin-top: 5px;
 }
-.sw-grid div{	text-align: center;	}
+
 .row1{	grid-row: 1 / 2;	}
 .row2{	grid-row: 2 / 3;	}
 .row3{	grid-row: 3 / 4;	}
@@ -54,15 +55,19 @@ body{
 .col1{	grid-column: 1 / 2;	}
 .col2{	grid-column: 2 / 3;	}
 .col3{	grid-column: 3 / 4;	}
-.row3.col2{	grid-column: 2 / 4;	}
-.col1-4{
-	grid-column: 1 / 4;	
-	display: flex;
-	justify-content: center;
+
+.sw-grid {
+	div{	text-align: center;	}
+	.row3.col2{	grid-column: 2 / 4;	}
+	.col1-4{
+		grid-column: 1 / 4;
+		display: flex;
+		justify-content: center;
+	}
 }
 
 .tuner-grid div{	text-align: center;	}
-.row1.col2{	position: relative;	}
+.sw-grid .row1.col2{	position: relative;	}
 
 #blinker{
 	position: absolute;
@@ -104,18 +109,39 @@ svg line{
 #lvl-tuner text{	font-size: 16px;	}
 
 /* toggle switch styling */
+.toggle-switch input{
+	display: none;
+}
+.toggle-switch {
+	display: block;
+}
+
+/* The first method / selector is necessary, because Chromium does not handle ::part() correctly (or at all?).
+Ideally the entire toggle switch would be contained in an svg <symbol>, styled by the ::part() selector */
+input:checked + svg .switch-ball,
+input:checked + svg use::part(switch-ball) {
+	cx: 70%;
+}
+
+input:checked + svg .switch-shaft,
+input:checked + svg > use::part(switch-shaft) {
+	transform: rotateY(180deg);
+}
+
+.toggle-switch {
+	clip-path: url(#switch-plate-outline);
+}
+
 .clickable{	cursor: pointer;	}
 .svg-toggle-sw{	max-width: 250px;	}
 
-svg path{
+.switch-shaft {
 	transform-origin: 50% 50%;
-	transition: all 0.3s cubic-bezier(0.25, 0.0, 0.25, 1);	
+	transition: transform 0.3s cubic-bezier(0.25, 0.0, 0.25, 1);
 }
-svg circle{	transition: all 0.3s cubic-bezier(0.25,0.0,0.25,1);	}
 
-.svg-toggle-sw text{
-	fill: #ddd;
-	font-size: 16px;
+.switch-ball {
+	transition: cx 0.3s cubic-bezier(0.25, 0.0, 0.25, 1);
 }
 /* end SVG styles */
 
@@ -144,20 +170,78 @@ textarea{
 	display: block;
 }
 
+/* Message selection area */
+.conic_gradient {
+	height: 100%;
+	width: 100%;
+}
+
+#pb_AV19xxRA {
+	.outer_ring {
+		--outer_ring_color_1: #65655f;
+		--outer_ring_color_2: #a7a7a7;
+		--outer_angle_1: 6deg;
+		--outer_angle_2: 12deg;
+
+		background: conic-gradient(from 90deg,
+			var(--outer_ring_color_1) var(--outer_angle_1), var(--outer_angle_2), 
+			var(--outer_ring_color_2), calc(180deg - var(--outer_angle_2)), 
+			var(--outer_ring_color_1) calc(180deg - var(--outer_angle_1)) calc(180deg + var(--outer_angle_1)), calc(180deg + var(--outer_angle_2)), 
+			var(--outer_ring_color_2), calc(360deg - var(--outer_angle_2)),
+			var(--outer_ring_color_1) calc(360deg - var(--outer_angle_1)));
+	}
+	
+	.flat_ring {
+		--flat_ring_color_1: #3b3b3b;
+		--flat_ring_color_2: #6e6e6e;
+		--flat_ring_angle_1: 10deg;
+		--flat_ring_angle_2: 16deg;
+
+		background: conic-gradient(from 90deg,
+			var(--flat_ring_color_1) var(--flat_ring_angle_1), var(--flat_ring_angle_2), 
+			var(--flat_ring_color_2), calc(180deg - var(--flat_ring_angle_2)), 
+			var(--flat_ring_color_1) calc(180deg - var(--flat_ring_angle_1)) calc(180deg + var(--flat_ring_angle_1)), calc(180deg + var(--flat_ring_angle_2)), 
+			var(--flat_ring_color_2), calc(360deg - var(--flat_ring_angle_2)),
+			var(--flat_ring_color_1) calc(360deg - var(--flat_ring_angle_1)));
+	}
+	.illuminated_ring{
+		fill: none;
+		stroke: #bbb;
+	}
+}
+
+use.ring_red::part(illuminated_ring) {
+	stroke: red;
+	filter: drop-shadow(0 0 1.6px red);
+}
+
+use.ring_grn::part(illuminated_ring) {
+	stroke: green;
+	filter: drop-shadow(0 0 1.6px green) ;
+}
+
 .touch{	display: none;	}
-.button-array button{
-	float: left;
-	width: 25%;
-	/*height: 10px;*/
-	color: white;
-	background: lightgreen;
-	padding: 10px 16px;	/* the horizontal padding is probably unnecessary... */
-	border: 1px solid green;
+.button-panel {
+	display: grid;
+	grid-template-columns: 20% 70%;
+	justify-content: space-evenly;
 }
-.button-array button:not(:last-child){
-	border-right: none;
+
+.button-panel button{
+	border: none;
+	background: none;
 }
-.button-array:after{
+
+.button-panel svg > text {
+	fill: cyan;
+	font-family: monospace;
+	/* text-align: center; */
+	dominant-baseline: central;
+	text-anchor: middle;
+	white-space: pre;
+}
+
+.button-panel:after{
 	content: '';
 	clear: both;
 	display: table;

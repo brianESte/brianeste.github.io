@@ -1,4 +1,4 @@
-// this will be the JS file for the morse code page
+// morse_code.js
 //
 // basic unit: dot
 // dash-length: 3xdot
@@ -15,7 +15,7 @@ var pos = 0;
 
 var lvlSlider = document.getElementById('lvl-slider');
 var hintDisplay = document.getElementById('msg-hint');
-var inBox = document.getElementById('text-in');
+// var inBox = document.getElementById('text-in');	// this needs to be renamed
 //var blinker = document.getElementById('blinker');
 var light = document.getElementById("light");
 
@@ -73,7 +73,7 @@ function textToMorse(text){
 	return morseText;
 }
 
-let morseToOnOff = mWord => {
+function morseToOnOff(mWord) {
 	var onOff = [];
 	for(let i = 0; i < mWord.length; i++){
 		if(mWord[i] == '.'){ onOff.push(1,0) }	// if a .: 10
@@ -93,12 +93,12 @@ function setWord(){
 	word = wordList[Math.floor(Math.random()*wordList.length)];
 	
 	if(hasTouch){	setOptions()	}	// if the device has a touchscreen, set the options
-	else{	inBox.value = ''}
+	// else{	inBox.value = ''}
 
 	morseWord = textToMorse(word);
 	if(textHintOn){	hintDisplay.innerText = morseWord;	}
-	document.getElementById('answer').innerHTML = '';	
-	document.getElementById('prompt').innerHTML = '';
+	// document.getElementById('answer').innerHTML = '';
+	// document.getElementById('prompt').innerHTML = '';
 	bitArry = morseToOnOff(morseWord);
 }
 
@@ -110,7 +110,7 @@ function setOptions(){
 	for (var i=0; i < buttons.length; i++){
 		// splice out an array of len = 1 containing a random word
 		// convert it to uppercase then store it in the current button
-		buttons[i].innerHTML = wordDict.splice(Math.floor(Math.random()*wordDict.length),1)[0].toUpperCase();
+		// buttons[i].innerHTML = wordDict.splice(Math.floor(Math.random()*wordDict.length),1)[0].toUpperCase();
 	}
 	var needAns = true;	
 	// check if correct answer was not randomly added to the option set...
@@ -122,7 +122,7 @@ function setOptions(){
 	}
 	// if correct answer was not already added to list, then add it
 	if(needAns){
-		buttons[Math.floor(Math.random()*buttons.length)].innerHTML = word.toUpperCase()
+		// buttons[Math.floor(Math.random()*buttons.length)].innerHTML = word.toUpperCase()
 	}
 }
 
@@ -146,42 +146,30 @@ function tuneWPM(it){
 	}
 }*/
 
-function toggle(it,select){
-	var position;
-	switch(select){
+function toggle(element, switch_select){
+	let switch_state = element.checked;
+	switch(switch_select){
 		case 1:
-			audioOn = !audioOn;
-			position = audioOn;
-			// start oscillator:
-			if(!oscOn){	
-				oscillator.start();
-				oscOn = true;
-			}
+			audioOn = switch_state;
+			toggleAudio(element);
 			break;
 		case 2:
-			blinkOn = !blinkOn;
-			position = blinkOn;
+			blinkOn = switch_state;
 			break;
 		case 3:
-			textHintOn = !textHintOn;
-			position = textHintOn;
+			textHintOn = switch_state;
 			toggleHint(textHintOn);
 			break;
 		default:
 			console.log("invalid switch selector");
 	}
-	var switchShaft = it.parentNode.getElementsByClassName("switch-shaft")[0];
-	var angle = (position) ? 180 : 0;
-	switchShaft.style.transform = "rotateY("+ angle +"deg)";
-	var switchBall = it.parentNode.getElementsByClassName("switch-ball")[0];
-	var pos = (position) ? 64 : 0;
-	switchBall.style.transform = "translateX("+ pos +"px)";
 }
 
+/**
+ * Display / hide the text hint
+ * @param {boolean} hintOn - Set the text hint visible on true, hidden otherwise
+ */
 function toggleHint(hintOn){
-	if(hintOn == null){
-		hintOn = document.getElementById('toggle-text')
-	}
 	hintDisplay.innerText = (hintOn) ? morseWord : "";
 	//hintDisplay.style.display = (hintTog.checked) ? "inline" : "none";
 	console.log('toggle Hint display');
@@ -192,6 +180,7 @@ function checkWord(it){
 	var ans = word.toUpperCase();
 	document.getElementById('prompt').innerHTML = (it.innerHTML === ans) ? 'Correct!! :)' : 'No... Try again.';
 }
+
 function updateLvl(){
 	level = lvlSlider.value;
 	document.getElementById('lvl-disp').innerHTML = level;
@@ -243,15 +232,15 @@ function rxMorse(){
 	pos = (pos >= bitArry.length) ? 0 : pos + 1;
 }
 
-inBox.addEventListener('keyup', function(event){
-	if(event.keyCode === 13){
-		event.preventDefault();	// what does this do...?
-		// check the answer provided...
-		var guess = inBox.value.slice(0,-1).toUpperCase();
-		var ans = word.toUpperCase();
-		document.getElementById('prompt').innerHTML = (guess === ans) ? 'Correct!! :)' : 'No... Try again.';
-	}
-});
+// inBox.addEventListener('keyup', function(event){
+// 	if(event.keyCode === 13){
+// 		event.preventDefault();	// what does this do...?
+// 		// check the answer provided...
+// 		var guess = inBox.value.slice(0,-1).toUpperCase();
+// 		var ans = word.toUpperCase();
+// 		document.getElementById('prompt').innerHTML = (guess === ans) ? 'Correct!! :)' : 'No... Try again.';
+// 	}
+// });
 
 if(hasTouch){ // if the device has touch, swap keyboard/textarea for buttons
 	var elsNoTouch = document.getElementsByClassName('ntouch');
@@ -260,7 +249,7 @@ if(hasTouch){ // if the device has touch, swap keyboard/textarea for buttons
 	}
 	var elsTouch = document.getElementsByClassName('touch');
 	for(var i=0; i< elsTouch.length; i++){
-		elsTouch[i].style.display = 'block';
+		// elsTouch[i].style.display = 'block';
 	}
 }
 
@@ -272,4 +261,3 @@ setWord();
 var uagent = navigator.userAgent;
 //document.getElementById('uagent-info').innerHTML = uagent;
 //document.getElementById('touch-info').innerHTML = hasTouch;
-
