@@ -8,16 +8,16 @@
 // check if the device has touch capability
 var hasTouch = 'ontouchstart' in window || 'onmsgesturechange' in window;
 
-var word;
-var morseWord;
-var bitArry;
+var message;
+var msg_morse_str;
+var morse_line_code = [];
 var pos = 0;
 
-var lvlSlider = document.getElementById('lvl-slider');
-var hintDisplay = document.getElementById('msg-hint');
-// var inBox = document.getElementById('text-in');	// this needs to be renamed
-//var blinker = document.getElementById('blinker');
-var light = document.getElementById("light");
+const audio_sw = $("#audio_sw");
+const blinker_sw = $("#blinker_sw");
+const light = $("#light");
+const hint_sw = $("#text_hint_sw");
+const hint_display = $("#msg-hint");
 
 // Settings variables
 var level = 0;
@@ -25,23 +25,20 @@ var wpm = 10;
 var farnsworth = 1;
 var baseT = 1200;	// [milliseconds]
 var rxIntID = 0;
-var audioOn = false;
 var blinkOn = false;
-var textHintOn = false;
 
 // Tone settings/vars
+var oscOn = false;			// so that the oscillator is only started once.	
 var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
 // different browsers use different methods.. all named similarly, though.
-var oscOn = false;			// so that the oscillator is only started once.	
-var oscillator = audioCtx.createOscillator();
-var gainNode = audioCtx.createGain();
-
-oscillator.connect(gainNode);	// connect Osc to the gain
+var oscillator = new OscillatorNode(audioCtx);
+// default freq is 440 Hz
+var gainNode = new GainNode(audioCtx, { gain: 0 });
+oscillator.connect(gainNode);	// connect oscillator node to gain node
 gainNode.connect(audioCtx.destination);	// connect Gain to the 'destination'
-// default freq is 440, vol: 1
 
 // a text to morse dictionary object.
-var morseDict = {
+var morse_dict = {
 	A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.",
 	G: "--.", H: "....", I: "..", J: ".---", K: "-.-", L: ".-..",
 	M: "--", N: "-.", O: "---", P: ".--.", Q: "--.-", R: ".-.",
@@ -51,213 +48,262 @@ var morseDict = {
 	6: '-....', 7: '--...', 8: '---..', 9: '----.', 0: '-----'
 };
 
-var wordLists =[['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
-				['this', 'level', 'needs', 'more', 'words'],
-				['this', 'level', 'needs', 'more', 'words'],
-				['this', 'level', 'needs', 'more', 'words'],
-				['APPLE', 'BANANA', 'CLOSET', 'EXAMPLE', 'MANGO', 'PYTHON', 'RIVER'],
-				['BEATS', 'BISTRO', "BOMBS", "BOXES", "BREAK", "BRICK", "FLICK", "HALLS", 
-				 "LEAKS", "SHELL", "SLICK", "STROBE", "STEAK", "STING", "TRICK", "VECTOR"],	// lvl 5
-				['Pokemon', 'Halloween', 'this', 'level', 'needs', 'more', 'words'],
-				['this', 'level', 'needs', 'more', 'words'],
-				['this', 'level', 'needs', 'more', 'words'],
-				['this', 'level', 'needs', 'more', 'words'],
-				['this', 'level', 'needs', 'more', 'words']]; 
+var morse_timing = {
+	'.': [1],
+	'-': [1, 1, 1],
+	' ': [0, 0, 0]
+};
+
+var msg_lists = [
+	['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+	["AM", "AS", "AT", "BE", "BY", "GO", "HE", "IF", "IT", "LO", "NO", "OK", "OR", "TO", "UP", "WE"],
+	["AWK", "BOX", "END", "FUN", "JOB", "LOG", "MAP", "MAR", "RED", "RUN", "SET", "TAX", "TOP", "VIA", "WAR"],
+	["AREA", "BOTH", "DATA", "FIND", "GREP", "INFO", "LONG", "MUST", "PART", "POST", "THIS", "USER", "WORK"],
+	["APPLE", "BANANA", "CLOSET", "EXAMPLE", "MANGO", "PYTHON", "RIVER"],
+	["BEATS", "BISTRO", "BOMBS", "BOXES", "BREAK", "BRICK", "FLICK", "HALLS", "LEAKS", "SHELL", "SLICK", "STROBE", "STEAK", "STING", "TRICK", "VECTOR"],	// lvl 5
+	["ABRUPT", "ALPACA", "BADGER", "DURING", "GARDEN", "MARKET", "MEMBER", "NUMBER", "PERIOD", "PERSON", "RETURN", "SELECT", "STATUS", "TRAVEL", "UNITED", "WITHIN"],
+	["ARBITER", "BOLLARD", "DIGITAL", "EMERALD", "ENCHANT", "FEDERAL", "FURTHER", "HOSTING", "LIMITED", "NATURAL", "NETWORK", "PROBLEM", "PRODUCT", "SIMILAR", "STUDENT"],
+	["ALTRUISM", "ANALYSIS", "BASILISK", "COMPUTER", "ELDRITCH", "FAMILIAL", "FRESHMAN", "FORESTED", "JUNKYARD", "LINOLEUM", "LONGHORN", "MASTHEAD", "TOGETHER"],
+	["F3LD5P4R", "F0R357RY", "H4Z3LNU7", "1NDU57RY", "1NV3N70R", "J0Y571CK", "K1L06R4M", "M4T3R14L", "M473RN4L", "M0N0L17H", "R3F1N3RY", "R3M3M83R"],
+	["D16174L", "6L17CH35", "173R470R", "M4R47H0N", "N0V3M83R", "N0V3L157"]];
 
 
-function textToMorse(text){
-	var morseText = morseDict[text[0].toUpperCase()];
-	for(i = 1; i < text.length; i++){
-		morseText += ' ' + morseDict[text[i].toUpperCase()];
-	}
-	return morseText;
+/**
+ * Convert a given text message to morse code
+ * @param {String} text The message to convert
+ * @returns Morse code version of the given message
+ */
+function text_to_morse(text) {
+	return text.split().reduce((acc, curr) => {
+		return acc + morse_dict[curr.toUpperCase()];
+	}, '');
 }
 
-function morseToOnOff(mWord) {
-	var onOff = [];
-	for(let i = 0; i < mWord.length; i++){
-		if(mWord[i] == '.'){ onOff.push(1,0) }	// if a .: 10
-		else if(mWord[i] == '-'){ onOff.push(1,1,1,0) } // if a -: 1110
-		else if(mWord[i] == ' '){ onOff.push(0,0)}	// if a ' ': 00
+/**
+ * Convert a morse code string to a line code array of 1's and 0's
+ * @param {String} morse_string String of -'s, .'s and ' 's to be converted to line code
+ * @returns Line code as array of 1's and 0's
+ */
+function morse_to_line_code(morse_string) {
+	let line_code = [0, 0, 0, 0, 0, 0];
+	for (let i = 0; i < morse_string.length; i++) {
+		line_code.push(...morse_timing[morse_string[i]]);
+		if (line_code.at(-1) === 1) line_code.push(0);
 	}
-	onOff.push(0,0,0,0,0,0);
-	return onOff
+	return line_code
 }
 
-// this function needs to be cleaned up and improved once the wordLists are complete,
-// or a suitable word gen system/function is created
-function setWord(){
-	// grab the level approprate wordList
-	var wordList = wordLists[Number(level)];
-	// pick a random word from the chosen wordList
-	word = wordList[Math.floor(Math.random()*wordList.length)];
-	
-	if(hasTouch){	setOptions()	}	// if the device has a touchscreen, set the options
-	// else{	inBox.value = ''}
-
-	morseWord = textToMorse(word);
-	if(textHintOn){	hintDisplay.innerText = morseWord;	}
-	// document.getElementById('answer').innerHTML = '';
-	// document.getElementById('prompt').innerHTML = '';
-	bitArry = morseToOnOff(morseWord);
+/**
+ * Clear the button ring lights, enable blinker / audio-rx, and set a new message
+ * @param {Number} animation_id Interval ID of the current animation
+ */
+function new_message(animation_id) {
+	clearInterval(animation_id);
+	$("#button-panel button svg use").removeClass("ring_grn");
+	update_blinker_enable();
+	update_audio_rx();
+	set_message();
 }
 
-function setOptions(){
-	// grab the level appropriate wordList
-	var wordDict = wordLists[Number(level)].slice();
-	
-	var buttons = document.getElementsByClassName('button');
-	for (var i=0; i < buttons.length; i++){
-		// splice out an array of len = 1 containing a random word
-		// convert it to uppercase then store it in the current button
-		// buttons[i].innerHTML = wordDict.splice(Math.floor(Math.random()*wordDict.length),1)[0].toUpperCase();
-	}
-	var needAns = true;	
-	// check if correct answer was not randomly added to the option set...
-	for (var i=0; i < buttons.length; i++){
-		if(buttons[i].innerHTML === word.toUpperCase()){
-			needAns = false;
-			break;
-		}
-	}
-	// if correct answer was not already added to list, then add it
-	if(needAns){
-		// buttons[Math.floor(Math.random()*buttons.length)].innerHTML = word.toUpperCase()
-	}
+/**
+ * Pick a message and update hint and line code variables
+ */
+function set_message() {
+	// pick a random message from the level-selcted message list
+	let msg_list = msg_lists[Number(level)];
+	let msg_idx = Math.floor(Math.random() * msg_list.length);
+	message = msg_list[msg_idx];
+
+	set_msg_options(msg_idx);
+	// convert message text to morse string
+	msg_morse_str = text_to_morse(message);
+	update_hint_disp();
+	morse_line_code = morse_to_line_code(msg_morse_str);
 }
 
-function tuneLvl(it){
-	level = it.innerHTML;
-	var ptr = it.parentNode.getElementsByClassName("radio-pointer")[0];
-	ptr.style.transform = "rotate("+ level*26 +"deg)";
-	console.log('level now: '+level);
-}
-function tuneWPM(it){
-	wpm = it.innerHTML;
-	var ptr = it.parentNode.getElementsByClassName("radio-pointer")[0];
-	ptr.style.transform = "rotate("+ (wpm-1)*12 +"deg)";
-	updateWPM();
-}
-
-/*function toggleAudio(){
-	if(!oscOn){	
-		oscillator.start();
-		oscOn = true;
-	}
-}*/
-
-function toggle(element, switch_select){
-	let switch_state = element.checked;
-	switch(switch_select){
-		case 1:
-			audioOn = switch_state;
-			toggleAudio(element);
-			break;
-		case 2:
-			blinkOn = switch_state;
-			break;
-		case 3:
-			textHintOn = switch_state;
-			toggleHint(textHintOn);
-			break;
-		default:
-			console.log("invalid switch selector");
+/**
+ * Set the message options
+ * @param {Number} msg_idx Index of the correct message in its message list
+ */
+function set_msg_options(msg_idx) {
+	// grab message option text elements
+	let msg_options = $(".msg-option text");
+	const n_options = msg_options.length;
+	// copy the level-selected messge list
+	let msg_list = msg_lists[Number(level)].slice();
+	// remove msg from list, shuffle list
+	let msg = msg_list.splice(msg_idx, 1)[0];
+	shuffle_array(msg_list, 100);
+	// build option list from msg and first n shuffled messages
+	let msg_option_list = [msg, ...msg_list.slice(0, n_options - 1)];
+	shuffle_array(msg_option_list, 10 + n_options);
+	// assign messages to displays
+	for (let i = 0; i < n_options; i++) {
+		msg_options[i].innerHTML = msg_option_list[i].padEnd(8);
 	}
 }
 
 /**
- * Display / hide the text hint
- * @param {boolean} hintOn - Set the text hint visible on true, hidden otherwise
+ * Shuffle the given array
+ * @param {Array} array Array to be shuffled
+ * @param {Number} n_iter Number of "shuffle" operations to perform
  */
-function toggleHint(hintOn){
-	hintDisplay.innerText = (hintOn) ? morseWord : "";
-	//hintDisplay.style.display = (hintTog.checked) ? "inline" : "none";
-	console.log('toggle Hint display');
+function shuffle_array(array, n_iter) {
+	const len = array.length;
+	for (let i = 0; i < n_iter; i++) {
+		let val1 = array.shift();
+		let rand_pos = Math.floor(Math.random() * len);
+		array.splice(rand_pos, 0, val1);
+	}
 }
 
-// this function is not yet used apparently..
-function checkWord(it){
-	var ans = word.toUpperCase();
-	document.getElementById('prompt').innerHTML = (it.innerHTML === ans) ? 'Correct!! :)' : 'No... Try again.';
+/**
+ * Update the level knob and setting
+ * @param {Element} caller Reference to the caller element
+ */
+function tune_lvl(caller) {
+	level = caller.innerHTML;
+	let ptr = caller.parentNode.getElementsByClassName("radio-pointer")[0];
+	ptr.style.transform = "rotate(" + level * 26 + "deg)";
+	console.log('level now: ' + level);
 }
 
-function updateLvl(){
-	level = lvlSlider.value;
-	document.getElementById('lvl-disp').innerHTML = level;
-	console.log('level now: '+level);
+/**
+ * Update the WPM knob and setting
+ * @param {Element} caller Reference to the caller element
+ */
+function tuneWPM(caller) {
+	wpm = parseInt(caller.innerHTML);
+	let ptr = caller.parentNode.getElementsByClassName("radio-pointer")[0];
+	ptr.style.transform = "rotate(" + (wpm - 1) * 12 + "deg)";
+	update_WPM();
 }
 
-function updateWPM(){
-	//wpm = document.getElementById('wpm-slider').value;
-	//document.getElementById('wpm-disp').innerHTML = wpm;
-	baseT = 1200/Number(wpm);
+/**
+ * Update the WPM setting and restat the morse Tx/Rx at the new period
+ */
+function update_WPM() {
+	baseT = 1200 / Number(wpm);
 	clearInterval(rxIntID);
-	rxIntID = setInterval(rxMorse, baseT);
-	console.log('speed now: '+wpm);
+	rxIntID = setInterval(rx_morse_msg, baseT);
 }
 
-function updateFwth(){
-	farnsworth = document.getElementById('Farnsworth-slider').value;
-	document.getElementById('fwth-disp').innerHTML = farnsworth;
-	console.log('Farnsworth now: '+farnsworth);
-}
-
-function showAnswer(){
-	document.getElementById('answer').innerHTML = word;	
-}
-
-function beepOn(){
-	if(!gainNode.gain.value){	gainNode.gain.value = 1	}
-}
-function beepOff(){
-	if(gainNode.gain.value){	gainNode.gain.value = 0	}
-}
-
-function rxMorse(){
-	if(bitArry[pos]){
-		// document.getElementById('toggle-audio').checked
-		if(audioOn){	beepOn()	}
-		if(blinkOn){	
-			//blinker.style.background = 'red';
-			light.setAttribute("fill", "url(#light-on)");
-			light.setAttribute("stroke", "none")
+/**
+ * Parse the current bit in the morse line code and increment the bit position
+ */
+function rx_morse_msg() {
+	if (morse_line_code[pos]) {
+		beepOn()
+		if (blinkOn) {
+			// set light to "on" appearance
+			light.attr("fill", "url(#light-on)");
+			light.attr("stroke", "none")
 		}
-	}	else {
-		// set light to "off" appearance
-		//blinker.style.background = 'black';
-		light.setAttribute("fill", "#aa0000");
-		light.setAttribute("stroke", "#440000");
+	} else {
+		// set light to "off" appearance and turn off beeper
+		light.attr("fill", "#aa0000");
+		light.attr("stroke", "#440000");
 		beepOff();
 	}
-	pos = (pos >= bitArry.length) ? 0 : pos + 1;
+	pos = (pos >= morse_line_code.length) ? 0 : pos + 1;
 }
 
-// inBox.addEventListener('keyup', function(event){
-// 	if(event.keyCode === 13){
-// 		event.preventDefault();	// what does this do...?
-// 		// check the answer provided...
-// 		var guess = inBox.value.slice(0,-1).toUpperCase();
-// 		var ans = word.toUpperCase();
-// 		document.getElementById('prompt').innerHTML = (guess === ans) ? 'Correct!! :)' : 'No... Try again.';
-// 	}
-// });
+/**
+ * Turn on beep sound
+ */
+function beepOn() {
+	gainNode.gain.value = 1;
+}
 
-if(hasTouch){ // if the device has touch, swap keyboard/textarea for buttons
-	var elsNoTouch = document.getElementsByClassName('ntouch');
-	for(var i=0; i<elsNoTouch.length; i++){
-		elsNoTouch[i].style.display = 'none';
-	}
-	var elsTouch = document.getElementsByClassName('touch');
-	for(var i=0; i< elsTouch.length; i++){
-		// elsTouch[i].style.display = 'block';
+/**
+ * Turn off beep sound
+ */
+function beepOff() {
+	gainNode.gain.value = 0
+}
+
+/**
+ * Update the active audio settings. Start the oscillator is not already started, and update audio_on variable
+ */
+function update_audio_rx() {
+	const sw_state = audio_sw.is(":checked");
+	if (sw_state && audioCtx.state === "suspended") {
+		if (!oscOn) {
+			oscillator.start();
+			oscOn = true;
+		}
+		audioCtx.resume();
+	} else if (!sw_state && audioCtx.state === "running") {
+		audioCtx.suspend();
 	}
 }
 
-//updateLvl();
-updateWPM();
+/**
+ * Set the blinker state to in/active according to the blinker switch
+ */
+function update_blinker_enable() {
+	blinkOn = blinker_sw.is(":checked");
+}
+
+/**
+ * Update the text hint display
+ */
+function update_hint_disp() {
+	hint_display.html((hint_sw.is(":checked")) ? msg_morse_str : "");
+}
+
+/**
+ * Check the selected message option against the true message. Sets the button ring light according to whether the option chosen is correct or not.
+ * @param {Element} caller Button element selecting a message option
+ */
+function check_msg(caller) {
+	let button = $(caller);
+	let option = button.next().find("text").html().trim();
+	if (option === message) {
+		button.find("svg use").addClass("ring_grn");
+		morse_line_code = [0];
+		setTimeout(reset_animation, 3000);
+	} else {
+		button.find("svg use").addClass("ring_red");
+	}
+}
+
+/**
+ * Initiate the reset animation. Disable audio and blinker, and set a timer to set a new message
+ */
+function reset_animation() {
+	blinkOn = false;
+	// clear all ring light colors
+	$("#button-panel button svg use").removeClass(["ring_grn", "ring_red"]);
+	$("#button-panel button").eq(0).find("svg use").addClass("ring_grn");
+
+	let animation_id = setInterval(() => {
+		let buttons = $("#button-panel button");
+		let button_lit = buttons.find(".ring_grn");
+		let btn_idx = buttons.index(button_lit.parent().parent());
+		button_lit.removeClass("ring_grn");
+		btn_idx = (btn_idx + 1) % buttons.length;
+		$("#button-panel button").eq(btn_idx).find("svg use").addClass("ring_grn");
+	}, 300);
+	setTimeout(new_message, 4000, animation_id);
+}
+
+/**
+ * What does this function do??
+ */
+function updateFwth() {
+	farnsworth = document.getElementById('Farnsworth-slider').value;
+	document.getElementById('fwth-disp').innerHTML = farnsworth;
+	console.log('Farnsworth now: ' + farnsworth);
+}
+
+
+// reset audio switch
+audio_sw.prop("checked", false);
+update_WPM();
 //updateFwth();
-setWord();
+new_message();
 
-var uagent = navigator.userAgent;
+// var uagent = navigator.userAgent;
 //document.getElementById('uagent-info').innerHTML = uagent;
 //document.getElementById('touch-info').innerHTML = hasTouch;

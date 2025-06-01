@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Morse Code</title>
 	<link rel="stylesheet" type="text/css" href="MorsePageStyles.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -24,17 +25,17 @@
 								<div class="ag-conic-fill"></div>
 							</foreignObject>
 							<circle cx=100 cy=100 r=90 fill="transparent" stroke="#aaa" stroke-width="1" />
-					<text text-anchor="middle" x="42.6" y="155.2" onclick="tuneLvl(this)">0</text>
-					<text text-anchor="middle" x="27.2" y="125.1" onclick="tuneLvl(this)">1</text>
-					<text text-anchor="middle" x="26.6" y="91.4" onclick="tuneLvl(this)">2</text>
-					<text text-anchor="middle" x="40.9" y="60.8" onclick="tuneLvl(this)">3</text>
-					<text text-anchor="middle" x="67.1" y="39.6" onclick="tuneLvl(this)">4</text>
-					<text text-anchor="middle" x="100"  y="32.0" onclick="tuneLvl(this)">5</text>
-					<text text-anchor="middle" x="132.9" y="39.6" onclick="tuneLvl(this)">6</text>
-					<text text-anchor="middle" x="159.1" y="60.8" onclick="tuneLvl(this)">7</text>
-					<text text-anchor="middle" x="173.4" y="91.4" onclick="tuneLvl(this)">8</text>
-					<text text-anchor="middle" x="172.8" y="125.1" onclick="tuneLvl(this)">9</text>
-					<text text-anchor="middle" x="157.5" y="155.2" onclick="tuneLvl(this)">10</text>
+							<text text-anchor="middle" x="42.6" y="155.2" onclick="tune_lvl(this)">0</text>
+							<text text-anchor="middle" x="27.2" y="125.1" onclick="tune_lvl(this)">1</text>
+							<text text-anchor="middle" x="26.6" y="91.4" onclick="tune_lvl(this)">2</text>
+							<text text-anchor="middle" x="40.9" y="60.8" onclick="tune_lvl(this)">3</text>
+							<text text-anchor="middle" x="67.1" y="39.6" onclick="tune_lvl(this)">4</text>
+							<text text-anchor="middle" x="100" y="32.0" onclick="tune_lvl(this)">5</text>
+							<text text-anchor="middle" x="132.9" y="39.6" onclick="tune_lvl(this)">6</text>
+							<text text-anchor="middle" x="159.1" y="60.8" onclick="tune_lvl(this)">7</text>
+							<text text-anchor="middle" x="173.4" y="91.4" onclick="tune_lvl(this)">8</text>
+							<text text-anchor="middle" x="172.8" y="125.1" onclick="tune_lvl(this)">9</text>
+							<text text-anchor="middle" x="157.5" y="155.2" onclick="tune_lvl(this)">10</text>
 					<circle cx=100 cy=100 r=60 fill="transparent" stroke="#000" stroke-width="2" class="radio-knob"/> 
 					<circle cx=100 cy=100 r=58 fill="transparent" stroke="#000" stroke-width="4"/> 
 					<line x1="100" y1="100" x2="54" y2="138.6" stroke="#f00" stroke-width="3" class="radio-pointer"/>
@@ -86,7 +87,7 @@
 		<div class="sw-grid">
 			<div class="row1 col1">
 				<label class="toggle-switch" >
-					<input type="checkbox" onchange="toggle(this, 1)" name="audio_checkbox">
+					<input type="checkbox" onchange="update_audio_rx()" id="audio_sw">
 					<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
 						<defs>
 							<linearGradient id="ag-lin-v" gradientTransform="rotate(90)">
@@ -144,7 +145,7 @@
 			</div>
 			<div class="row1 col3">
 				<label class="toggle-switch">
-					<input type="checkbox" onchange="toggle(this, 2)" name="blinker_checkbox">
+					<input type="checkbox" onchange="update_blinker_enable()" id="blinker_sw">
 					<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
 						<use x="0" y="0" href="#toggle-switch-base"/>
 						<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft" part="switch-shaft"></path>
@@ -160,7 +161,7 @@
 			</div>
 			<div class="row3 col1">
 				<label class="toggle-switch">
-					<input type="checkbox" onchange="toggle(this, 3)" name="texthint_checkbox">
+					<input type="checkbox" onchange="update_hint_disp()" id="text_hint_sw">
 					<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
 						<use x="0" y="0" href="#toggle-switch-base"/>
 						<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft" part="switch-shaft"></path>
@@ -169,15 +170,16 @@
 				</label>
 			</div>
 			<div class="row3 col2">
-				<textarea class="row3 col2" id="msg-hint" cols="20" readonly></textarea>
+				<!-- Textarea needs a name, else content will not be displayed: https://stackoverflow.com/a/16959534 -->
+				<textarea id="msg-hint" name="msg-hint" cols="20" readonly></textarea>
 			</div>
 			<div class="row4 col1-4">
 				<span class="emb-label">Text hint</span>
 			</div>
 		</div><!-- end switch grid -->
 			<div id="input-section">
-				<div class='button-panel touch'>
-					<button class="row1 col1 button" onclick="checkWord(this)">
+				<div id="button-panel">
+					<button class="row1 col1 button" onclick="check_msg(this)">
 						<svg viewBox="-11 -11 22 22" width="60" height="60">
 							<defs>
 								<clipPath id="clip-r11" clipPathUnits="objectBoundingBox">
@@ -200,7 +202,7 @@
 							<use href="#pb_AV19xxRA" x="0" y="0"/>
 						</svg>
 					</button>
-					<div class="row1 col2">
+					<div class="row1 col2 msg-option">
 						<svg viewBox="-38 -11.5 76 23">
 							<defs>
 								<symbol id="vfd_display" viewbox="-38 -11.5 76 23" width="76" height="23" x="-38" y="-11.5">
@@ -208,39 +210,39 @@
 									<rect width="70" height="17" x="-35" y="-8.5" rx="2" fill="#000" />
 									<path d="M 38,11.5 v -23 h-76 v23 h76" stroke="#A00" stroke-width="1" fill="none" />
 								</symbol>
-								</defs>
+							</defs>
 							<use href="#vfd_display" x="0" y="0"/>
 							<text x="0" y="0"></text>
 						</svg>
 					</div>
-					<button class="row2 col1 button" onclick="checkWord(this)">
+					<button class="row2 col1 button" onclick="check_msg(this)">
 						<svg viewBox="-11 -11 22 22" width="60" height="60">
 							<use href="#pb_AV19xxRA" x="0" y="0"/>
 						</svg>
 					</button>
-					<div class="row2 col2">
+					<div class="row2 col2 msg-option">
 						<svg viewBox="-38 -11.5 76 23">
 							<use href="#vfd_display" x="0" y="0"/>
 							<text x="0" y="0"></text>
 						</svg>
 					</div>
-					<button class="row3 col1 button" onclick="checkWord(this)">
+					<button class="row3 col1 button" onclick="check_msg(this)">
 						<svg viewBox="-11 -11 22 22" width="60" height="60">
 							<use href="#pb_AV19xxRA" x="0" y="0"/>
 						</svg>
 					</button>
-					<div class="row3 col2">
+					<div class="row3 col2 msg-option">
 						<svg viewBox="-38 -11.5 76 23">
 							<use href="#vfd_display" x="0" y="0"/>
 							<text x="0" y="0"></text>
 						</svg>
 					</div>
-					<button class="row4 col1 button" onclick="checkWord(this)">
+					<button class="row4 col1 button" onclick="check_msg(this)">
 						<svg viewBox="-11 -11 22 22" width="60" height="60">
 							<use href="#pb_AV19xxRA" x="0" y="0"/>
 						</svg>
 					</button>
-					<div class="row4 col2">
+					<div class="row4 col2 msg-option">
 						<svg viewBox="-38 -11.5 76 23">
 							<use href="#vfd_display" x="0" y="0"/>
 							<text x="0" y="0"></text>
@@ -279,7 +281,7 @@
 					</div>
 					<div class="paper">
 						<p>A tribute to Morsecode.io. I used that page once upon a time to learn Morse, but it no longer exists...</p>
-						<p>The level dial changes the wordset. The higher the level, the more challenging the words. Level 0 is single letters. Not all levels have been implemented. There are 3 aids to toggle: auditory, visual and written. Each can be toggled with the appropriate switch. The decoded message is to be entered into the text field provided.</p>
+						<p>The level dial changes the wordset. The higher the level, the more challenging the words. Level 0 is single letters. Not all levels have been implemented. There are 3 aids to toggle: auditory, visual, and written. Each can be toggled with the appropriate switch. The decoded message is to be entered into the text field provided.</p>
 						<p>The desired aesthetic is that of an old timey control panel, not too different than the device shown in the history page.</p>
 					</div>
 				</div>

@@ -80,19 +80,28 @@ input{	margin: 6px;	}
 h1{	margin: 10px 0 10px 0;	}
 
 /* shared SVG styles */
-svg text{
+svg text {
+	user-select: none;
 	font-family: monospace;
 	font-weight: bold;
-	cursor: pointer;
 }
 
 /* radio-tuner class styling */
-.radio-tuner{	max-width: 300px;	}
-.radio-tuner foreignObject{	clip-path: url(#number-ring);	}
+.radio-tuner {
+	max-width: 300px;
+
+	foreignObject {
+		clip-path: url(#number-ring);
+	}
+
+	text {
+		cursor: pointer;
+	}
+}
 .radio-knob{	stroke-dasharray: 1.5 1.5;	}
 
 svg line{
-	transition: all 2s;
+	transition: transform 2s;
 	transform-origin: 50% 50%;
 	transform: rotate(0deg);
 }
@@ -114,6 +123,10 @@ svg line{
 }
 .toggle-switch {
 	display: block;
+}
+
+#toggle-switch-base text {
+	cursor: pointer;
 }
 
 /* The first method / selector is necessary, because Chromium does not handle ::part() correctly (or at all?).
@@ -216,23 +229,23 @@ use.ring_red::part(illuminated_ring) {
 }
 
 use.ring_grn::part(illuminated_ring) {
-	stroke: green;
+	stroke: rgb(7, 160, 7);
 	filter: drop-shadow(0 0 1.6px green) ;
 }
 
 .touch{	display: none;	}
-.button-panel {
+#button-panel {
 	display: grid;
 	grid-template-columns: 20% 70%;
 	justify-content: space-evenly;
 }
 
-.button-panel button{
+#button-panel button {
 	border: none;
 	background: none;
 }
 
-.button-panel svg > text {
+#button-panel svg > text {
 	fill: cyan;
 	font-family: monospace;
 	/* text-align: center; */
@@ -241,7 +254,7 @@ use.ring_grn::part(illuminated_ring) {
 	white-space: pre;
 }
 
-.button-panel:after{
+#button-panel:after {
 	content: '';
 	clear: both;
 	display: table;
@@ -292,6 +305,9 @@ input[type="radio"]:not(:checked) + .folder{	display: none;	}
 	position: absolute;
 	right: calc(100% - 0.7px);
 	display: flex;
+	/* need to figure out a way to make this # flow */
+	top: 18px;
+	left: calc(calc(var(--tab_padding) * -8) + calc(-34 * var(--label-size)) + 106px);		/* 489px */	
 	transform: rotate(-90deg);
 	transform-origin: bottom right;
 }
