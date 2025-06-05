@@ -1,13 +1,12 @@
-:root{
-	--manilaColor: 	#ffe699;
-	--coral:		#ffb3b3;
-	--paleGreen:	#c1f0c1;
-	--folder_tab_dx:	13px;
-	--tab_brdr_btm:		23.9px;
-	--tab_padding:		6px;
-	--label_size:		14px;
+:root {
+	--manilaColor: #ffe699;
+	--coral: #ffb3b3;
+	--paleGreen: #c1f0c1;
+	--folder-tab-dx: 13px;
+	--tab-brdr-btm: 23.9px;
+	--tab-padding: 6px;
+	--label-size: 14px;
 }
-
 
 body {
 	background: #966F33;
@@ -21,17 +20,24 @@ body {
 	display: flex;
 	justify-content: space-evenly;
 }
+
 .section{
 	flex: 1 1 0px;
 	max-width: 460px;
 }
-@media screen and (max-width: 480px){
-	#section-holder{	flex-direction: column;	}
+
+@media screen and (max-width: 480px) {
+	#section-holder {
+		flex-direction: column;
+	}
 }
 
 /*		console styles		*/
-#console{	margin: 0 5px;	}
-.tuner-grid{
+#console {
+	margin: 0 5px;
+}
+
+.tuner-grid {
 	display: grid;
 	grid-template-columns: 50% 50%;
 	grid-template-rows: auto auto;
@@ -39,7 +45,8 @@ body {
 	grid-row-gap: 5px;	*/
 	justify-content: center;
 }
-.sw-grid{
+
+.sw-grid {
 	display: grid;
 	grid-template-columns: 40% 15% 40%;
 	grid-column-gap: 10px;
@@ -48,18 +55,28 @@ body {
 	margin-top: 5px;
 }
 
-.row1{	grid-row: 1 / 2;	}
-.row2{	grid-row: 2 / 3;	}
-.row3{	grid-row: 3 / 4;	}
-.row4{	grid-row: 4 / 5;	}
-.col1{	grid-column: 1 / 2;	}
-.col2{	grid-column: 2 / 3;	}
-.col3{	grid-column: 3 / 4;	}
+.row1 { grid-row: 1 / 2;	}
+.row2 { grid-row: 2 / 3;	}
+.row3 { grid-row: 3 / 4;	}
+.row4 { grid-row: 4 / 5;	}
+.col1 { grid-column: 1 / 2;	}
+.col2 { grid-column: 2 / 3;	}
+.col3 { grid-column: 3 / 4;	}
 
 .sw-grid {
-	div{	text-align: center;	}
-	.row3.col2{	grid-column: 2 / 4;	}
-	.col1-4{
+	div {
+		text-align: center;
+	}
+
+	.row1.col2 {
+		position: relative;
+	}
+
+	.row3.col2 {
+		grid-column: 2 / 4;
+	}
+
+	.col1-4 {
 		grid-column: 1 / 4;
 		display: flex;
 		justify-content: center;
@@ -67,7 +84,6 @@ body {
 }
 
 .tuner-grid div{	text-align: center;	}
-.sw-grid .row1.col2{	position: relative;	}
 
 #blinker{
 	position: absolute;
@@ -101,7 +117,7 @@ svg text {
 .radio-knob{	stroke-dasharray: 1.5 1.5;	}
 
 svg line{
-	transition: transform 2s;
+	transition: transform 2000ms;
 	transform-origin: 50% 50%;
 	transform: rotate(0deg);
 }
@@ -150,15 +166,15 @@ input:checked + svg > use::part(switch-shaft) {
 
 .switch-shaft {
 	transform-origin: 50% 50%;
-	transition: transform 0.3s cubic-bezier(0.25, 0.0, 0.25, 1);
+	transition: transform 300ms cubic-bezier(0.25, 0.0, 0.25, 1);
 }
 
 .switch-ball {
-	transition: cx 0.3s cubic-bezier(0.25, 0.0, 0.25, 1);
+	transition: cx 300ms cubic-bezier(0.25, 0.0, 0.25, 1);
 }
 /* end SVG styles */
 
-/*		embossed label style, modeled after: 
+/*		embossed label style, modeled after:
 https://i.pinimg.com/originals/ec/e7/27/ece727292ecde177d2cf1cc02b0d94de.jpg	*/
 .emb-label{
 	background-color: black;
@@ -184,51 +200,55 @@ textarea{
 }
 
 /* Message selection area */
-.conic_gradient {
+.conic-gradient {
 	height: 100%;
 	width: 100%;
 }
 
-#pb_AV19xxRA {
-	.outer_ring {
-		--outer_ring_color_1: #65655f;
-		--outer_ring_color_2: #a7a7a7;
-		--outer_angle_1: 6deg;
-		--outer_angle_2: 12deg;
+/* #pb-AV19xxRA { */
+	.outer-ring {
+		--outer-ring-color-1: #65655f;
+		--outer-ring-color-2: #a7a7a7;
+		--outer-angle-1: 6deg;
+		--outer-angle-2: 12deg;
 
 		background: conic-gradient(from 90deg,
-			var(--outer_ring_color_1) var(--outer_angle_1), var(--outer_angle_2), 
-			var(--outer_ring_color_2), calc(180deg - var(--outer_angle_2)), 
-			var(--outer_ring_color_1) calc(180deg - var(--outer_angle_1)) calc(180deg + var(--outer_angle_1)), calc(180deg + var(--outer_angle_2)), 
-			var(--outer_ring_color_2), calc(360deg - var(--outer_angle_2)),
-			var(--outer_ring_color_1) calc(360deg - var(--outer_angle_1)));
+			var(--outer-ring-color-1) var(--outer-angle-1), var(--outer-angle-2),
+			var(--outer-ring-color-2), calc(180deg - var(--outer-angle-2)),
+			var(--outer-ring-color-1) calc(180deg - var(--outer-angle-1)) calc(180deg + var(--outer-angle-1)), calc(180deg + var(--outer-angle-2)),
+			var(--outer-ring-color-2), calc(360deg - var(--outer-angle-2)),
+			var(--outer-ring-color-1) calc(360deg - var(--outer-angle-1)));
+
+		clip-path: url(#clip-r11);
 	}
 	
-	.flat_ring {
-		--flat_ring_color_1: #3b3b3b;
-		--flat_ring_color_2: #6e6e6e;
-		--flat_ring_angle_1: 10deg;
-		--flat_ring_angle_2: 16deg;
+	.flat-ring {
+		--flat-ring-color-1: #3b3b3b;
+		--flat-ring-color-2: #6e6e6e;
+		--flat-ring-angle-1: 10deg;
+		--flat-ring-angle-2: 16deg;
 
 		background: conic-gradient(from 90deg,
-			var(--flat_ring_color_1) var(--flat_ring_angle_1), var(--flat_ring_angle_2), 
-			var(--flat_ring_color_2), calc(180deg - var(--flat_ring_angle_2)), 
-			var(--flat_ring_color_1) calc(180deg - var(--flat_ring_angle_1)) calc(180deg + var(--flat_ring_angle_1)), calc(180deg + var(--flat_ring_angle_2)), 
-			var(--flat_ring_color_2), calc(360deg - var(--flat_ring_angle_2)),
-			var(--flat_ring_color_1) calc(360deg - var(--flat_ring_angle_1)));
+			var(--flat-ring-color-1) var(--flat-ring-angle-1), var(--flat-ring-angle-2),
+			var(--flat-ring-color-2), calc(180deg - var(--flat-ring-angle-2)),
+			var(--flat-ring-color-1) calc(180deg - var(--flat-ring-angle-1)) calc(180deg + var(--flat-ring-angle-1)), calc(180deg + var(--flat-ring-angle-2)),
+			var(--flat-ring-color-2), calc(360deg - var(--flat-ring-angle-2)),
+			var(--flat-ring-color-1) calc(360deg - var(--flat-ring-angle-1)));
 	}
-	.illuminated_ring{
+	.illuminated-ring{
 		fill: none;
 		stroke: #bbb;
 	}
-}
+/* } */
 
-use.ring_red::part(illuminated_ring) {
+.illuminated-ring.ring-red,
+use.ring-red::part(illuminated-ring) {
 	stroke: red;
 	filter: drop-shadow(0 0 1.6px red);
 }
 
-use.ring_grn::part(illuminated_ring) {
+.illuminated-ring.ring-grn,
+use.ring-grn::part(illuminated-ring) {
 	stroke: rgb(7, 160, 7);
 	filter: drop-shadow(0 0 1.6px green) ;
 }
@@ -243,6 +263,7 @@ use.ring_grn::part(illuminated_ring) {
 #button-panel button {
 	border: none;
 	background: none;
+	clip-path: url(#clip-r11);
 }
 
 #button-panel svg > text {
@@ -273,9 +294,13 @@ use.ring_grn::part(illuminated_ring) {
 	position: relative;
 	margin-left: 30px;
 }
-input[type="radio"]:not(:checked) + .folder{	display: none;	}
+
+input[type="radio"]:not(:checked) + .folder {
+	display: none;
+}
 
 #info-folder input[type="radio"]{	display: none;	}
+
 .instruction-page{
 	background-color: var(--manilaColor);
 	border-bottom-color: var(--manilaColor);
@@ -287,7 +312,7 @@ input[type="radio"]:not(:checked) + .folder{	display: none;	}
 }
 .code-page .paperclip > svg{	transform: rotate(20deg);	}
 .history-page{
-	background-color: var(--paleGreen);	
+	background-color: var(--paleGreen);
 	border-bottom-color: var(--paleGreen);
 }
 
@@ -307,36 +332,38 @@ input[type="radio"]:not(:checked) + .folder{	display: none;	}
 	display: flex;
 	/* need to figure out a way to make this # flow */
 	top: 18px;
-	left: calc(calc(var(--tab_padding) * -8) + calc(-34 * var(--label-size)) + 106px);		/* 489px */	
+	/* left: calc(calc(var(--tab-padding) * -8) + calc(-34 * var(--label-size)) + 106px);		489px	 */
 	transform: rotate(-90deg);
 	transform-origin: bottom right;
 }
 .folder-label{
+	min-width: 7em;
 	position: relative;
-	margin: 0 0 0 calc(2 * var(--folder_tab_dx));		/*	used to space the tabs from each other */
-	padding: var(--tab_padding);
+	margin-right: calc(1 * var(--folder-tab-dx));		/*	used to space the tabs from each other */
+	padding: var(--tab-padding);
 	border-radius: 10px 10px 0 0;
 	font-family: monospace;
-	font-size: var(--label_size);
+	font-size: var(--label-size);
 	white-space: nowrap;
+	text-align: center;
 }
 .folder-label::before{
 	content: "";
 	position: absolute;
-	right: calc(1px - var(--folder_tab_dx));
+	right: calc(1px - var(--folder-tab-dx));
 	bottom: 0;
-	border-bottom: var(--tab_brdr_btm) solid;
+	border-bottom: var(--tab-brdr-btm) solid;
 	border-bottom-color: inherit;
-	border-right: var(--folder_tab_dx) solid transparent;
+	border-right: var(--folder-tab-dx) solid transparent;
 }
 .folder-label::after{
 	content: "";
 	position: absolute;
-	left: calc(1px - var(--folder_tab_dx));
+	left: calc(1px - var(--folder-tab-dx));
 	bottom: 0;
-	border-bottom: var(--tab_brdr_btm) solid;
+	border-bottom: var(--tab-brdr-btm) solid;
 	border-bottom-color: inherit;
-	border-left: var(--folder_tab_dx) solid transparent;
+	border-left: var(--folder-tab-dx) solid transparent;
 }
 .paper{
 	background-color: aliceblue;
@@ -349,7 +376,7 @@ figure{
 img{
 	background-color: #fff;
 	max-width: 100%;
-	width: 400px; 
+	width: 400px;
 }
 .paperclip{
 	position: relative;

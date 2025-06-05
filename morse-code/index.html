@@ -87,7 +87,7 @@
 		<div class="sw-grid">
 			<div class="row1 col1">
 				<label class="toggle-switch" >
-					<input type="checkbox" onchange="update_audio_rx()" id="audio_sw">
+					<input type="checkbox" onchange="update_audio_rx()" id="audio-sw">
 					<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
 						<defs>
 							<linearGradient id="ag-lin-v" gradientTransform="rotate(90)">
@@ -145,7 +145,7 @@
 			</div>
 			<div class="row1 col3">
 				<label class="toggle-switch">
-					<input type="checkbox" onchange="update_blinker_enable()" id="blinker_sw">
+					<input type="checkbox" onchange="update_blinker_enable()" id="blinker-sw">
 					<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
 						<use x="0" y="0" href="#toggle-switch-base"/>
 						<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft" part="switch-shaft"></path>
@@ -161,7 +161,7 @@
 			</div>
 			<div class="row3 col1">
 				<label class="toggle-switch">
-					<input type="checkbox" onchange="update_hint_disp()" id="text_hint_sw">
+					<input type="checkbox" onchange="toggle_hint_sw()" id="text-hint-sw">
 					<svg class="svg-toggle-sw" viewBox="0 0 160 80" >
 						<use x="0" y="0" href="#toggle-switch-base"/>
 						<path d="M80 30 a10 10 0 0 1 0 20 h-30 a10 10 0 0 1 0 -20 Z" fill="url('#ag-lin-v')" class="switch-shaft" part="switch-shaft"></path>
@@ -170,8 +170,7 @@
 				</label>
 			</div>
 			<div class="row3 col2">
-				<!-- Textarea needs a name, else content will not be displayed: https://stackoverflow.com/a/16959534 -->
-				<textarea id="msg-hint" name="msg-hint" cols="20" readonly></textarea>
+				<textarea id="msg-hint" cols="20" readonly></textarea>
 			</div>
 			<div class="row4 col1-4">
 				<span class="emb-label">Text hint</span>
@@ -189,62 +188,90 @@
 									<circle cx="0" cy="0" r="9"/>
 								</clipPath>
 								<!-- based on te-connectivity AV19 -->
-								<symbol id="pb_AV19xxRA" viewbox="-11.5 -11.5 23 23" width="22" height="22" x="-11" y="-11">
+								<symbol id="pb-AV19xxRA" viewbox="-11.5 -11.5 23 23" width="22" height="22" x="-11" y="-11">
 									<foreignObject x="-11" y="-11" width="22" height="22" clip-path="url(#clip-r11)">
-										<div class="conic_gradient outer_ring"></div>
+										<div class="conic-gradient outer-ring"></div>
 									</foreignObject>
 									<foreignObject x="-9" y="-9" width="18" height="18" clip-path="url(#clip-r9)">
-										<div class="conic_gradient flat_ring"></div>
+										<div class="conic-gradient flat-ring"></div>
 									</foreignObject>
-									<circle cx="0" cy="0" r="7.25" stroke-width="1.5" fill="none" part="illuminated_ring" class="illuminated_ring"/>
+									<circle cx="0" cy="0" r="7.25" stroke-width="1.5" fill="none" part="illuminated-ring" class="illuminated-ring"/>
 								</symbol>
 							</defs>
-							<use href="#pb_AV19xxRA" x="0" y="0"/>
+							<foreignObject x="-11" y="-11" width="22" height="22">
+								<div class="conic-gradient outer-ring"></div>
+							</foreignObject>
+							<foreignObject x="-9" y="-9" width="18" height="18" clip-path="url(#clip-r9)">
+								<div class="conic-gradient flat-ring"></div>
+							</foreignObject>
+							<circle cx="0" cy="0" r="7.25" stroke-width="1.5" fill="none" part="illuminated-ring" class="illuminated-ring"/>
+							<!-- <use href="#pb-AV19xxRA" x="0" y="0"/> -->
 						</svg>
 					</button>
 					<div class="row1 col2 msg-option">
 						<svg viewBox="-38 -11.5 76 23">
 							<defs>
-								<symbol id="vfd_display" viewbox="-38 -11.5 76 23" width="76" height="23" x="-38" y="-11.5">
+								<symbol id="vfd-display" viewbox="-38 -11.5 76 23" width="76" height="23" x="-38" y="-11.5">
 									<rect width="76" height="23" x="-38" y="-11.5" fill="#333333" />
 									<rect width="70" height="17" x="-35" y="-8.5" rx="2" fill="#000" />
-									<path d="M 38,11.5 v -23 h-76 v23 h76" stroke="#A00" stroke-width="1" fill="none" />
+									<!-- <path d="M 38,11.5 v -23 h-76 v23 h76" stroke="none" stroke-width="1" fill="none" /> -->
 								</symbol>
 							</defs>
-							<use href="#vfd_display" x="0" y="0"/>
+							<use href="#vfd-display" x="0" y="0"/>
 							<text x="0" y="0"></text>
 						</svg>
 					</div>
 					<button class="row2 col1 button" onclick="check_msg(this)">
 						<svg viewBox="-11 -11 22 22" width="60" height="60">
-							<use href="#pb_AV19xxRA" x="0" y="0"/>
+							<foreignObject x="-11" y="-11" width="22" height="22">
+								<div name="outer-ring" class="conic-gradient outer-ring"></div>
+							</foreignObject>
+							<foreignObject x="-9" y="-9" width="18" height="18" clip-path="url(#clip-r9)">
+								<div class="conic-gradient flat-ring"></div>
+							</foreignObject>
+							<circle cx="0" cy="0" r="7.25" stroke-width="1.5" fill="none" part="illuminated-ring" class="illuminated-ring"/>
+							<!-- <use href="#pb-AV19xxRA" x="0" y="0"/> -->
 						</svg>
 					</button>
 					<div class="row2 col2 msg-option">
 						<svg viewBox="-38 -11.5 76 23">
-							<use href="#vfd_display" x="0" y="0"/>
+							<use href="#vfd-display" x="0" y="0"/>
 							<text x="0" y="0"></text>
 						</svg>
 					</div>
 					<button class="row3 col1 button" onclick="check_msg(this)">
 						<svg viewBox="-11 -11 22 22" width="60" height="60">
-							<use href="#pb_AV19xxRA" x="0" y="0"/>
+							<foreignObject x="-11" y="-11" width="22" height="22">
+								<div name="outer-ring" class="conic-gradient outer-ring"></div>
+							</foreignObject>
+							<foreignObject x="-9" y="-9" width="18" height="18" clip-path="url(#clip-r9)">
+								<div class="conic-gradient flat-ring"></div>
+							</foreignObject>
+							<circle cx="0" cy="0" r="7.25" stroke-width="1.5" fill="none" part="illuminated-ring" class="illuminated-ring"/>
+							<!-- <use href="#pb-AV19xxRA" x="0" y="0"/> -->
 						</svg>
 					</button>
 					<div class="row3 col2 msg-option">
 						<svg viewBox="-38 -11.5 76 23">
-							<use href="#vfd_display" x="0" y="0"/>
+							<use href="#vfd-display" x="0" y="0"/>
 							<text x="0" y="0"></text>
 						</svg>
 					</div>
 					<button class="row4 col1 button" onclick="check_msg(this)">
 						<svg viewBox="-11 -11 22 22" width="60" height="60">
-							<use href="#pb_AV19xxRA" x="0" y="0"/>
+							<foreignObject x="-11" y="-11" width="22" height="22">
+								<div name="outer-ring" class="conic-gradient outer-ring"></div>
+							</foreignObject>
+							<foreignObject x="-9" y="-9" width="18" height="18" clip-path="url(#clip-r9)">
+								<div class="conic-gradient flat-ring"></div>
+							</foreignObject>
+							<circle cx="0" cy="0" r="7.25" stroke-width="1.5" fill="none" part="illuminated-ring" class="illuminated-ring"/>
+							<!-- <use href="#pb-AV19xxRA" x="0" y="0"/> -->
 						</svg>
 					</button>
 					<div class="row4 col2 msg-option">
 						<svg viewBox="-38 -11.5 76 23">
-							<use href="#vfd_display" x="0" y="0"/>
+							<use href="#vfd-display" x="0" y="0"/>
 							<text x="0" y="0"></text>
 						</svg>
 					</div>
@@ -254,7 +281,7 @@
 			<div class="section" id="info-folder">
 				<div id="folder-tabs">
 					<!-- labels are displayed in reverse order of what is listed here, due to the rotation-->
-					<label for="" class="folder-label coral-page">BLANK</label>
+					<label for="" class="folder-label coral-page"></label>
 					<label for="history-tab" class="folder-label history-page">HISTORY</label>
 					<label for="code-tab" class="folder-label code-page">CODE TABLE</label>
 					<label for="instruction-tab" class="folder-label instruction-page">INSTRUCTIONS</label>

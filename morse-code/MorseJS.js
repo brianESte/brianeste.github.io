@@ -13,11 +13,12 @@ var msg_morse_str;
 var morse_line_code = [];
 var pos = 0;
 
-const audio_sw = $("#audio_sw");
-const blinker_sw = $("#blinker_sw");
+const audio_sw = $("#audio-sw");
+const blinker_sw = $("#blinker-sw");
 const light = $("#light");
-const hint_sw = $("#text_hint_sw");
+const hint_sw = $("#text-hint-sw");
 const hint_display = $("#msg-hint");
+const ring_light_selector = "svg .illuminated-ring";
 
 // Settings variables
 var level = 0;
@@ -56,9 +57,9 @@ var morse_timing = {
 
 var msg_lists = [
 	['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
-	["AM", "AS", "AT", "BE", "BY", "GO", "HE", "IF", "IT", "LO", "NO", "OK", "OR", "TO", "UP", "WE"],
-	["AWK", "BOX", "END", "FUN", "JOB", "LOG", "MAP", "MAR", "RED", "RUN", "SET", "TAX", "TOP", "VIA", "WAR"],
-	["AREA", "BOTH", "DATA", "FIND", "GREP", "INFO", "LONG", "MUST", "PART", "POST", "THIS", "USER", "WORK"],
+	["AM", "AS", "AT", "BE", "BY", "GO", "HE", "IF", "IT", "LO", "LS", "NO", "OK", "OR", "TO", "UP", "WE"],
+	["AWK", "BOX", "END", "FOR", "FUN", "JOB", "LOG", "MAP", "MAR", "RED", "RUN", "SET", "TAX", "TOP", "VIA", "WAR"],
+	["AREA", "BOTH", "DATA", "FIND", "FUNK", "GREP", "INFO", "LONG", "MUST", "PART", "POST", "THIS", "USER", "WORK"],
 	["APPLE", "BANANA", "CLOSET", "EXAMPLE", "MANGO", "PYTHON", "RIVER"],
 	["BEATS", "BISTRO", "BOMBS", "BOXES", "BREAK", "BRICK", "FLICK", "HALLS", "LEAKS", "SHELL", "SLICK", "STROBE", "STEAK", "STING", "TRICK", "VECTOR"],	// lvl 5
 	["ABRUPT", "ALPACA", "BADGER", "DURING", "GARDEN", "MARKET", "MEMBER", "NUMBER", "PERIOD", "PERSON", "RETURN", "SELECT", "STATUS", "TRAVEL", "UNITED", "WITHIN"],
@@ -74,8 +75,8 @@ var msg_lists = [
  * @returns Morse code version of the given message
  */
 function text_to_morse(text) {
-	return text.split().reduce((acc, curr) => {
-		return acc + morse_dict[curr.toUpperCase()];
+	return text.split('').reduce((acc, curr) => {
+		return acc + morse_dict[curr.toUpperCase()] + ' ';
 	}, '');
 }
 
@@ -99,7 +100,7 @@ function morse_to_line_code(morse_string) {
  */
 function new_message(animation_id) {
 	clearInterval(animation_id);
-	$("#button-panel button svg use").removeClass("ring_grn");
+	$("#button-panel button " + ring_light_selector).removeClass("ring-grn");
 	update_blinker_enable();
 	update_audio_rx();
 	set_message();
@@ -165,7 +166,7 @@ function tune_lvl(caller) {
 	level = caller.innerHTML;
 	let ptr = caller.parentNode.getElementsByClassName("radio-pointer")[0];
 	ptr.style.transform = "rotate(" + level * 26 + "deg)";
-	console.log('level now: ' + level);
+	setTimeout(() => new_message(), 2000);
 }
 
 /**
@@ -246,6 +247,16 @@ function update_blinker_enable() {
 }
 
 /**
+ * Call the hint display update fn with a delay equal to the switch transition time
+ */
+function toggle_hint_sw() {
+	let sw_delay = 0;
+	if (hint_sw.is(":checked"))
+		sw_delay = 300;
+	setTimeout(() => update_hint_disp(), sw_delay);
+}
+
+/**
  * Update the text hint display
  */
 function update_hint_disp() {
@@ -260,11 +271,12 @@ function check_msg(caller) {
 	let button = $(caller);
 	let option = button.next().find("text").html().trim();
 	if (option === message) {
-		button.find("svg use").addClass("ring_grn");
+		button.find(ring_light_selector).addClass("ring-grn");
 		morse_line_code = [0];
-		setTimeout(reset_animation, 3000);
+		setTimeout(reset_animation, 1000);
 	} else {
-		button.find("svg use").addClass("ring_red");
+		// button.find("svg use").addClass("ring-red");
+		button.find(ring_light_selector).addClass("ring-red");
 	}
 }
 
@@ -274,16 +286,16 @@ function check_msg(caller) {
 function reset_animation() {
 	blinkOn = false;
 	// clear all ring light colors
-	$("#button-panel button svg use").removeClass(["ring_grn", "ring_red"]);
-	$("#button-panel button").eq(0).find("svg use").addClass("ring_grn");
+	$("#button-panel button " + ring_light_selector).removeClass(["ring-grn", "ring-red"]);
+	$("#button-panel button").eq(0).find(ring_light_selector).addClass("ring-grn");
 
 	let animation_id = setInterval(() => {
 		let buttons = $("#button-panel button");
-		let button_lit = buttons.find(".ring_grn");
+		let button_lit = buttons.find(".ring-grn");
 		let btn_idx = buttons.index(button_lit.parent().parent());
-		button_lit.removeClass("ring_grn");
+		button_lit.removeClass("ring-grn");
 		btn_idx = (btn_idx + 1) % buttons.length;
-		$("#button-panel button").eq(btn_idx).find("svg use").addClass("ring_grn");
+		$("#button-panel button").eq(btn_idx).find(ring_light_selector).addClass("ring-grn");
 	}, 300);
 	setTimeout(new_message, 4000, animation_id);
 }
