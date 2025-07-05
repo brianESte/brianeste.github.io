@@ -10,6 +10,7 @@
 
 body {
 	background: #966F33;
+	margin: 0;
 }
 
 .main-page {
@@ -21,55 +22,126 @@ body {
 	justify-content: space-evenly;
 }
 
-.section{
-	flex: 1 1 0px;
-	max-width: 460px;
-}
-
 @media screen and (max-width: 480px) {
 	#section-holder {
 		flex-direction: column;
 	}
 }
 
+.section {
+	flex: 1 1 0px;
+	max-width: 460px;
+}
+
+/* shared SVG styles */
+svg text {
+	user-select: none;
+	font-family: monospace;
+	font-weight: bold;
+}
+
 /*		console styles		*/
 #console {
-	margin: 0 5px;
+	--screw-radius: 1em;
+
+	border-radius: 1.5em;
+	margin: 5px 0 0 0;
+	background-color: #202020;
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	display: grid;
+	grid-template-columns: repeat(2, var(--screw-radius)) 1fr repeat(2, var(--screw-radius));
+	grid-template-rows: repeat(2, var(--screw-radius)) repeat(4, auto) repeat(2, var(--screw-radius));
+
+	.screw {
+		grid-row: span 2;
+		grid-column-start: span 2;
+		grid-column-end: span 2;
+	}
+
+	.console-cluster {
+		grid-row-end: span 2;
+		grid-column: 2 / -2;
+		padding: 0 0 10px 0;
+		margin-bottom: 10px;
+		border-bottom: 2px solid white;
+	}
+
+	.console-cluster:last-of-type {
+		border: none;
+	}
+
+	.row1 { grid-row-start: 1; }
+	.row2 { grid-row-start: 2; }
+	.row4 { grid-row-start: 4; }
+	.row6 { grid-row-start: 6; }
+	.row-n { grid-row-end: -1; }
+
+	.col1 { grid-column-start: 1; }
+	.col-n { grid-column-end: -1; }
 }
 
 .tuner-grid {
 	display: grid;
 	grid-template-columns: 50% 50%;
 	grid-template-rows: auto auto;
-	/*grid-column-gap: 10px;
-	grid-row-gap: 5px;	*/
+	grid-column-gap: 10px;
 	justify-content: center;
+
+	& div {
+		text-align: center;
+	}
 }
 
+/* radio-tuner class styling */
+.radio-tuner {
+	max-width: 300px;
+
+	text {
+		cursor: pointer;
+	}
+
+	svg line {
+		transition: transform 2000ms;
+		transform-origin: 50% 50%;
+		transform: rotate(0deg);
+	}
+}
+
+.ag-conic-fill {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	background: conic-gradient(from 65deg,
+		#fff 0deg 50deg, #ccc 70deg 160deg,
+		#fff 180deg 230deg, #ccc 250deg 340deg, #fff);
+}
+
+#wpm-tuner .radio-pointer {
+	transform: rotate(108deg);
+}
+
+#lvl-tuner text {
+	font-size: 16px;
+}
+
+/* Switch panel section and switch */
 .sw-grid {
 	display: grid;
 	grid-template-columns: 40% 15% 40%;
-	grid-column-gap: 10px;
+	grid-column-gap: min(2.5%, 10px);
 	grid-row-gap: 4px;
 	justify-content: space-evenly;
-	margin-top: 5px;
-}
 
-.row1 { grid-row: 1 / 2;	}
-.row2 { grid-row: 2 / 3;	}
-.row3 { grid-row: 3 / 4;	}
-.row4 { grid-row: 4 / 5;	}
-.col1 { grid-column: 1 / 2;	}
-.col2 { grid-column: 2 / 3;	}
-.col3 { grid-column: 3 / 4;	}
-
-.sw-grid {
-	div {
+	& div {
 		text-align: center;
 	}
 
-	.row1.col2 {
-		position: relative;
+	.blinker-container {
+		align-content: center;
+	}
+
+	.row2 {
+		margin-bottom: 1em;
 	}
 
 	.row3.col2 {
@@ -83,66 +155,16 @@ body {
 	}
 }
 
-.tuner-grid div{	text-align: center;	}
-
-#blinker{
-	position: absolute;
-	width: 128%;
-	left: -14%;		/* calc(50% - 40px);	*/
-	top: 2%;		/* calc(50% - 40px);	*/
-}
-
-input{	margin: 6px;	}
-h1{	margin: 10px 0 10px 0;	}
-
-/* shared SVG styles */
-svg text {
-	user-select: none;
-	font-family: monospace;
-	font-weight: bold;
-}
-
-/* radio-tuner class styling */
-.radio-tuner {
-	max-width: 300px;
-
-	foreignObject {
-		clip-path: url(#number-ring);
-	}
-
-	text {
-		cursor: pointer;
-	}
-}
-.radio-knob{	stroke-dasharray: 1.5 1.5;	}
-
-svg line{
-	transition: transform 2000ms;
-	transform-origin: 50% 50%;
-	transform: rotate(0deg);
-}
-
-.ag-conic-fill{
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	background: conic-gradient(from 65deg,
-		#fff 0deg 50deg, #ccc 70deg 160deg,
-		#fff 180deg 230deg, #ccc 250deg 340deg, #fff);
-}
-#wpm-tuner .radio-pointer{	transform: rotate(108deg);	}
-#lvl-tuner text{	font-size: 16px;	}
-
 /* toggle switch styling */
-.toggle-switch input{
-	display: none;
-}
 .toggle-switch {
 	display: block;
-}
-
-#toggle-switch-base text {
 	cursor: pointer;
+	clip-path: url(#switch-plate-outline);
+	max-width: 250px;
+
+	input {
+		display: none;
+	}
 }
 
 /* The first method / selector is necessary, because Chromium does not handle ::part() correctly (or at all?).
@@ -157,13 +179,6 @@ input:checked + svg > use::part(switch-shaft) {
 	transform: rotateY(180deg);
 }
 
-.toggle-switch {
-	clip-path: url(#switch-plate-outline);
-}
-
-.clickable{	cursor: pointer;	}
-.svg-toggle-sw{	max-width: 250px;	}
-
 .switch-shaft {
 	transform-origin: 50% 50%;
 	transition: transform 300ms cubic-bezier(0.25, 0.0, 0.25, 1);
@@ -176,36 +191,50 @@ input:checked + svg > use::part(switch-shaft) {
 
 /*		embossed label style, modeled after:
 https://i.pinimg.com/originals/ec/e7/27/ece727292ecde177d2cf1cc02b0d94de.jpg	*/
-.emb-label{
+.emb-label {
+	display: inline-block;
+	padding: 5px 10px 2px;
 	background-color: black;
 	color: white;
 	font-family: Manjari, monospace;
 	text-transform: uppercase;
 	letter-spacing: .3em;
-	padding: 5px 10px 2px;
-	display: inline-block;
+	cursor: default;
 }
 
-textarea{
-	resize: none;
+#text-aid {
 	width: 95%;
-}
-
-#input-section{
-	margin-top: 10px;
-}
-#prompt:before{	content: 'What is the morse message? ';}
-#prompt{
-	display: block;
+	font-size: 25px;
+	resize: none;
 }
 
 /* Message selection area */
+#button-panel {
+	display: grid;
+	grid-template-columns: 20% 70%;
+	justify-content: space-evenly;
+  padding-bottom: 10px;
+
+	& button {
+		border: none;
+		background: none;
+		clip-path: url(#clip-r11);
+	}
+
+	& svg > text {
+		fill: cyan;
+		font-family: monospace;
+		dominant-baseline: central;
+		text-anchor: middle;
+		white-space: pre;
+	}
+}
+
+/* #pb-AV19xxRA { */
 .conic-gradient {
 	height: 100%;
 	width: 100%;
 }
-
-/* #pb-AV19xxRA { */
 	.outer-ring {
 		--outer-ring-color-1: #65655f;
 		--outer-ring-color-2: #a7a7a7;
@@ -221,7 +250,7 @@ textarea{
 
 		clip-path: url(#clip-r11);
 	}
-	
+
 	.flat-ring {
 		--flat-ring-color-1: #3b3b3b;
 		--flat-ring-color-2: #6e6e6e;
@@ -235,7 +264,8 @@ textarea{
 			var(--flat-ring-color-2), calc(360deg - var(--flat-ring-angle-2)),
 			var(--flat-ring-color-1) calc(360deg - var(--flat-ring-angle-1)));
 	}
-	.illuminated-ring{
+
+	.illuminated-ring {
 		fill: none;
 		stroke: #bbb;
 	}
@@ -253,101 +283,61 @@ use.ring-grn::part(illuminated-ring) {
 	filter: drop-shadow(0 0 1.6px green) ;
 }
 
-.touch{	display: none;	}
-#button-panel {
-	display: grid;
-	grid-template-columns: 20% 70%;
-	justify-content: space-evenly;
-}
-
-#button-panel button {
-	border: none;
-	background: none;
-	clip-path: url(#clip-r11);
-}
-
-#button-panel svg > text {
-	fill: cyan;
-	font-family: monospace;
-	/* text-align: center; */
-	dominant-baseline: central;
-	text-anchor: middle;
-	white-space: pre;
-}
-
-#button-panel:after {
-	content: '';
-	clear: both;
-	display: table;
-}
-#msg-hint{
-	font-size: 25px;
-}
-#answer{	font-size: 20px;	}
-#answer:before{
-	content: 'click for answer: ';
-}
-
 /*			Info Folder			*/
-#info-folder{
+#info-folder {
 	padding: 10px 0 10px 0;
 	position: relative;
 	margin-left: 30px;
+
+	& input[type="radio"] {
+		display: none;
+	}
+
+	& > svg {
+		position: absolute;
+	}
 }
 
 input[type="radio"]:not(:checked) + .folder {
 	display: none;
 }
 
-#info-folder input[type="radio"]{	display: none;	}
-
-.instruction-page{
-	background-color: var(--manilaColor);
-	border-bottom-color: var(--manilaColor);
-}
-.instruction-page .paperclip > svg{	transform: rotate(10deg);	}
-.code-page{
-	background-color: skyblue;
-	border-bottom-color: skyblue;
-}
-.code-page .paperclip > svg{	transform: rotate(20deg);	}
-.history-page{
-	background-color: var(--paleGreen);
-	border-bottom-color: var(--paleGreen);
-}
-
-.coral-page{
-	background-color: var(--coral);
-	border-bottom-color: var(--coral);
-}
-.folder{
-	position: relative;		/* so that the folder-tab edges will be covered */		
+.folder {
+	position: relative;		/* so that the folder-tab edges will be covered */
 	border-radius: 16px 0 0 16px;
 	padding: 10px;
 	height: 570px;		/* will likely change this later	*/
+	background-color: var(--folder-color);
+	border-bottom-color: var(--folder-color);
 }
-#folder-tabs{
+
+#folder-tabs {
 	position: absolute;
 	right: calc(100% - 0.7px);
 	display: flex;
-	/* need to figure out a way to make this # flow */
+	/* TODO: figure out a way to make this # flow */
 	top: 18px;
 	/* left: calc(calc(var(--tab-padding) * -8) + calc(-34 * var(--label-size)) + 106px);		489px	 */
 	transform: rotate(-90deg);
 	transform-origin: bottom right;
 }
-.folder-label{
-	min-width: 7em;
+
+.folder-label {
 	position: relative;
-	margin-right: calc(1 * var(--folder-tab-dx));		/*	used to space the tabs from each other */
+	min-width: 7em;
+	margin-left: calc(1.8 * var(--folder-tab-dx));
+	/* used to space the tabs from each other */
 	padding: var(--tab-padding);
 	border-radius: 10px 10px 0 0;
 	font-family: monospace;
 	font-size: var(--label-size);
 	white-space: nowrap;
 	text-align: center;
+	background-color: var(--folder-color);
+	border-bottom-color: var(--folder-color);
 }
-.folder-label::before{
+
+.folder-label::before {
 	content: "";
 	position: absolute;
 	right: calc(1px - var(--folder-tab-dx));
@@ -356,7 +346,8 @@ input[type="radio"]:not(:checked) + .folder {
 	border-bottom-color: inherit;
 	border-right: var(--folder-tab-dx) solid transparent;
 }
-.folder-label::after{
+
+.folder-label::after {
 	content: "";
 	position: absolute;
 	left: calc(1px - var(--folder-tab-dx));
@@ -365,29 +356,65 @@ input[type="radio"]:not(:checked) + .folder {
 	border-bottom-color: inherit;
 	border-left: var(--folder-tab-dx) solid transparent;
 }
-.paper{
-	background-color: aliceblue;
-	font-family: monospace;
-	padding: 25px 8px 8px;
-}
-figure{
-	margin: 10px 0;
-}
-img{
-	background-color: #fff;
-	max-width: 100%;
-	width: 400px;
-}
-.paperclip{
+
+.paperclip {
 	position: relative;
 	top: -18px;
 	left: 80%;
 	float: left;
-}
-.paperclip svg{	position: absolute;	}
-.paperclip-back{	z-index: -1;	}
-.paperclip-front{	z-index: 1;		}
 
+	& svg {
+		position: absolute;
+	}
+
+	.paperclip-back {
+		z-index: -1;
+	}
+
+	.paperclip-front {
+		z-index: 1;
+	}
+}
+
+.instruction-page {
+	--folder-color: var(--manilaColor);
+
+	& .paperclip > svg {
+		transform: rotate(10deg);
+	}
+}
+
+.code-page {
+	--folder-color: skyblue;
+
+	& .paperclip > svg {
+		transform: rotate(20deg);
+	}
+}
+
+.history-page {
+	--folder-color: var(--paleGreen);
+}
+
+.coral-page {
+	--folder-color: var(--coral);
+}
+
+.paper {
+	background-color: aliceblue;
+	font-family: monospace;
+	padding: 25px 8px 8px;
+}
+
+figure {
+	margin: 10px 0;
+}
+
+img {
+	background-color: #fff;
+	max-width: 100%;
+	width: 400px;
+}
 
 #uagent-info:before{	content: 'navigator info: ';	}
 #touch-info:before{		content: 'touchscreen?: ';	}

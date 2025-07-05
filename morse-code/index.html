@@ -13,18 +13,58 @@
 	<div class="main-page">
 		<div id="section-holder">
 			<div class="section" id="console">
-				<div class="tuner-grid">
+				<svg viewBox="-5 -5 10 10" class="screw row1 col1">
+					<defs>
+						<clipPath id="clip-circle" clipPathUnits="objectBoundingBox">
+							<circle cx="0.5" cy="0.5" r="0.5" />
+						</clipPath>
+						<filter id="metal-hemisphere">
+							<feDiffuseLighting in="SourceGraphic" result="diff-light" lighting-color="#bbb">
+								<feDistantLight azimuth="240" elevation="45" />
+							</feDiffuseLighting>
+							<feSpecularLighting in="SourceGraphic" result="spec-light" specularExponent="20" lighting-color="#bbb">
+								<fePointLight x="-2" y="-3" z="3" />
+							</feSpecularLighting>
+							<fecomposite in="diff-light" in2="spec-light" result="diff-spec-light" operator="arithmetic" k1="0" k2="1"
+								k3="1" k4="0" />
+							<feComposite in="SourceGraphic" in2="diff-spec-light" operator="arithmetic" result="specOut" k1="0" k2="1"
+								k3="1" k4="0" />
+						</filter>
+						<symbol id="round-head-hex-screw" viewBox="-5 -5 10 10" width="10" height="10" x="-5" y="-5">
+							<!-- based on ISO-7380-1 M5: https://www.fasteners.eu/standards/ISO/7380/ -->
+							<circle cx="0" cy="0" r="4.75" fill="#222" filter="url(#metal-hemisphere)"
+								clip-path="url(#clip-circle)" />
+							<circle cx="0" cy="0" r="2.5" stroke="#555" stroke-width="0.5" fill="#333" filter="url(#metal-hemisphere)"
+								clip-path="url(#clip-circle)" />
+							<path d="M 1.5 0.866 0 1.732 -1.5 0.866 -1.5 -0.866 0 -1.732 1.5 -0.866 z" stroke="none" fill="#666" />
+						</symbol>
+					</defs>
+					<use href="#round-head-hex-screw" x="0" y="0" />
+				</svg>
+				<svg viewBox="-5 -5 10 10" class="screw row1 col-n">
+					<use href="#round-head-hex-screw" x="0" y="0"/>
+				</svg>
+				<div class="console-cluster tuner-grid row2">
 					<div class="row1 col1">
 						<svg class="radio-tuner" id="lvl-tuner" viewBox="0 0 200 200">
 							<defs>
 								<clipPath id="number-ring" clipPathUnits="objectBoundingBox">
 									<circle cx="0.5" cy="0.5" r="0.45" />
 								</clipPath>
+								<symbol id="knob-base">
+									<foreignObject width="200" height="200" clip-path="url(#number-ring)">
+										<div class="ag-conic-fill"></div>
+									</foreignObject>
+									<circle cx=100 cy=100 r=90 fill="transparent" stroke="#aaa" stroke-width="1" />
+									<circle cx=100 cy=100 r=60 fill="transparent" stroke="#000" stroke-width="2" stroke-dasharray="1.5 1.5"/>
+									<circle cx=100 cy=100 r=58 fill="transparent" stroke="#000" stroke-width="4" />
+								</symbol>
 							</defs>
-							<foreignObject width="200" height="200">
+							<!-- Chromium based browsers still need the foreignObject outside of a symbol / use:href -->
+							<foreignObject width="200" height="200" clip-path="url(#number-ring)">
 								<div class="ag-conic-fill"></div>
 							</foreignObject>
-							<circle cx=100 cy=100 r=90 fill="transparent" stroke="#aaa" stroke-width="1" />
+							<use x="0" y="0" href="#knob-base"/>
 							<text text-anchor="middle" x="42.6" y="155.2" onclick="tune_lvl(this)">0</text>
 							<text text-anchor="middle" x="27.2" y="125.1" onclick="tune_lvl(this)">1</text>
 							<text text-anchor="middle" x="26.6" y="91.4" onclick="tune_lvl(this)">2</text>
@@ -36,53 +76,49 @@
 							<text text-anchor="middle" x="173.4" y="91.4" onclick="tune_lvl(this)">8</text>
 							<text text-anchor="middle" x="172.8" y="125.1" onclick="tune_lvl(this)">9</text>
 							<text text-anchor="middle" x="157.5" y="155.2" onclick="tune_lvl(this)">10</text>
-					<circle cx=100 cy=100 r=60 fill="transparent" stroke="#000" stroke-width="2" class="radio-knob"/> 
-					<circle cx=100 cy=100 r=58 fill="transparent" stroke="#000" stroke-width="4"/> 
-					<line x1="100" y1="100" x2="54" y2="138.6" stroke="#f00" stroke-width="3" class="radio-pointer"/>
-				</svg>
-			</div>
-			<div class="row1 col2">
-				<svg class="radio-tuner" id="wpm-tuner" viewBox="0 0 200 200">
-					<foreignObject width="200" height="200">
-						<div class="ag-conic-fill"></div>
-					</foreignObject>
-					<circle cx=100 cy=100 r=90 fill="transparent" stroke="#aaa" stroke-width="1"/>
-					<text text-anchor="middle" x="55.3" y="166.5" onclick="tuneWPM(this)">1</text>
-					<text text-anchor="middle" x="43.5" y="155.9" onclick="tuneWPM(this)">2</text>
-					<text text-anchor="middle" x="34.2" y="143" onclick="tuneWPM(this)">3</text>
-					<text text-anchor="middle" x="27.7" y="128.5" onclick="tuneWPM(this)">4</text>
-					<text text-anchor="middle" x="24.4" y="112.9" onclick="tuneWPM(this)">5</text>
-					<text text-anchor="middle" x="24.4" y="97.1" onclick="tuneWPM(this)">6</text>
-					<text text-anchor="middle" x="27.7" y="81.5" onclick="tuneWPM(this)">7</text>
-					<text text-anchor="middle" x="34.2" y="67" onclick="tuneWPM(this)">8</text>
-					<text text-anchor="middle" x="43.5" y="54.1" onclick="tuneWPM(this)">9</text>
-					<text text-anchor="middle" x="55.3" y="43.5" onclick="tuneWPM(this)">10</text>
-					<text text-anchor="middle" x="69.1" y="35.6" onclick="tuneWPM(this)">11</text>
-					<text text-anchor="middle" x="84.2" y="30.7" onclick="tuneWPM(this)">12</text>
-					<text text-anchor="middle" x="100" y="29" onclick="tuneWPM(this)">13</text>
-					<text text-anchor="middle" x="115.8" y="30.7" onclick="tuneWPM(this)">14</text>
-					<text text-anchor="middle" x="130.9" y="35.6" onclick="tuneWPM(this)">15</text>
-					<text text-anchor="middle" x="144.7" y="43.5" onclick="tuneWPM(this)">16</text>
-					<text text-anchor="middle" x="156.5" y="54.1" onclick="tuneWPM(this)">17</text>
-					<text text-anchor="middle" x="165.8" y="67" onclick="tuneWPM(this)">18</text>
-					<text text-anchor="middle" x="172.3" y="81.5" onclick="tuneWPM(this)">19</text>
-					<text text-anchor="middle" x="175.6" y="97.1" onclick="tuneWPM(this)">20</text>
-					<text text-anchor="middle" x="175.6" y="112.9" onclick="tuneWPM(this)">21</text>
-					<text text-anchor="middle" x="172.3" y="128.5" onclick="tuneWPM(this)">22</text>
-					<text text-anchor="middle" x="165.8" y="143" onclick="tuneWPM(this)">23</text>
-					<text text-anchor="middle" x="156.5" y="155.9" onclick="tuneWPM(this)">24</text>
-					<text text-anchor="middle" x="144.7" y="166.5" onclick="tuneWPM(this)">25</text>
-					<circle cx=100 cy=100 r=60 fill="transparent" stroke="#000" stroke-width="2" class="radio-knob"/> 
-					<circle cx=100 cy=100 r=58 fill="transparent" stroke="#000" stroke-width="4"/> 
-					<line x1="100" y1="100" x2="64.7" y2="148.5" stroke="#f00" stroke-width="3" class="radio-pointer"/>
-				</svg>
-			</div>
-			<div class="row2 col1">
-				<span class="emb-label">Level</span>
-			</div>
-			<div class="row2 col2">
-				<span class="emb-label">WPM</span>
-			</div>
+							<line x1="100" y1="100" x2="54" y2="138.6" stroke="#f00" stroke-width="3" class="radio-pointer" />
+						</svg>
+					</div>
+					<div class="row1 col2">
+						<svg class="radio-tuner" id="wpm-tuner" viewBox="0 0 200 200">
+							<foreignObject width="200" height="200" clip-path="url(#number-ring)">
+								<div class="ag-conic-fill"></div>
+							</foreignObject>
+							<use x="0" y="0" href="#knob-base"/>
+							<text text-anchor="middle" x="55.3" y="166.5" onclick="tuneWPM(this)">1</text>
+							<text text-anchor="middle" x="43.5" y="155.9" onclick="tuneWPM(this)">2</text>
+							<text text-anchor="middle" x="34.2" y="143.0" onclick="tuneWPM(this)">3</text>
+							<text text-anchor="middle" x="27.7" y="128.5" onclick="tuneWPM(this)">4</text>
+							<text text-anchor="middle" x="24.4" y="112.9" onclick="tuneWPM(this)">5</text>
+							<text text-anchor="middle" x="24.4" y="97.1" onclick="tuneWPM(this)">6</text>
+							<text text-anchor="middle" x="27.7" y="81.5" onclick="tuneWPM(this)">7</text>
+							<text text-anchor="middle" x="34.2" y="67.0" onclick="tuneWPM(this)">8</text>
+							<text text-anchor="middle" x="43.5" y="54.1" onclick="tuneWPM(this)">9</text>
+							<text text-anchor="middle" x="55.3" y="43.5" onclick="tuneWPM(this)">10</text>
+							<text text-anchor="middle" x="69.1" y="35.6" onclick="tuneWPM(this)">11</text>
+							<text text-anchor="middle" x="84.2" y="30.7" onclick="tuneWPM(this)">12</text>
+							<text text-anchor="middle" x="100.0" y="29.0" onclick="tuneWPM(this)">13</text>
+							<text text-anchor="middle" x="115.8" y="30.7" onclick="tuneWPM(this)">14</text>
+							<text text-anchor="middle" x="130.9" y="35.6" onclick="tuneWPM(this)">15</text>
+							<text text-anchor="middle" x="144.7" y="43.5" onclick="tuneWPM(this)">16</text>
+							<text text-anchor="middle" x="156.5" y="54.1" onclick="tuneWPM(this)">17</text>
+							<text text-anchor="middle" x="165.8" y="67.0" onclick="tuneWPM(this)">18</text>
+							<text text-anchor="middle" x="172.3" y="81.5" onclick="tuneWPM(this)">19</text>
+							<text text-anchor="middle" x="175.6" y="97.1" onclick="tuneWPM(this)">20</text>
+							<text text-anchor="middle" x="175.6" y="112.9" onclick="tuneWPM(this)">21</text>
+							<text text-anchor="middle" x="172.3" y="128.5" onclick="tuneWPM(this)">22</text>
+							<text text-anchor="middle" x="165.8" y="143.0" onclick="tuneWPM(this)">23</text>
+							<text text-anchor="middle" x="156.5" y="155.9" onclick="tuneWPM(this)">24</text>
+							<text text-anchor="middle" x="144.7" y="166.5" onclick="tuneWPM(this)">25</text>
+							<line x1="100" y1="100" x2="64.7" y2="148.5" stroke="#f00" stroke-width="3" class="radio-pointer"/>
+						</svg>
+					</div>
+					<div class="row2 col1">
+						<span class="emb-label">Level</span>
+					</div>
+					<div class="row2 col2">
+						<span class="emb-label">WPM</span>
+					</div>
 					</div>
 		<div class="sw-grid">
 			<div class="row1 col1">
@@ -276,8 +312,13 @@
 						</svg>
 					</div>
 				</div>
+				<svg viewBox="-5 -5 10 10" class="screw row-n col1">
+					<use href="#round-head-hex-screw" x="0" y="0"/>
+				</svg>
+				<svg viewBox="-5 -5 10 10" class="screw row-n col-n">
+					<use href="#round-head-hex-screw" x="0" y="0"/>
+				</svg>
 			</div>
-		</div>
 			<div class="section" id="info-folder">
 				<div id="folder-tabs">
 					<!-- labels are displayed in reverse order of what is listed here, due to the rotation-->
@@ -337,16 +378,16 @@
 							<use href="#paperclip-front"/>
 						</svg>
 					</div>
-						<figure>
-							<img id='infographic' src='https://d3h6k4kfl8m9p0.cloudfront.net/stories/t4OJnk88Xw9jsI1zaHkL.g.jpg'>
-							<figcaption>Image credit to xyzdecode.blogspot.com (no longer exists)</figcaption>
-						</figure>
-					</div>
+					<figure>
+						<img id='infographic' src='https://d3h6k4kfl8m9p0.cloudfront.net/stories/t4OJnk88Xw9jsI1zaHkL.g.jpg'>
+						<figcaption>Image credit to xyzdecode.blogspot.com (no longer exists)</figcaption>
+					</figure>
 				</div>
 			</div>
 		</div>
-		<!--p id='uagent-info' style='display: none;'></p-->
-		<!--p id='touch-info'></p-->
-		<script src="MorseJS.js"></script>
-	</body>
+	</div>
+	<!--p id='uagent-info' style='display: none;'></p-->
+	<!--p id='touch-info'></p-->
+	<script src="MorseJS.js"></script>
+</body>
 </html>
